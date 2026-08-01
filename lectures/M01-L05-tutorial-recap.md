@@ -601,7 +601,7 @@ every week looks like.
 ## Reading
 
 - **Cornell CS3110, Basics chapter** revisit if anything in Module 1
-  felt thin: <https://cs3110.github.io/textbook/chapters/basics/index.html>
+  felt thin: <https://cs3110.github.io/textbook/chapters/basics/intro.html>
 - **Real World OCaml, A Guided Tour** for an alternative angle on
   the same material:
   <https://dev.realworldocaml.org/guided-tour.html>

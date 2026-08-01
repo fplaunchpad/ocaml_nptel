@@ -851,7 +851,7 @@ programs.
   <https://dev.realworldocaml.org/guided-tour.html>
 - **Cornell CS3110**, *OCaml syntax and semantics*: the textbook
   treatment of the same material:
-  <https://cs3110.github.io/textbook/chapters/basics/basics.html>
+  <https://cs3110.github.io/textbook/chapters/basics/intro.html>
 - John Whitington, *OCaml from the Very Beginning*, Chapter 1:
   even gentler pace if you want a step-by-step introduction.
 ## Sources
