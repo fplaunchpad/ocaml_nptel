@@ -260,7 +260,7 @@ and convert the other branch to match.
 The rule generalises to anything, not just numbers. If the branches
 return a `string` and an `int`, you get a type error. If they
 return a list of `int` and a list of `string`, same thing. The
-rule is "both branches must have the same type", full stop.
+rule is "both branches the same type", full stop.
 
 ## The typing rule, written out
 

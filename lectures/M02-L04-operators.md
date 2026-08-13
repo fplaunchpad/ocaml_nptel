@@ -410,7 +410,7 @@ float literal. The mismatch tells you which operator is wrong.
 
 ## Pitfall 2: implicit conversion that isn't there
 
-In JavaScript, you can write `"value: " + 5` and the
+In Python and JavaScript, you can write `"value: " + 5` and the
 language coerces the `int` to a string. OCaml does not:
 
 ```ocaml skip
@@ -430,7 +430,7 @@ Error: The constant 5 has type int but an expression was expected
        of type string
 ```
 
-- JavaScript coerce silently. OCaml does not.
+- Python / JavaScript coerce silently. OCaml does not.
 
 ```ocaml
 let _ = "value: " ^ string_of_int 5
