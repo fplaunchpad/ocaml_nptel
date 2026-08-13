@@ -575,7 +575,7 @@ old ones rather than mutating them in place.
 A "byte string" is exactly that, a sequence of 8-bit bytes. OCaml's
 `string` does not know about Unicode code points, or about encoding
 in general. If your string contains the bytes that encode "café" in
-UTF-8, then `String.length` reports 5 (the four ASCII letters plus
+UTF-8, then `String.length` reports 5 (the three ASCII letters plus
 the two bytes that encode the accented "é"), not 4. For
 Unicode-aware work the standard library is not enough; you reach
 for an external library like `uutf` or `uucp`. Most code that just
