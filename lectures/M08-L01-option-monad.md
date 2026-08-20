@@ -9,7 +9,7 @@ activity_question: "Using the [bind] we wrote in this lecture, define [add_opt :
 think_about_this: "What other shapes besides 'maybe a value' might want the same kind of sequencing helper? List three."
 reading:
   - title: "Cornell CS3110, Monads"
-    url: https://cs3110.github.io/textbook/chapters/ds/monads.html
+    url: https://cs3110.github.io/textbook/chapters/conc/monads.html
 ---
 
 # The option monad and `let*`
@@ -333,8 +333,9 @@ of you.
 
 ## A realistic example: reaching into optional data
 
-A `user` may have no `address`, and an `address` may have no `zip`.
-To get a user's zip we must descend through both options. This is
+A `user` may have no `city`, a `city` may have no `address`, and an
+`address` may have no `zip`. To get a user's zip we must descend
+through all three options. This is
 the pattern other languages bake into syntax as *optional chaining*
 (`a?.b?.c` in Swift, Kotlin, or C#; `&.` in Ruby); in OCaml it is
 just `let*` over `option`:
@@ -346,11 +347,13 @@ just `let*` over `option`:
 ```ocaml
 (* let* is in scope from the "Using let*" slide above *)
 type address = { zip : string option }   (* more fields in real life *)
-type user    = { name : string; address : address option }
+type city    = { address : address option }
+type user    = { name : string; city : city option }
 
 let user_zip u =
-  let* addr = u.address in   (* user may have no address *)
-  let* zip  = addr.zip in    (* address may have no zip  *)
+  let* city = u.city in          (* user may have no city *)
+  let* addr = city.address in    (* city may have no address *)
+  let* zip  = addr.zip in        (* address may have no zip *)
   Some (String.uppercase_ascii zip)
 ```
 
@@ -365,17 +368,19 @@ let user_zip u =
 ## Trying it
 
 ```ocaml
-let u1 = { name = "Asha";  address = Some { zip = Some "ec1a 1bb" } }
-let u2 = { name = "Ravi";  address = Some { zip = None } }
-let u3 = { name = "Meera"; address = None }
+let u1 = { name = "Asha"; city = Some { address = Some { zip = Some "ec1a 1bb" } } }
+let u2 = { name = "Ravi"; city = Some { address = Some { zip = None } } }
+let u3 = { name = "Meera"; city = Some { address = None } }
+let u4 = { name = "Dev"; city = None }
 
 let _ = user_zip u1   (* = Some "EC1A 1BB" *)
 let _ = user_zip u2   (* = None: address present, zip missing *)
 let _ = user_zip u3   (* = None: no address at all *)
+let _ = user_zip u4   (* = None: no city at all *)
 ```
 
 - `u1`: every layer present, so the zip comes back uppercased.
-- `u2`, `u3`: a missing layer anywhere short-circuits to `None`.
+- `u2`, `u3`, `u4`: a missing layer anywhere short-circuits to `None`.
 
 :::
 
@@ -589,7 +594,7 @@ values) and the result monad (a value or an informative error).
 ## Reading
 
 - **Cornell CS3110**, *Monads*:
-  <https://cs3110.github.io/textbook/chapters/ds/monads.html>
+  <https://cs3110.github.io/textbook/chapters/conc/monads.html>
 
 ## Sources
 

@@ -9,7 +9,7 @@ activity_question: "Use the list monad's non-determinism to return every Pythago
 think_about_this: "The option, list, and result monads share one [let*]. What is different about what [let*] *means* in each?"
 reading:
   - title: "Cornell CS3110, Monads"
-    url: https://cs3110.github.io/textbook/chapters/ds/monads.html
+    url: https://cs3110.github.io/textbook/chapters/conc/monads.html
 ---
 
 # Monad laws, the list monad, and the result monad
@@ -55,7 +55,9 @@ informative failure.
 
 The three laws are the "good behaviour" contract that lets you
 trust and refactor monadic code without reasoning about each `let*`
-from scratch:
+from scratch. They are equations about *observable behaviour*, not
+just about types: both sides already type-check, and the law says they
+must produce the same result and effects for every value and function.
 
 :::slide
 
@@ -102,6 +104,15 @@ associativity    | let* y = (let* x = m in f x) in g y ===
 - Associativity: nested and flat `let*` chains agree.
 
 :::
+
+The identity laws say that `return` contributes no computational
+behaviour of its own. On the left it may wrap a fresh value before
+the next step; on the right it may wrap the final value; either wrapper
+can be erased. Associativity says that only the *order of steps* matters,
+not how nested calls are parenthesised. It does **not** permit swapping
+`f` and `g`; it permits regrouping `m` then `f` then `g`. This is why a
+three-line `let*` chain can be split into a helper and later inlined
+again without changing what it does.
 
 A worked check of left identity on `option`, with concrete values:
 
@@ -517,7 +528,7 @@ step to step, a first bridge toward GADTs.
 ## Reading
 
 - **Cornell CS3110**, *Monads*:
-  <https://cs3110.github.io/textbook/chapters/ds/monads.html>
+  <https://cs3110.github.io/textbook/chapters/conc/monads.html>
 
 ## Sources
 

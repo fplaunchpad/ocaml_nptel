@@ -145,12 +145,31 @@ be two million. It is not, and it changes from run to run, because
 the two threads interleave those steps and overwrite each other.
 
 ```c
+#include <pthread.h>
+#include <stdio.h>
+
 static long counter = 0;          /* shared, unsynchronised */
 void *bump(void *_) {
-    for (int i = 0; i < 1000000; i++) counter++;   /* RACE */
+    for (int i = 0; i < 1000000; i++)
+        counter++;                /* read + add + write: RACE */
     return NULL;
 }
+
+int main(void) {
+    pthread_t first, second;
+    pthread_create(&first, NULL, bump, NULL);   /* start thread 1 */
+    pthread_create(&second, NULL, bump, NULL);  /* start thread 2 */
+    pthread_join(first, NULL);                  /* wait for both */
+    pthread_join(second, NULL);
+    printf("expected 2000000, got %ld\n", counter);
+}
 ```
+
+The two `pthread_create` calls are the missing concurrency: both
+threads execute `bump` against the same global `counter`. The two
+`pthread_join` calls wait until they finish before printing. There is
+no lock between the read and write inside `counter++`, so the accesses
+race.
 
 On a multi-core machine the lost updates are plain (the in-browser
 VM has a single emulated core, so it cannot reproduce them, which
@@ -176,7 +195,9 @@ evidence that the race is gone.
 ## C/C++: a data race is undefined behaviour
 
 ```c
-for (int i = 0; i < 1000000; i++) counter++;   /* two threads, no lock */
+pthread_create(&first, NULL, bump, NULL);
+pthread_create(&second, NULL, bump, NULL);
+/* both threads run: counter++;  no lock */
 ```
 
 ```text
@@ -227,7 +248,10 @@ synchronisation.
 
 ```text
 let counter = ref 0
-let bump () = for _ = 1 to 1_000_000 do incr counter done
+let bump () =
+  for _ = 1 to 1_000_000 do
+    incr counter
+  done
 let () =
   let d1 = Domain.spawn bump in
   let d2 = Domain.spawn bump in
@@ -256,7 +280,10 @@ this lecture.
 ## A racy OCaml counter
 
 ```text
-let bump () = for _ = 1 to 1_000_000 do incr counter done
+let bump () =
+  for _ = 1 to 1_000_000 do
+    incr counter
+  done
 (* two domains run bump on the shared `counter` ref *)
 ```
 
@@ -384,7 +411,27 @@ For a single shared counter or flag, use `Atomic`. An `Atomic.t`
 wraps a value so that `Atomic.incr`, `Atomic.get`, and friends are
 indivisible: no other domain can interleave inside one of them.
 Swapping `ref`/`incr` for `Atomic.make`/`Atomic.incr` removes the
-race, and the count comes out right every time:
+race:
+
+```ocaml
+let counter = Atomic.make 0
+
+let bump () =
+  for _ = 1 to 1_000_000 do
+    Atomic.incr counter
+  done
+
+let () =
+  let d1 = Domain.spawn bump in
+  let d2 = Domain.spawn bump in
+  Domain.join d1;
+  Domain.join d2;
+  Printf.printf "expected 2000000, got %d\n" (Atomic.get counter)
+```
+
+Now each increment is one indivisible operation. Another domain may
+run before or after it, but cannot slip a read or write into its middle.
+Running the program therefore prints the same total every time:
 
 ```text
 $ ocaml atomic.ml
@@ -407,9 +454,12 @@ compound state, is the whole rule of thumb.
   indivisible.
 - `Mutex` for compound state: lock, update, unlock.
 
-```text
-$ ocaml atomic.ml
-expected 2000000, got 2000000      (* every run *)
+```ocaml
+let counter = Atomic.make 0
+let bump () =
+  for _ = 1 to 1_000_000 do
+    Atomic.incr counter
+  done
 ```
 
 - Synchronisation orders the accesses: the third condition falls,
@@ -422,12 +472,12 @@ expected 2000000, got 2000000      (* every run *)
 :::quiz mcq id=M10-L03-q1
 Which of the following pairs of accesses is a *data race*?
 
-- [ ] Two domains both *reading* the same `int ref`, no writes.
-- [x] One domain writing an `int ref` while another reads it, with
-  no synchronisation between them.
-- [ ] One domain writing a ref, then `Domain.join`, then another
-  domain reading it.
-- [ ] Two domains each writing their own separate refs.
+- [ ] Two domains reading the same `int ref`, with no writes.
+- [x] One domain writes a ref while another reads it, with no
+  synchronisation.
+- [ ] One domain writes a ref, a `Domain.join` completes, and then
+  another domain reads it.
+- [ ] Two domains write separate refs, so no location is shared.
 
 **Why:** a data race needs the same location, no synchronisation,
 and at least one write. Two reads do not race (neither changes

@@ -366,10 +366,13 @@ close_in ic        (* you call this yourself *)
 
 ## Watching the lifecycle
 
-To *see* these bugs rather than just describe them, here is a tiny
-stand-in for a file handle. It prints each step, and raises if you
-misuse it, exactly the discipline the real `In_channel` API trusts
-you to keep:
+The next example deliberately removes all real file I/O. Its purpose is
+to isolate the *lifecycle*—open, use, close—so each failure is visible
+without filenames, operating-system errors, or buffered input getting
+in the way. To *see* these bugs rather than just describe them, we use a
+tiny stand-in for a file handle. It prints each step, and raises if you
+misuse it, modelling exactly the discipline the real `In_channel` API
+trusts you to keep:
 
 ```ocaml
 type handle = { mutable closed : bool }

@@ -214,6 +214,12 @@ compiler to *define* signed overflow as wraparound, the UB
 assumption is gone, the guard can be true, and it fires. Both builds
 use `-O2`; the only difference is whether overflow is undefined.
 
+The names below come from the preinstalled `Makefile`: `check_ub`
+means “compile with ordinary C overflow rules,” while `check_safe`
+means “compile with `-fwrapv`.” `make` prints the exact `cc` command it
+runs. A following command such as `./check_ub` executes that compiled
+binary; the lines after it are the program's output, not more commands.
+
 ```text
 ocaml-vm:~/m10# make check_ub check_safe
 cc -O2 -o check_ub deleted_check.c
@@ -504,6 +510,17 @@ that defeats ASLR), the read leaks the secret. `uninit.c` writes a
 recognisable pattern into a buffer in one function, then reads a
 *different*, never-written buffer over the same stack slot in the
 next:
+
+The bug itself is only these two lines:
+
+```c
+char leak[8];       /* storage allocated, contents unspecified */
+putchar(leak[0]);   /* BUG: read before any write */
+```
+
+The longer demonstration below adds `stash_secret` and a loop only so
+that the otherwise unpredictable leftover bytes become recognisable in
+the output; they are not additional ingredients of the bug.
 
 ```c
 void stash_secret(void) {

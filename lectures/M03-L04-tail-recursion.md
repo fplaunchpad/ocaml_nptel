@@ -255,14 +255,18 @@ let sum_up_to n =
   in
   go 0 n
 
-let _ = sum_up_to 1_000_000  (* = 500000500000 *)
+let _ = sum_up_to 40_000  (* = 800020000 *)
 ```
 
 No stack overflow this time, even though the non-tail version
-crashed on the very same input. The recursive call no longer
+would crash at this depth. The recursive call no longer
 needs an enclosing frame, so each call reuses the caller's
-instead of pushing a new one. A million iterations run without
-growing the stack at all.
+instead of pushing a new one. We use `40_000` in the browser because
+its JavaScript-backed OCaml runtime has 31-bit integers; the sum to
+one million (`500000500000`) exceeds that range. Native 64-bit OCaml
+can represent that result as an `int`, and `Int64` is the portable
+choice when the required range must be explicit. The stack-space
+lesson is unchanged: the tail-recursive loop runs in constant stack.
 
 :::slide
 
@@ -278,11 +282,12 @@ let sum_up_to n =
   in
   go 0 n
 
-let _ = sum_up_to 1_000_000  (* = 500000500000 *)
+let _ = sum_up_to 40_000  (* = 800020000; within browser int range *)
 ```
 
-- **No stack overflow**: same input crashed the non-tail version.
+- **No stack overflow**: the non-tail version crashes at this depth.
 - Tail call: recursive call is the *final* expression.
+- Browser OCaml uses 31-bit ints; use `Int64` for larger sums.
 
 :::
 

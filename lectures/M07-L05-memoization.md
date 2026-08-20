@@ -9,7 +9,7 @@ activity_question: "Write the binomial coefficient in open-recursion form: [bino
 think_about_this: "Memoization trades memory for time and only works when the function is *pure*: same input, same output, no side effects. What goes wrong if you memoize a function that reads a file? A function that updates a counter? A function that returns the current time?"
 reading:
   - title: "Cornell CS3110, Memoization"
-    url: https://cs3110.github.io/textbook/chapters/adv/memoization.html
+    url: https://cs3110.github.io/textbook/chapters/ds/memoization.html
 ---
 
 # Memoization
@@ -119,6 +119,9 @@ A few things worth noticing in the implementation:
 - The cache is created *once*, inside the call to `memo`, and
   captured by the returned closure. Every call to the returned
   function shares the same cache.
+- The `16` passed to `Hashtbl.create` is only an initial-size hint,
+  not a capacity limit. The table grows automatically as entries are
+  added; choosing `16` merely avoids starting from an empty allocation.
 - `Hashtbl.find_opt` returns `Some y` for a hit and `None` for a
   miss. We pattern-match on it; the hit returns the cached value,
   the miss computes-then-caches.
@@ -144,6 +147,7 @@ let memo f =
 
 - Wraps any `'a -> 'b` with a per-argument cache.
 - Hashtbl: `find_opt` for lookup, `add` for insert.
+- `Hashtbl.create 16`: initial-size hint, not a 16-entry limit.
 - Cache lives inside the closure; every call shares it.
 - Type unchanged from outside: `('a -> 'b) -> 'a -> 'b`.
 
@@ -891,7 +895,7 @@ Lecture 6: **module basics**.
 ## Reading
 
 - **Cornell CS3110**, *Memoization*:
-  <https://cs3110.github.io/textbook/chapters/adv/memoization.html>
+  <https://cs3110.github.io/textbook/chapters/ds/memoization.html>
 - **Real World OCaml**, *Memoization and dynamic programming*:
   <https://dev.realworldocaml.org/imperative-programming.html#scrollNav-4>
 

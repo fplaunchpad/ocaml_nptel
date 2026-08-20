@@ -92,6 +92,13 @@ OpenSSL implements TLS for most of the internet's HTTPS servers. The
 2012 heartbeat handler looked, in essence, like this (simplified; the
 relevant lines are these):
 
+You do not need to know C pointer syntax to follow it. Read the names
+as a four-step recipe: `p` is the cursor in the incoming request;
+`payload` is a number supplied by the peer; `pl` remembers where the
+actual payload bytes start; and `bp` is the cursor in the outgoing
+response. The helper `n2s` reads a two-byte number, `s2n` writes one,
+and `memcpy(destination, source, count)` copies exactly `count` bytes.
+
 ```c
 hbtype = *p++;
 n2s(p, payload);                            /* read 2-byte length */

@@ -278,7 +278,7 @@ let _ = (-17) / 5
 ```
 
 - Result: `int = -3` (truncates toward zero, not toward minus infinity).
-- Python rounds toward minus infinity: gives `-4`. Be aware.
+- Python's integer `//` rounds toward minus infinity: `(-17) // 5` gives `-4`.
 
 :::
 
@@ -290,9 +290,10 @@ is `2`, because `17 = 3 * 5 + 2`. The identity `a = (a / b) * b + (a mod b)`
 holds for any positive `a` and `b`.
 
 For negative operands, OCaml truncates *toward zero*, not toward
-minus infinity. So `(-17) / 5` is `-3` in OCaml. Python, in
-contrast, rounds toward minus infinity, so the same division in
-Python gives `-4`. There is no universal right answer here; both
+minus infinity. So `(-17) / 5` is `-3` in OCaml. Python uses `/`
+for floating-point division (`(-17) / 5` is `-3.4`) and `//` for
+integer floor division; `(-17) // 5` rounds toward minus infinity
+and gives `-4`. There is no universal right answer here; both
 languages picked a convention and stuck with it. The OCaml
 convention matches C and Java; the Python convention is mathematically
 cleaner for some applications. The practical advice is: if you find
@@ -805,7 +806,7 @@ language simply refuses the call and asks you to insert a
 :::quiz mcq id=M02-L01-q3
 What does this evaluate to?
 
-```ocaml
+```ocaml skip
 let _ = (-7) / 2
 ```
 
