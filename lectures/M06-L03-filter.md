@@ -400,8 +400,8 @@ let _ = List.map (fun b -> b.title) modern_long  (* = ["OCaml"; "Rust"] *)
 The result is `["OCaml"; "Rust"]`: those are the books from 2020 or
 later with more than 100 pages.
 
-The same query in SQL would be `SELECT title FROM library WHERE year
->= 2020 AND pages > 100`. The OCaml version is one filter plus one
+The same query in SQL would be `SELECT title FROM library WHERE year >= 2020 AND pages > 100`.
+The OCaml version is one filter plus one
 map. This filter-then-map pattern (sometimes called *select-where*
 in database lingo, or *project-select* in relational algebra) is
 common. With `filter_map` the same thing collapses to one call:
