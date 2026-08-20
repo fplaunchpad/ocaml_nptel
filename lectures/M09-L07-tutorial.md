@@ -9,7 +9,7 @@ activity_question: "Extend the [expr] AST with unary negation ([Neg of expr]): a
 think_about_this: "If your QCheck property compares the OCaml-implemented eval against a hand-written reference (e.g. via float arithmetic in the property itself), what happens when the reference is also buggy? How do you avoid testing one bug against itself?"
 reading:
   - title: "Cornell CS3110, Testing and OUnit"
-    url: https://cs3110.github.io/textbook/chapters/correctness/ounit.html
+    url: https://cs3110.github.io/textbook/chapters/data/ounit.html
   - title: "QCheck README and tutorial"
     url: https://github.com/c-cube/qcheck
 ---
@@ -1386,7 +1386,7 @@ Next module: M10 on memory safety. Tests catch behaviour;
 - **Cornell CS3110**, *Testing, Debugging, and Specifications*
   (chapter spanning unit testing, randomised testing, and
   specifications):
-  <https://cs3110.github.io/textbook/chapters/correctness/index.html>
+  <https://cs3110.github.io/textbook/chapters/correctness/test_debug.html>
 - **QCheck README and tutorial**:
   <https://github.com/c-cube/qcheck>
 - **OUnit2 README and API documentation**:

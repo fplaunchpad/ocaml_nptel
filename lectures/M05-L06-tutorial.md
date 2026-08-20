@@ -9,7 +9,7 @@ activity_question: "Extend the AST with [Sub of expr * expr] and [Mul of expr * 
 think_about_this: "The `eval` function returns `value option`, not `value`. Why is that the natural choice given everything we know about M05 so far?"
 reading:
   - title: "Cornell CS3110, Walking an AST"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
 ---
 
 # Tutorial: an interpreter for the OCaml AST
@@ -938,7 +938,7 @@ write an interpreter.
 ## Reading
 
 - **Cornell CS3110**, *Walking an AST*:
-  <https://cs3110.github.io/textbook/chapters/data/pattern_matching.html>
+  <https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html>
 - **Real World OCaml**, *Lists and patterns* (the trees and
   walkers section):
   <https://dev.realworldocaml.org/lists-and-patterns.html>

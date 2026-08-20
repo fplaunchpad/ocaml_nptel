@@ -9,7 +9,7 @@ activity_question: "Write [triangle_kind : int * int * int -> string] that class
 think_about_this: "Guards turn pattern matching into pattern+predicate matching. What does the compiler's exhaustiveness checker conservatively assume about a clause guarded by [when]? Why must it?"
 reading:
   - title: "Cornell CS3110, Pattern matching guards"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
 ---
 
 # Guards: when-clauses on patterns
@@ -684,7 +684,7 @@ and why it is the single biggest argument for using
 ## Reading
 
 - **Cornell CS3110**, *Pattern matching guards*:
-  <https://cs3110.github.io/textbook/chapters/data/pattern_matching.html>
+  <https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html>
 - **Real World OCaml**, *Lists and patterns* (guards):
   <https://dev.realworldocaml.org/lists-and-patterns.html>
 ## Sources

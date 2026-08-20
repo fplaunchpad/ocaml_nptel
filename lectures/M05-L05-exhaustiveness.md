@@ -9,7 +9,7 @@ activity_question: "What does the compiler do when you add a new constructor to 
 think_about_this: "Exhaustiveness checking is a *warning*, not an error, by default. Why? Should it be an error in your projects? What's the practical trade-off?"
 reading:
   - title: "Cornell CS3110, Exhaustiveness"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
 ---
 
 # Exhaustiveness checking
@@ -778,7 +778,7 @@ covered, on a single recursive ADT.
 ## Reading
 
 - **Cornell CS3110**, *Exhaustiveness*:
-  <https://cs3110.github.io/textbook/chapters/data/pattern_matching.html>
+  <https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html>
 - **Real World OCaml**, *Lists and patterns* (the
   pattern-matching efficiency and exhaustiveness sections):
   <https://dev.realworldocaml.org/lists-and-patterns.html>

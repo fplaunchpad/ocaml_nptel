@@ -9,7 +9,7 @@ activity_question: "Write [is_unit_shape : shape -> bool] returning [true] for [
 think_about_this: "An or-pattern lets multiple shapes share a right-hand side. What constraint does the compiler impose on the variables bound by each alternative?"
 reading:
   - title: "Cornell CS3110, Pattern matching (continued)"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
 ---
 
 # Nested patterns and or-patterns
@@ -1152,7 +1152,7 @@ check for that clause, which we will see why in
 ## Reading
 
 - **Cornell CS3110**, *Pattern matching (continued)*:
-  <https://cs3110.github.io/textbook/chapters/data/pattern_matching.html>
+  <https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html>
 - **Real World OCaml**, *Lists and patterns* (or-patterns section):
   <https://dev.realworldocaml.org/lists-and-patterns.html>
 ## Sources

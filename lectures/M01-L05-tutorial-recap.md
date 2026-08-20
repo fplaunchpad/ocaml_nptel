@@ -9,7 +9,7 @@ activity_question: "Write a function [bmi : float -> float -> float] that takes 
 think_about_this: "When OCaml gives you a type error, the error message names the file, line, and *actual vs. expected* types. Why does it usually name the offending sub-expression explicitly (e.g., 'The constant 273.15') rather than just pointing at the whole line?"
 reading:
   - title: "Cornell CS3110, Basics chapter (revisit if anything in Module 1 felt thin)"
-    url: https://cs3110.github.io/textbook/chapters/basics/index.html
+    url: https://cs3110.github.io/textbook/chapters/basics/intro.html
 ---
 
 # Tutorial: small expressions, end to end
@@ -601,7 +601,7 @@ every week looks like.
 ## Reading
 
 - **Cornell CS3110, Basics chapter** revisit if anything in Module 1
-  felt thin: <https://cs3110.github.io/textbook/chapters/basics/index.html>
+  felt thin: <https://cs3110.github.io/textbook/chapters/basics/intro.html>
 - **Real World OCaml, A Guided Tour** for an alternative angle on
   the same material:
   <https://dev.realworldocaml.org/guided-tour.html>

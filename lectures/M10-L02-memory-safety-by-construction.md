@@ -8,8 +8,8 @@ keywords: [OCaml, GC, garbage collection, bounds checking, Invalid_argument, tag
 activity_question: "Write safe_nth; predict the OCaml analogue of a C use-after-free; and explain why the runtime uses the low bit of every value as a tag."
 think_about_this: "Bounds checks on every array access are not free. They cost a comparison and a branch on every read. Yet OCaml programs are routinely within a small constant factor of C. Why does the cost not dominate, and where do compilers reclaim it?"
 reading:
-  - title: "Cornell CS3110, Memory representation"
-    url: https://cs3110.github.io/textbook/chapters/data/memory.html
+  - title: "Cornell CS3110, References and memory locations"
+    url: https://cs3110.github.io/textbook/chapters/mut/refs.html
   - title: "Real World OCaml, Memory representation of values"
     url: https://dev.realworldocaml.org/runtime-memory-layout.html
   - title: "Leaking Space (Neil Mitchell, ACM Queue)"
@@ -585,8 +585,8 @@ and shows the same bug is structurally impossible in OCaml.
 
 ## Reading
 
-- **Cornell CS3110**, *Memory representation*:
-  <https://cs3110.github.io/textbook/chapters/data/memory.html>
+- **Cornell CS3110**, *References and memory locations*:
+  <https://cs3110.github.io/textbook/chapters/mut/refs.html>
 - **Real World OCaml**, *Memory representation of values*:
   <https://dev.realworldocaml.org/runtime-memory-layout.html>
 - **OCaml manual**, *The garbage collector*:

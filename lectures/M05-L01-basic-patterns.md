@@ -9,7 +9,7 @@ activity_question: "Given [let f = function | x -> x | 0 -> 99], what do [f 0] a
 think_about_this: "A variable pattern always matches anything and binds the matched value to that name. What happens when a variable pattern is *followed by* a more specific pattern? Which wins?"
 reading:
   - title: "Cornell CS3110, Pattern matching"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
 ---
 
 # Basic patterns
@@ -937,7 +937,7 @@ exhaustiveness, and records.
 ## Reading
 
 - **Cornell CS3110**, *Pattern matching*:
-  <https://cs3110.github.io/textbook/chapters/data/pattern_matching.html>
+  <https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html>
 - **Real World OCaml**, *Lists and patterns* (the pattern-matching
   sections):
   <https://dev.realworldocaml.org/lists-and-patterns.html>

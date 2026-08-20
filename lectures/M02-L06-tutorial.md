@@ -9,7 +9,7 @@ activity_question: "Write [sign : int -> int] returning -1, 0, or 1 for negative
 think_about_this: "If you wrote [sign] without using [if], could you do it with arithmetic alone? What would that program look like, and is it clearer?"
 reading:
   - title: "Cornell CS3110, Basics chapter (revisit anything that felt thin)"
-    url: https://cs3110.github.io/textbook/chapters/basics/index.html
+    url: https://cs3110.github.io/textbook/chapters/basics/intro.html
 ---
 
 # Tutorial for Module 2
@@ -546,7 +546,7 @@ Python, and you'll want the expression-level mechanics from Module
 
 - **Cornell CS3110**, *Basics chapter*: a denser version of the
   same material if anything felt thin:
-  <https://cs3110.github.io/textbook/chapters/basics/index.html>
+  <https://cs3110.github.io/textbook/chapters/basics/intro.html>
 - **Real World OCaml**, *A Guided Tour*: another angle:
   <https://dev.realworldocaml.org/guided-tour.html>
 ## Sources

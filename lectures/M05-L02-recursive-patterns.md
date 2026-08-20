@@ -9,7 +9,7 @@ activity_question: "Write [inorder : 'a tree -> 'a list] that returns the values
 think_about_this: "Every recursive type has one or more *base* constructors (carry no recursive reference) and one or more *recursive* constructors. How does the shape of a function over the type follow directly from that split?"
 reading:
   - title: "Cornell CS3110, Lists and pattern matching"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
   - title: "Cornell CS3110, Trees"
     url: https://cs3110.github.io/textbook/chapters/data/trees.html
 ---
@@ -721,7 +721,7 @@ those nested forms.
 ## Reading
 
 - Cornell CS3110,
-  [Pattern matching](https://cs3110.github.io/textbook/chapters/data/pattern_matching.html)
+  [Pattern matching](https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html)
   (list patterns and structural recursion).
 - Cornell CS3110,
   [Trees](https://cs3110.github.io/textbook/chapters/data/trees.html).

@@ -488,7 +488,13 @@ body.mode-slides .home-link { opacity: 0.6; }
 body.mode-slides .privacy-banner { display: none; }
 
 .chapter p { margin: 0.9rem 0; }
-.chapter pre, .chapter code { font-family: "JetBrains Mono", "Fira Code", Menlo, ui-monospace, monospace; }
+.chapter pre, .chapter code {
+  font-family: "JetBrains Mono", "Fira Code", Menlo, ui-monospace, monospace;
+  /* Keep source operators visibly typeable: programming-font ligatures can
+     otherwise draw !=, <=, >=, and == as single mathematical glyphs. */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
 .chapter pre { background: var(--code-bg); padding: 0.8rem 1rem; border-radius: 4px; overflow-x: auto; }
 .chapter code { background: var(--code-bg); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.9em; }
 .chapter pre code { background: transparent; padding: 0; }

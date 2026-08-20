@@ -8,7 +8,7 @@ keywords: [OCaml, practice, assignment, testing, QCheck, OUnit2, property, gener
 think_about_this: "In every other worksheet you write the function and the tests are given. Here it is the other way round: the function is given, and you write the tests. A good property is one that the correct function passes and a plausible wrong function fails. As you write each property, ask yourself: what bug would this catch?"
 reading:
   - title: "Cornell CS3110, Testing"
-    url: https://cs3110.github.io/textbook/chapters/correctness/testing.html
+    url: https://cs3110.github.io/textbook/chapters/correctness/test_debug.html
   - title: "QCheck, property-based testing for OCaml"
     url: https://github.com/c-cube/qcheck
 ---

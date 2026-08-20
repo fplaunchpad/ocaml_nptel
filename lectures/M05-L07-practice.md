@@ -8,7 +8,7 @@ keywords: [OCaml, practice, assignment, pattern matching, match, recursion, list
 think_about_this: "Every solution here is a `match` and a recursive call. Before you write a clause, ask: what are the shapes the value can take? An empty list and a cons; a leaf and a node; None and Some. One clause per shape, and the recursion handles the smaller pieces."
 reading:
   - title: "Cornell CS3110, Pattern matching"
-    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching.html
+    url: https://cs3110.github.io/textbook/chapters/data/pattern_matching_advanced.html
 ---
 
 # Practice: pattern matching, by hand

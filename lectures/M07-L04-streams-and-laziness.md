@@ -8,8 +8,8 @@ keywords: [OCaml, stream, thunk, lazy, Lazy.force, lazy_t, sieve, Fibonacci]
 activity_question: "Write [take_while : ('a -> bool) -> 'a stream -> 'a list] that returns the longest prefix of [s] whose elements satisfy [p]. Verify with [take_while (fun x -> x < 5) (from 0) = [0; 1; 2; 3; 4]]."
 think_about_this: "A thunk and a [lazy] value both delay evaluation. What is the one thing [lazy] gives you that a plain [unit -> 'a] does not? When would that one thing matter, and when would it not?"
 reading:
-  - title: "Cornell CS3110, Lazy evaluation"
-    url: https://cs3110.github.io/textbook/chapters/adv/promises.html
+  - title: "Cornell CS3110, Sequences and lazy evaluation"
+    url: https://cs3110.github.io/textbook/chapters/ds/sequence.html
 ---
 
 # Streams and laziness
@@ -824,8 +824,8 @@ Lecture 5: **memoization**.
 
 ## Reading
 
-- **Cornell CS3110**, *Lazy evaluation*:
-  <https://cs3110.github.io/textbook/chapters/adv/promises.html>
+- **Cornell CS3110**, *Sequences and lazy evaluation*:
+  <https://cs3110.github.io/textbook/chapters/ds/sequence.html>
 - **Real World OCaml**, *Lazy values*:
   <https://dev.realworldocaml.org/imperative-programming.html#scrollNav-3>
 

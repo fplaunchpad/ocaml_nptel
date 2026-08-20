@@ -9,7 +9,7 @@ activity_question: "Extend the typed stack machine with [dup] that duplicates th
 think_about_this: "The state monad threads one state type throughout. Parameterised state lets the type change per step. What programs become well-typed under the second that the first could not even express?"
 reading:
   - title: "Cornell CS3110, Monads"
-    url: https://cs3110.github.io/textbook/chapters/ds/monads.html
+    url: https://cs3110.github.io/textbook/chapters/conc/monads.html
 ---
 
 # The state monad and parameterised state
@@ -710,7 +710,7 @@ expressions naturally.
 ## Reading
 
 - **Cornell CS3110**, *Monads*:
-  <https://cs3110.github.io/textbook/chapters/ds/monads.html>
+  <https://cs3110.github.io/textbook/chapters/conc/monads.html>
 
 ## Sources
 
