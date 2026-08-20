@@ -746,7 +746,7 @@ What does `x + y` evaluate to at the end?
 :::quiz mcq id=M02-L02-q2
 What is the result of this nested expression?
 
-```ocaml
+```ocaml skip
 let _ =
   let x = 10 in
   let y = x in

@@ -669,17 +669,8 @@ module type NODE = sig
   val set_prev    : t -> t option -> unit
 end
 
-module MakeNode (C : Showable) : NODE with type content = C.t = struct
-  (* Implement the node here. *)
-  type content = C.t
-  type t = unit  (* replace this *)
-  let create _ = failwith "not implemented"
-  let get_content _ = failwith "not implemented"
-  let get_next _ = failwith "not implemented"
-  let get_prev _ = failwith "not implemented"
-  let set_next _ _ = failwith "not implemented"
-  let set_prev _ _ = failwith "not implemented"
-end
+(* Define the MakeNode functor here. Its result must satisfy NODE and
+   expose the equation content = C.t so the tests can pass ints to it. *)
 ```
 
 ```ocaml skip
@@ -986,6 +977,22 @@ let () =
   check (subset (of_list [4; 2]) evens) "subset holds";
   check (not (subset evens small)) "subset fails";
   check (subset empty small) "empty is a subset";
+  print_endline "ordinary-order tests passed"
+
+(* Reversing the supplied ordering catches implementations that use
+   polymorphic < or <= instead of O.compare. *)
+module RevIntOrd = struct
+  type t = int
+  let compare a b = Stdlib.compare b a
+end
+module RevIntSet = MakeSet (RevIntOrd)
+let () =
+  let open RevIntSet in
+  let of_list xs = List.fold_left (fun s x -> add x s) empty xs in
+  let a = of_list [1; 2; 4] and b = of_list [2; 3; 4] in
+  check (to_list a = [4; 2; 1]) "respects reverse ordering";
+  check (to_list (inter a b) = [4; 2]) "reverse-order inter";
+  check (to_list (diff a b) = [1]) "reverse-order diff";
   print_endline "all tests passed"
 ```
 :::
@@ -1138,6 +1145,22 @@ let () =
   check (find "b" d = Some 2) "other key";
   check (find "c" d = None) "missing key";
   check (find "a" (remove "a" d) = None) "after remove";
+  print_endline "string-key tests passed"
+
+(* Equality need not be OCaml's (=). This also checks that adding an
+   equivalent key replaces the old binding instead of retaining a
+   duplicate that can reappear after remove. *)
+module CiKey = struct
+  type t = string
+  let equal a b =
+    String.equal (String.lowercase_ascii a) (String.lowercase_ascii b)
+end
+module CiDict = MakeDict (CiKey)
+let () =
+  let open CiDict in
+  let d = add "a" 1 empty |> add "A" 2 in
+  check (find "a" d = Some 2) "equivalent key replaced";
+  check (find "A" (remove "a" d) = None) "remove leaves no duplicate";
   print_endline "all tests passed"
 ```
 :::

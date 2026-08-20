@@ -589,8 +589,8 @@ increments `x`'s count; `count x` returns it (`0` if never added).
 :::
 
 :::quiz code id=M07-L08-q1
-Fill in `add` and `count`. The representation is an association
-list pairing each distinct element with its current count.
+Define the `Bag` functor, including `add` and `count`. Use an
+association list pairing each distinct element with its current count.
 
 ```ocaml
 module type ORDERED = sig
@@ -598,13 +598,7 @@ module type ORDERED = sig
   val compare : t -> t -> int
 end
 
-module Bag (E : ORDERED) = struct
-  type elt = E.t
-  type t = (elt * int) list   (* each distinct element with its count *)
-  let empty = []
-  let add _x _b = failwith "not implemented"
-  let count _x _b = failwith "not implemented"
-end
+(* Define the Bag functor here. *)
 ```
 
 ```ocaml skip

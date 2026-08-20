@@ -539,9 +539,7 @@ Define a `Stack` module holding integer state.
 
 ```ocaml
 module Stack = struct
-  let push (_ : int) = failwith "not implemented"
-  let pop () : int option = failwith "not implemented"
-  let peek () : int option = failwith "not implemented"
+  (* Define the private state and the push, pop, and peek operations. *)
 end
 ```
 

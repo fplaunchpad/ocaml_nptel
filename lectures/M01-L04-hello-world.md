@@ -556,12 +556,14 @@ Predict before pressing Run.
 :::quiz mcq id=M01-L04-q1
 What does the following OCaml program print?
 
-```ocaml
-let () =
-  print_endline "A";
-  print_endline "B"
+```ocaml skip
+let emit x = print_endline x
 
-let () = print_endline "C"
+let () =
+  emit "A";
+  emit "B"
+
+let () = emit "C"
 ```
 
 - [x] A, then B, then C
@@ -569,11 +571,10 @@ let () = print_endline "C"
 - [ ] A and C; B is unreachable
 - [ ] The program does not compile.
 
-**Why:** top-level `let` bindings execute in source order, from top
-to bottom. The first `let () = ...` body uses `;` to sequence two
-prints; both run, A first then B. The second `let () = ...` runs
-after, printing C. The same shape works for any OCaml file: the
-top-level bindings are a sequence, evaluated in order.
+**Why:** top-level `let` bindings execute in source order. Defining
+`emit` prints nothing; it only creates a function. The first
+`let () = ...` then uses `;` to call it twice, printing A then B.
+The final `let () = ...` runs afterward and prints C.
 :::
 
 :::slide

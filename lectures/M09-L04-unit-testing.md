@@ -9,7 +9,7 @@ activity_question: "Write an OUnit2 test case for the value-oriented `Stack`: cr
 think_about_this: "A failing test breaks the build, exactly like a type error does. What does that change about when bugs are found, compared with discovering them by running the program by hand?"
 reading:
   - title: "Cornell CS3110, OUnit"
-    url: https://cs3110.github.io/textbook/chapters/correctness/ounit.html
+    url: https://cs3110.github.io/textbook/chapters/data/ounit.html
   - title: "OUnit2 GitHub repository and API docs"
     url: https://github.com/gildor478/ounit
 ---
@@ -503,8 +503,9 @@ reason is independence.
 :::
 
 :::quiz code id=M09-L04-q2
-Write an OUnit2 test case named
-`"push then pop on a fresh stack returns the pushed value"`. Use
+Write an OUnit2 test case for
+`"push then pop on a fresh stack returns the pushed value"`, then
+put it in a suite named `"stack"`. Use
 the value-oriented `Stack` from this lecture. The case should
 create a fresh stack, push `7`, pop, and assert the result is
 `7` (with a printer).
@@ -512,6 +513,11 @@ create a fresh stack, push `7`, pop, and assert the result is
 ```ocaml
 let test_push_pop_seven _ =
   failwith "not implemented"
+
+let suite =
+  "stack" >::: [
+    "push and pop" >:: test_push_pop_seven;
+  ]
 ```
 
 ```ocaml skip
@@ -532,6 +538,11 @@ let test_push_pop_seven _ =
   let s = Stack.create () in
   Stack.push 7 s;
   assert_equal ~printer:string_of_int 7 (Stack.pop s)
+
+let suite =
+  "stack" >::: [
+    "push and pop" >:: test_push_pop_seven;
+  ]
 ```
 
 Arrange (create + push), act (the `pop` inside the assertion),
@@ -568,7 +579,7 @@ puts the whole toolkit on one worked example.
 ## Reading
 
 - **Cornell CS3110**, *OUnit*:
-  <https://cs3110.github.io/textbook/chapters/correctness/ounit.html>
+  <https://cs3110.github.io/textbook/chapters/data/ounit.html>
 - **OUnit2 repository**, README and API docs (MIT-licensed):
   <https://github.com/gildor478/ounit>
 - **Real World OCaml**, *Testing* (uses Alcotest, same ideas):

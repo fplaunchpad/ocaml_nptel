@@ -541,7 +541,7 @@ quickly.
 :::quiz mcq id=M02-L04-q2
 What is the value of this OCaml expression?
 
-```ocaml
+```ocaml skip
 let _ = 1 + 2 * 3 = 7 && true
 ```
 
