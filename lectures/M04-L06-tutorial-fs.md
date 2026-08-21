@@ -517,10 +517,7 @@ The `entry` type's `Dir` variant has `contents : entry list`.
 Why does that one field make the type *recursive*?
 
 - [ ] Because `Dir` is a variant constructor.
-- [x] Because the field's type, `entry list`, refers back to
-      the type `entry` being defined; a directory can contain
-      other directories, which can contain more directories,
-      and so on.
+- [x] Because `entry list` refers back to the type being defined.
 - [ ] Because `list` is itself a recursive type.
 - [ ] Because `File` and `Dir` are mutually recursive.
 
@@ -539,11 +536,7 @@ Why use `owner : string option` instead of `owner : string`
 
 - [ ] `string option` saves memory.
 - [ ] The two are equivalent; the choice is purely stylistic.
-- [x] `string option` makes "no owner" *visible in the type*:
-      every reader has to handle the `None` case explicitly.
-      With `owner : string`, the empty string is a legal value
-      that the type system cannot distinguish from a real
-      owner name.
+- [x] It represents “no owner” explicitly as `None`.
 - [ ] `string option` is required by OCaml whenever a field
       may be missing.
 

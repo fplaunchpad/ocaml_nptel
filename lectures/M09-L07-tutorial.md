@@ -1282,11 +1282,7 @@ test than a hand-written unit test that just checks
 `safe_div 10 2 = Some 5`?
 
 - [ ] Because PBT proves correctness; unit tests merely sample.
-- [x] Because the property exercises *every* generated `(a, b)`
-  pair, including unusual ones (negatives, zero divisors,
-  overflow-adjacent), and the property simultaneously checks the
-  arithmetic law AND the contract that `None` means "divisor was
-  zero".
+- [x] It checks generated edge cases and the `None` contract.
 - [ ] Because OCaml's type system makes properties redundant.
 - [ ] Because PBT runs faster than unit tests.
 

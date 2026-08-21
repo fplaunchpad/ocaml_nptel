@@ -524,9 +524,7 @@ let (f @ portable) =
 Why does the compiler refuse?
 
 - [ ] It returns an `int`, which is not a portable type.
-- [x] It captures `log : Buffer.t` and writes to it; a portable
-      closure treats its captures as `contended`, and a contended
-      value's mutable parts are off-limits.
+- [x] It mutates a captured, therefore contended, `Buffer.t`.
 - [ ] It uses `string_of_int`, which is not a portable function.
 - [ ] Functions defined at the top level are always nonportable.
 
@@ -547,11 +545,7 @@ swap it again, for `Portable.Atomic`. What does the second swap
 buy?
 
 - [ ] A faster compare-and-swap instruction.
-- [x] The mode annotations: `Portable.Atomic`'s signatures
-      declare that its operations synchronise, so it crosses both
-      the contention and portability axes and the checker accepts
-      closures and spawns that use it. The stdlib `Atomic`
-      predates modes and carries no such annotations.
+- [x] Its signatures carry the required mode annotations.
 - [ ] Nothing; the two modules are aliases.
 - [ ] Protection against integer overflow of the counter.
 

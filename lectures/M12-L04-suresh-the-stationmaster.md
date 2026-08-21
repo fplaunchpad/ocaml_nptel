@@ -831,11 +831,7 @@ a containerised Linux process?
 
 - [ ] Solo5 is a faster hypervisor than Linux KVM.
 - [ ] The unikernel skips the TCP/IP stack entirely.
-- [x] The unikernel image contains only the libraries the
-  application reaches (dead-code elimination by the OCaml
-  linker), no separate Linux kernel guest, no systemd, no
-  shell, no userspace daemons. A container image still carries
-  most of those.
+- [x] Dead-code elimination omits the guest OS and unused libraries.
 - [ ] OCaml binaries are inherently smaller than any other
   language's.
 

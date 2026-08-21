@@ -513,9 +513,8 @@ etc.) exist?
 
 - [ ] To save typing.
 - [ ] Because OCaml requires it.
-- [x] Because the module name already says what the type is about,
-  so the type name does not need to repeat it.
-- [ ] To match Haskell.
+- [x] The module name already supplies the context.
+- [ ] To keep signatures compatible with first-class modules.
 
 **Why:** `Color.t` is cleaner than `Color.color`: the module name
 provides the context, and the short `t` avoids stutter. The

@@ -721,8 +721,7 @@ How is the course split across the 12 modules?
 
 - [ ] 12 modules on functional programming
 - [ ] 6 modules on FP, 6 on secure systems
-- [x] 8 modules on functional programming, then 4 on secure
-      systems (testing, memory safety, OxCaml modes, MirageOS)
+- [x] 8 modules on FP, then 4 on secure systems
 - [ ] 4 modules on FP, then 8 on language theory
 
 **Why:** Modules 1-8 are functional programming proper

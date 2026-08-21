@@ -603,9 +603,7 @@ Which of the following best describes the difference between a
 
 - [ ] Static errors happen at runtime; dynamic errors happen at
       compile time.
-- [x] Static errors are caught by the compiler before the
-      program runs; dynamic errors only show up while the
-      program is running.
+- [x] Static errors precede execution; dynamic errors occur while running.
 - [ ] Static errors are warnings; dynamic errors are fatal.
 - [ ] Static and dynamic errors are two names for the same
       thing.

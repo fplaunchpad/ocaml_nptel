@@ -524,10 +524,8 @@ In the `show` function with a GADT witness, why does
 `show (T_pair (T_int, T_string)) (3, "hi")` type-check while
 `show T_int (3, "hi")` does not?
 
-- [ ] The pair `(3, "hi")` is illegal in OCaml.
-- [x] The first call refines `'a = int * string`, matching the
-  pair's actual type; the second call refines `'a = int`, but `(3,
-  "hi") : int * string`, which does not match `int`.
+- [ ] OCaml permits pairs only when a matching `T_pair` constructor appears nearby.
+- [x] The pair value requires a pair witness, not `T_int`.
 - [ ] `show` cannot handle tuples.
 - [ ] `T_int` is not a valid value.
 
@@ -542,9 +540,7 @@ not match `int`, hence the type error in the second case.
 `From staff` has type `emp query`. Why does the compiler reject
 `Where (From staff, fun s -> s = "Eng")`?
 
-- [x] `From staff` is an `emp query`, so `Where`'s predicate must
-  be `emp -> bool`; `fun s -> s = "Eng"` is `string -> bool`, which
-  does not match.
+- [x] The predicate accepts `string`, but the row type is `emp`.
 - [ ] `Where` cannot follow `From`; the constructors must appear in
   a fixed order.
 - [ ] `From` is not a valid starting point for a builder.

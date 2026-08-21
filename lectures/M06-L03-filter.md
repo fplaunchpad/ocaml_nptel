@@ -473,15 +473,16 @@ specialised type `int list -> int list`. Note the predicate is
 Which of these are equivalent to `List.filter p xs`?
 
 - [x] `List.filter_map (fun x -> if p x then Some x else None) xs`
-- [ ] `List.map p xs`
+- [ ] `List.map (fun x -> if p x then x else failwith "filtered") xs`
 - [x] `fst (List.partition p xs)`
 - [ ] `List.find p xs`
 
 **Why:** the first option turns the predicate into a "return Some
 x if it passes, None otherwise" function and uses `filter_map`, so
 yes. The third option uses `partition` and takes the "passed" half,
-also equivalent. The second option (`List.map p xs`) returns a
-`bool list`, not the filtered list. The fourth option (`List.find`)
+also equivalent. The second option maps every element and raises
+on the first rejected one; it does not return the filtered list.
+The fourth option (`List.find`)
 returns the *first* matching element (or raises), not the whole
 sublist.
 :::

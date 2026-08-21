@@ -643,9 +643,7 @@ Let_in (Var "x", Int 5, Add (Var "x", Int 3))
 ?
 
 - [ ] Both work; the choice is purely stylistic.
-- [x] `Let_in`'s first slot is the *bound name* (a `string`),
-      not a referenced variable. `Var "x"` would be type-wrong
-      because that slot expects `string`, not `expr`.
+- [x] Its first slot is a bound name (`string`), not an `expr`.
 - [ ] `Var` is only allowed inside `Add`, never inside
       `Let_in`.
 - [ ] The first slot of `Let_in` is the *value*, not the name.

@@ -555,8 +555,7 @@ After `run program 1` in the gensym example the result is
 
 - [ ] The counter is off-by-one due to a bug.
 - [ ] OCaml indexing is one-based.
-- [x] After producing `y_3`, gensym set the state to `4` for the
-  next caller.
+- [x] State `4` is the next unused counter.
 - [ ] `run` adds 1 to the final state.
 
 **Why:** each call reads the current `n`, sets the state to `n +
@@ -569,10 +568,8 @@ was set to `4`. The final state is the "next available", not the
 Why does the ill-typed `let* () = push true in add` fail at compile
 time rather than runtime?
 
-- [ ] OCaml runs the type checker at runtime for safety.
-- [x] `add`'s type says the input state must be `int * (int *
-  's)`. After `push true` the input is `bool * 's`. The compiler
-  refuses to match `bool` against `int`.
+- [ ] OCaml defers checking state-monad operations until `run` executes.
+- [x] After `push true`, `add` requires two `int`s on the stack.
 - [ ] The bool is allocated dynamically.
 - [ ] `add` raises an exception immediately.
 

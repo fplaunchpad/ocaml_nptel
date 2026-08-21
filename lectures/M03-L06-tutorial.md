@@ -434,7 +434,7 @@ In `is_power_of_two`, why must the `n = 1` test come *before*
 the `n mod 2 = 1` test?
 
 - [ ] It makes the function tail-recursive.
-- [x] `1` is odd; tested the other way round, the function would return `false` for `1`.
+- [x] Otherwise it would classify `1` as even.
 - [ ] `n = 1` is cheaper to evaluate than `n mod 2 = 1`.
 - [ ] No reason; the two tests can be swapped freely.
 

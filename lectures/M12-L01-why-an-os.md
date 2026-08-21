@@ -566,8 +566,7 @@ actually exercised at runtime by this server?
 
 - [ ] All of it; the kernel only loads code that is in use.
 - [ ] Roughly half, because the network stack is large.
-- [x] A small fraction. Most of the kernel is drivers and subsystems
-  this workload never touches.
+- [x] A small fraction; most kernel code is unused.
 - [ ] None of it; a static server bypasses the kernel.
 
 **Why:** the kernel ships as one indivisible blob; even unused drivers
@@ -584,9 +583,8 @@ Which of the following is the strongest reason to care about the size
 of the kernel's Trusted Computing Base?
 
 - [ ] Larger kernels are slower to start up.
-- [ ] Larger kernels use more disk space.
-- [x] Every line of code in the TCB is a potential vector for a
-  security vulnerability, and most of the kernel is memory-unsafe C.
+- [ ] Larger kernels consume more disk and memory on every deployment.
+- [x] A larger TCB exposes more memory-unsafe code.
 - [ ] Larger kernels have worse documentation.
 
 **Why:** boot time and disk are real concerns but secondary. The

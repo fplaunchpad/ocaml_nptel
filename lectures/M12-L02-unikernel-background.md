@@ -682,10 +682,7 @@ difference?
 
 - [ ] On Linux the bug is masked by user-kernel separation; in the
   library OS the bug is masked by the language runtime.
-- [x] On Linux the kernel might panic and other processes are
-  affected; in the library OS only this unikernel is affected, but
-  there is no MMU boundary protecting other parts of the same
-  unikernel.
+- [x] Linux can harm other processes; library-OS failure stays in one unikernel.
 - [ ] In both cases the bug is contained to one process.
 - [ ] In both cases the bug brings down the whole machine.
 
@@ -706,11 +703,8 @@ best describes how adding virtualisation changes those cons?
 - [ ] Both cons are eliminated entirely; with a hypervisor, every
   memory access inside the guest is checked.
 - [ ] Both cons remain; virtualisation only affects performance.
-- [x] Cross-unikernel protection is provided by the hypervisor's
-  hardware page tables; the driver burden is handed to the host,
-  whose existing drivers do the real device work.
-  Internal-to-the-unikernel
-  protection is still missing and is the language's job.
+- [x] The hypervisor separates guests and supplies host drivers,
+  but not internal isolation.
 - [ ] Virtualisation eliminates the driver problem but makes the
   internal-protection problem worse.
 

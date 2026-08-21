@@ -504,9 +504,7 @@ look like?
 
 - [ ] The OCaml program also reads stale bytes, but the GC catches
   it later.
-- [x] The bug pattern cannot be written in safe OCaml. There is no
-  `free`, and the GC will not reclaim a block while any reachable
-  reference to it exists.
+- [x] Safe OCaml has no `free`; reachable blocks stay live.
 - [ ] The OCaml program raises a runtime exception "use after free".
 - [ ] The OCaml program's behaviour is implementation-defined.
 
@@ -525,8 +523,7 @@ even though it costs one bit of integer range?
 
 - [ ] To accelerate integer arithmetic on x86.
 - [ ] To distinguish signed from unsigned integers at runtime.
-- [x] So that the GC and other primitives can tell, in one bit-test,
-  whether a word is a pointer or an immediate.
+- [x] To distinguish pointers from immediate values.
 - [ ] Backwards compatibility with 32-bit machines.
 
 **Why:** OCaml represents every value uniformly as a single word.

@@ -493,9 +493,7 @@ Why does the `eval` function need the annotation `type a. a expr
 -> a`?
 
 - [ ] OCaml requires every function to be annotated.
-- [x] The function is polymorphic and each branch refines `a` to a
-  different concrete type; the annotation tells the compiler to
-  treat `a` as abstract and allow per-branch refinement.
+- [x] Its branches refine `a` to different concrete types.
 - [ ] It is purely cosmetic; the compiler infers it anyway.
 - [ ] It optimises the compiled code.
 

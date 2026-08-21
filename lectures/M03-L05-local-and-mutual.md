@@ -459,8 +459,8 @@ let _ = inner 5
 
 - [ ] Both lines return `5`.
 - [ ] `outer 4` returns `5`; `inner 5` returns `6`.
-- [x] `outer 4` returns `5`; the last line fails with `Unbound value inner`.
-- [ ] Both lines fail with a type error.
+- [x] `outer 4` returns `5`; `inner` is out of scope.
+- [ ] Both expressions evaluate to `5` because `inner` is global.
 
 **Why:** `inner` is introduced by a `let ... in` *inside*
 `outer`'s body, so it is in scope only inside that body. Outside

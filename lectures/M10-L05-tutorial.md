@@ -506,10 +506,7 @@ What was the immediate technical cause of the Heartbleed bug?
 
 - [ ] The TLS protocol design itself was broken.
 - [ ] An attacker had to break the encryption first.
-- [x] The server trusted the *attacker-supplied* `payload` length
-  without checking that the record on the wire was that large.
-  `memcpy` then copied `payload`-many bytes, reading past the end
-  into adjacent server memory.
+- [x] It trusted an unchecked, attacker-supplied payload length.
 - [ ] OpenSSL was using outdated cryptographic primitives.
 
 **Why:** Heartbleed is a *missing length check*. The 16-bit `payload`
@@ -526,10 +523,7 @@ writes no explicit length check?
 - [ ] The compiler statically proves `payload_len` fits in `record`.
 - [ ] The GC reclaims out-of-bounds reads before they reach the
   attacker.
-- [x] `Bytes.sub` has a bounds check baked into its API contract: an
-  invalid range raises `Invalid_argument` before any out-of-bounds
-  byte is read, and there is no unchecked variant in the safe
-  fragment.
+- [x] `Bytes.sub` checks bounds before reading.
 - [ ] OCaml's `Bytes` are immutable, so a read cannot exfiltrate.
 
 **Why:** the property is *runtime*, not static. OCaml cannot prove the

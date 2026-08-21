@@ -492,9 +492,7 @@ A program has a data race on a shared `int ref`. How do C and
 OCaml differ in what can happen?
 
 - [ ] Both are undefined behaviour; there is no difference.
-- [x] In C the program has undefined behaviour (it may crash, leak
-  memory, or be miscompiled); in OCaml the read returns a
-  surprising but bounded value and the program stays memory-safe.
+- [x] C has undefined behaviour; OCaml keeps the race memory-safe.
 - [ ] In OCaml the program fails to compile because the race is
   detected statically.
 - [ ] In C the value is always the last one written; in OCaml it
@@ -516,9 +514,7 @@ Two domains race on a ref `x`. A third domain, meanwhile, runs
 `y := 1` and then reads `!y`, and no other part of the program
 touches `y`. What does the read of `!y` give?
 
-- [x] In OCaml, `1`, guaranteed: races are bounded in space, so
-  the race on `x` cannot affect `y`. In C, no guarantee: one race
-  anywhere strips the whole program of defined meaning.
+- [x] OCaml guarantees `y = 1`; C guarantees nothing.
 - [ ] `1` in both languages: `y` is not involved in the race.
 - [ ] In OCaml, `1` only if `y` is made an `Atomic.t`.
 - [ ] In neither language is anything guaranteed once any race

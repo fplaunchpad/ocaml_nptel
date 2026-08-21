@@ -5,21 +5,22 @@
 #                                    mode: chapter walks function
 #                                    through, activity asks
 #                                    student to recreate it)
-#   2. KC-comment sweep            -- any unresolved silent-fix
+#   2. tools/audit-mcq-length.py   -- prevent longest-answer MCQ bias
+#   3. KC-comment sweep            -- any unresolved silent-fix
 #                                    or blocker comments KC drops
 #                                    in lecture markdown. KC! and
 #                                    KC? block; plain KC: warns.
-#   3. tools/check-links.py        -- cross-lecture links, heading
+#   4. tools/check-links.py        -- cross-lecture links, heading
 #                                    anchors, asset refs
-#   4. dune runtest                -- mdx code blocks compile
+#   5. dune runtest                -- mdx code blocks compile
 #                                    (default switch for M01-M10/M12,
 #                                    plus a 5.2.0+ox pass for M11)
-#   5. tools/build-site.sh         -- rebuild + smoke pages
-#   6. tools/playwright-check.mjs  -- end-to-end browser test
-#   7. playwright VM boot          -- M01-L01 embed: boot + run hello
-#   8. dashboard smoke             -- dashboard renders against the
+#   6. tools/build-site.sh         -- rebuild + smoke pages
+#   7. tools/playwright-check.mjs  -- end-to-end browser test
+#   8. playwright VM boot          -- M01-L01 embed: boot + run hello
+#   9. dashboard smoke             -- dashboard renders against the
 #                                    live worker (skipped offline)
-#   9. slide-overflow scan         -- every deck fits 1280x800
+#  10. slide-overflow scan         -- every deck fits 1280x800
 #                                    (parallel, ~15s; CHECK_OVERFLOW=0
 #                                    to skip)
 #
@@ -35,10 +36,13 @@ red()   { printf '\033[31m%s\033[0m\n' "$*"; }
 green() { printf '\033[32m%s\033[0m\n' "$*"; }
 bold()  { printf '\033[1m%s\033[0m\n' "$*"; }
 
-bold '[1/9] activity-fresh-code audit'
+bold '[1/10] activity-fresh-code audit'
 python3 tools/audit-activities.py
 
-bold '[2/9] KC-comment sweep'
+bold '[2/10] MCQ answer-length audit'
+python3 tools/audit-mcq-length.py
+
+bold '[3/10] KC-comment sweep'
 # `KC:` (silent fix) is allowed to linger; `KC?:` and `KC!:` are
 # blockers per CLAUDE.md. Surface all three so the user sees them.
 KC_HITS=$(grep -rEn '<!--[[:space:]]*KC[!?]?:' \
@@ -57,10 +61,10 @@ else
   green '  no KC comments outstanding'
 fi
 
-bold '[3/9] link + anchor check'
+bold '[4/10] link + anchor check'
 python3 tools/check-links.py
 
-bold '[4/9] dune runtest (mdx + OCaml tests)'
+bold '[5/10] dune runtest (mdx + OCaml tests)'
 # Pass 1 (default switch): validates M01-M10 and M12. The M11 stanza
 # in lectures/dune is gated off here (it needs the OxCaml compiler).
 opam exec -- dune runtest
@@ -75,10 +79,10 @@ else
   red "  ($OX_SWITCH switch not found; skipping M11 mdx validation)"
 fi
 
-bold '[5/9] build site'
+bold '[6/10] build site'
 tools/build-site.sh
 
-bold '[6/9] playwright end-to-end'
+bold '[7/10] playwright end-to-end'
 # Find a server rooted at the repo (so /_site/... resolves): reuse one
 # that already serves the smoke page correctly, else bind the first
 # free port from the candidate list. A stale server squatting a port
@@ -118,7 +122,7 @@ SMOKE_URL="http://localhost:$PORT/_site/test/smoke.html"
 
 node "$SCRIPT_DIR/playwright-check.mjs" "$SMOKE_URL"
 
-bold '[7/9] playwright VM boot (M01-L01 embed)'
+bold '[8/10] playwright VM boot (M01-L01 embed)'
 # Boot the dune VM embedded in M01-L01 (:::vm-terminal dir=/root/hello)
 # and build+run hello end-to-end. Use the local VM data when the build
 # scratch dir is present (fast, no network); otherwise fall back to the
@@ -131,7 +135,7 @@ fi
 node "$SCRIPT_DIR/playwright-vm-check.mjs" \
   "http://localhost:$PORT/_site/M01-L01-course-intro.html"
 
-bold '[8/9] dashboard smoke'
+bold '[9/10] dashboard smoke'
 # The dashboard JS needs the live worker; skip (don't fail) when it
 # is unreachable, e.g. recording offline in the studio.
 QUIZ_API="https://nptel-quiz.kc-7c7.workers.dev"
@@ -142,7 +146,7 @@ else
   red "  quiz worker unreachable (offline?); skipping dashboard smoke."
 fi
 
-bold '[9/9] slide-overflow scan (all decks)'
+bold '[10/10] slide-overflow scan (all decks)'
 # Parallel scan of every deck against the 1280x800 canvas (~15s with
 # the default 6-tab pool). Skip with CHECK_OVERFLOW=0; single pages:
 #   node tools/playwright-overflow-check.mjs http://localhost:8765/_site page.html

@@ -540,8 +540,7 @@ rather than a plain `Set` type parameterized by `'a`?
 
 - [ ] To save memory.
 - [ ] Because OCaml does not support polymorphic types.
-- [x] Because a set needs an ordering on its elements, and
-  parametric polymorphism alone does not provide one.
+- [x] A set needs an ordering for its elements.
 - [ ] To make the API more complicated.
 
 **Why:** a balanced binary search tree, the standard

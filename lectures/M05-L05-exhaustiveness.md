@@ -607,8 +607,8 @@ variant type instead of a string when representing the set
 
 - [ ] Variants are faster.
 - [ ] Variants use less memory.
-- [x] The compiler can prove every `match` on the variant covers all cases, and warns when you add a new case.
-- [ ] You cannot misspell a constructor.
+- [x] The compiler checks that every constructor is handled.
+- [ ] Constructor spelling is checked at compile time, unlike string contents.
 
 **Why:** all four answers have a grain of truth (variants are
 typically a little faster than strings, can be more compact, and

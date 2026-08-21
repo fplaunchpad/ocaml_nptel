@@ -206,8 +206,7 @@ let make_red () : rgb = stack_ { r = 1.0; g = 0.0; b = 0.0 }
 ```
 
 - [ ] Yes: `stack_` records can be returned like any other value.
-- [x] No: the `stack_` record is local to `make_red`'s own region,
-      but the return type `rgb` is global, so it would escape.
+- [x] No: the local record would escape through a global return.
 - [ ] No: `stack_` may only be used on tuples, never on records.
 - [ ] Yes, but only because `rgb` contains floats.
 
@@ -277,9 +276,7 @@ free r2
 ```
 
 - [ ] Yes: `r` and `r2` are two independent references.
-- [x] No: binding `r2 = r` aliases a `@ unique` value, and a value
-      that has been aliased can no longer be passed where `@ unique`
-      is required.
+- [x] No: aliasing `r` makes it no longer unique.
 - [ ] No: `free` may only be called inside the module that defines
       `t`.
 - [ ] Yes: `free` simply runs twice with no complaint.
@@ -370,10 +367,8 @@ let oops () =
 
 - [ ] Yes: `read` does not really consume `t`.
 - [ ] Yes: `close` works on any handle, used or not.
-- [x] No: `read t` consumed `t` and returned a fresh handle, which was
-      discarded with `_`; the later `Handle.close t` reuses the
-      already-consumed `t`.
-- [ ] No: you may never discard a tuple component with `_`.
+- [x] No: `read t` consumed `t`; its replacement was discarded.
+- [ ] No: tuple destructuring may not discard a linear component with `_`.
 
 **Why:** `read : t @ once -> string * t @ once` consumes its argument
 and returns a *new* handle as the second component. Binding that
@@ -398,9 +393,7 @@ let deposit (a @ contended) n = a.balance <- a.balance + n
 ```
 
 - [ ] Yes: writing a `mutable` field is always allowed.
-- [x] No: a `@ contended` value may not have its `mutable` fields
-      written (or even read), because another domain might be
-      accessing them at the same time.
+- [x] No: contended mutable fields cannot be accessed.
 - [ ] No: `account` must be declared `mutable` as a whole.
 - [ ] Yes, as long as `n` is positive.
 
@@ -428,8 +421,7 @@ let make_counter () =
 
 - [ ] Yes: the closure is small and obviously thread-safe.
 - [ ] No: `ref` is not allowed inside any function.
-- [x] No: inside a `@ portable` closure, captured values are treated
-      as `@ contended`, so the mutation `incr r` is rejected.
+- [x] No: captured refs are contended in portable closures.
 - [ ] Yes: `incr` is atomic, so capturing `r` is fine.
 
 **Why:** portability is what makes data-race freedom compositional. A

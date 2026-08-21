@@ -1052,9 +1052,7 @@ let save (p @ local) : unit =
 
 - [ ] `cache` has the wrong type.
 - [ ] `save` should be declared `let save : point @ local -> unit`.
-- [x] `cache` is a long-lived global cell; storing a local value
-      in it would let the local value outlive its region. The
-      compiler refuses the assignment.
+- [x] A local value would escape through the global `cache`.
 - [ ] `p` is immutable, so it cannot be stored.
 
 **Why:** Locality's whole job is to refuse this. `cache` lives at

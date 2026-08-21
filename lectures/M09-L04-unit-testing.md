@@ -483,9 +483,7 @@ Every case in the `Stack` suite begins with
 `let s = Stack.create ()` instead of sharing one stack across
 all cases. What is the main reason?
 
-- [x] Independence: one case's mutations cannot affect another,
-  and the suite's result does not depend on the order cases run
-  in.
+- [x] Fresh stacks keep the test cases independent.
 - [ ] OUnit2 refuses to run a suite that shares state between
   cases.
 - [ ] A fresh stack per case makes the suite run faster.

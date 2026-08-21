@@ -540,8 +540,8 @@ let classify = function
 
 - [ ] The patterns `n` and `n` clash.
 - [ ] The wildcard is missing.
-- [x] The compiler does not reason about arbitrary boolean guards; it cannot prove the two guards together are total.
-- [ ] Order is wrong.
+- [x] Guard conditions do not make a match exhaustive.
+- [ ] The clauses must be ordered from negative to non-negative.
 
 **Why:** every guarded clause is treated as "may fail" by the
 exhaustiveness checker. Even though `n >= 0` and `n < 0` cover

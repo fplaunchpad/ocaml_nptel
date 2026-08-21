@@ -696,7 +696,7 @@ sub-expressions and combine."
 Why does `eval` return `value option` rather than `value`?
 
 - [ ] OCaml functions cannot return non-option values from a `match`.
-- [x] Because some `expr` values are ill-typed at runtime (e.g., `Add (Bool true, Int 1)`), and we have not yet introduced exceptions to signal failure.
+- [x] Because some expressions cannot produce a `value`.
 - [ ] Because every variable lookup might fail, and that is the only failure mode.
 - [ ] It is a style preference; `value` would work just as well.
 
@@ -712,7 +712,7 @@ In the `Add` case, why do we match on the *pair* `(eval env e1, eval
 env e2)` instead of nesting two separate `match`es?
 
 - [ ] It is the only way to compile this in OCaml.
-- [x] Because pattern matching on a tuple lets us examine both sub-results in a single clause, including the `Some (VInt _), Some (VInt _)` joint shape.
+- [x] It handles both sub-results in one pattern.
 - [ ] Because it is faster.
 - [ ] Because nested matches would silently ignore one sub-result.
 

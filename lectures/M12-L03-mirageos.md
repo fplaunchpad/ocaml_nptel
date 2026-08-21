@@ -1055,16 +1055,11 @@ Why is the OCaml-TLS implementation considered "rigorous engineering"
 in a way that conventional TLS libraries typically are not?
 
 - [ ] It runs ten times faster than OpenSSL.
-- [ ] It is written in a much smaller number of lines.
-- [x] The same pure OCaml code drives the server, generates test
-  oracles, and validates against recorded TLS traces; the protocol
-  state machine is encoded in types so invalid transitions are
-  unrepresentable; and today's mirage-crypto stack extracts its
-  elliptic-curve primitives from machine-checked Rocq proofs
-  (Fiat-Crypto).
+- [ ] It implements only modern cipher suites and rejects every legacy TLS record format.
+- [x] Types encode the TLS state machine; tests reuse the implementation.
 - [ ] It is written by a different vendor from OpenSSL.
 
-**Why:** the first two engineering moves are what the USENIX
+**Why:** those two engineering moves are what the USENIX
 Security 2015 paper documents (its crypto provider was `nocrypto`,
 a clean-slate OCaml library); the Rocq-extracted primitives came
 later, in the successor mirage-crypto stack. The result is a stack

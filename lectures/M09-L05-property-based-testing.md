@@ -1135,8 +1135,7 @@ conclusion you can draw about `dedup`?
 
 - [ ] `dedup` is correct.
 - [ ] `dedup` is incorrect; one property is never enough.
-- [x] `dedup` returns lists of length at most the input length;
-  many incorrect implementations also satisfy this property.
+- [x] Many incorrect implementations satisfy this property.
 - [ ] `dedup` returns the correct multiset of elements.
 
 **Why:** the property only states that the output is no longer

@@ -777,9 +777,8 @@ Why does `let memo_fib = memo fib` *not* speed up the recursive
 
 - [ ] `memo` only works on non-recursive functions.
 - [ ] The hashtable cannot hold integer keys.
-- [x] The recursive calls inside `fib`'s body refer to the
-      original `fib`, not the memoized one.
-- [ ] `memo` resets the cache on every call.
+- [x] Its recursive calls still invoke the original `fib`.
+- [ ] The wrapper builds a fresh cache for each recursive call.
 
 **Why:** `fib`'s body says `fib (n - 1) + fib (n - 2)`. Those
 internal `fib`s are bound at definition time to the unmemoized

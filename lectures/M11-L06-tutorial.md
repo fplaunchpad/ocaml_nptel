@@ -624,9 +624,7 @@ What would break if the callback were left at the default
 `many`?
 
 - [ ] Nothing; `many` and `once` are interchangeable here.
-- [x] The body of the bracket could not call any `@ once`
-      function: a `many` callback may not touch `once` values,
-      so reasonable client code would be rejected.
+- [x] A `many` callback cannot call `once` functions.
 - [ ] The handle could escape the callback.
 - [ ] The bracket might run the callback twice.
 
@@ -649,10 +647,8 @@ twice. What stops each?
 
 - [ ] (a) linearity, (b) linearity.
 - [ ] (a) locality, (b) linearity.
-- [x] (a) locality: the handle is `local` and cannot flow into a
-      global `ref`; (b) nothing needs to stop it: `close` is not
-      in the signature, so the program cannot be written.
-- [ ] (a) the bracket, (b) locality.
+- [x] (a) locality; (b) the signature exposes no `close`.
+- [ ] (a) the bracket controls escape; (b) locality controls closing.
 
 **Why:** the stash is a mode error: the handle is `@ local` to
 the callback's region, and a global `ref` cell can only hold

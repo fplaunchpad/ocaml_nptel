@@ -984,7 +984,7 @@ these is the most likely cause?
 
 - [ ] `f` is defined at top level.
 - [ ] `f`'s body contains a side effect.
-- [x] `f` captures a `once`-mode value from its enclosing scope.
+- [x] `f` captured a `once` value.
 - [ ] `f` returns a value of type `unit`.
 
 **Why:** The rule is: a closure's mode on the linearity axis is at

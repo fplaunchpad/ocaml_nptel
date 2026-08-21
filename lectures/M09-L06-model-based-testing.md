@@ -1059,12 +1059,7 @@ catch this?
 
 - [ ] Property-based testing cannot find bugs in tree
   algorithms.
-- [x] With a key space of one million and short command
-  sequences, `Remove k` almost never targets a key that is
-  actually in the tree, so the rebalancing branch is rarely
-  exercised. Restrict the key space to e.g. `int_range 0 20`,
-  or generate `Remove` keys from the set of currently-added
-  keys.
+- [x] The key space makes successful `Remove`s too rare.
 - [ ] The reference implementation must also be a red-black
   tree, otherwise the comparison is meaningless.
 - [ ] `Remove` cannot be tested by model-based PBT; it requires
@@ -1094,12 +1089,7 @@ the *final* state of the two queues after running all commands?
 
 - [ ] OCaml's `=` does not work on mutable state.
 - [ ] Step-by-step is faster.
-- [x] A divergence might happen in the middle of the sequence
-  but be "fixed up" by a later command (e.g. a `Dequeue` that
-  brings the two impls back into agreement by coincidence).
-  Step-by-step equivalence catches the bug at the exact step
-  where it occurred and gives a smaller, more readable
-  counterexample after shrinking.
+- [x] Later commands can hide an earlier divergence.
 - [ ] Final-state comparison is impossible because the queue is
   mutable.
 

@@ -217,15 +217,15 @@ two answer different questions.
 Which of these expressions has type `unit`?
 
 - [ ] `42`
-- [ ] `"hello"`
+- [ ] `fun () -> print_endline "hi"`
 - [x] `print_endline "hi"`
 - [ ] `1 + 1`
 
 **Why:** `unit` is the type of expressions that exist for their side
 effect: their only useful behaviour is what they *do*, not what they
 return. `print_endline` writes its argument to stdout and returns
-`()` (the only value of type `unit`). The other three return values
-of types `int`, `string`, and `int` respectively. Note: it is not
+`()` (the only value of type `unit`). The other three have types
+`int`, `unit -> unit`, and `int` respectively. Note: it is not
 that `42` *cannot* be `unit`; the literal `42` has type `int`,
 period. You cannot "cast" a non-unit value to `unit` (though you
 *can* discard a value with `let _ = ...` or `ignore ...`, which we

@@ -548,10 +548,9 @@ We pattern-match on a GADT inside `eval`. Why is the `type a.
 ...` annotation usually needed?
 
 - [ ] It is required syntax for any function in OCaml.
-- [x] It tells the compiler to treat `a` as locally abstract so
-  that each branch can refine it differently.
+- [x] It lets each branch refine the locally abstract `a`.
 - [ ] It improves performance.
-- [ ] It is only needed when the function is recursive.
+- [ ] It is only needed when the GADT function is recursive and polymorphic.
 
 **Why:** without the annotation, OCaml tries to find a single
 concrete type for `a` and fails because different branches refine
@@ -566,10 +565,8 @@ Why does combining GADTs with the option monad in `eval_safe`
 make sense?
 
 - [ ] The option monad replaces GADTs.
-- [x] GADTs rule out compile-time type errors; the option monad
-  handles genuine runtime failures (like division by zero) that
-  the type system cannot prevent.
-- [ ] Option is required for any GADT function.
+- [x] GADTs enforce types; `option` reports runtime failures.
+- [ ] Every function consuming a GADT must return an `option` result.
 - [ ] The two are interchangeable.
 
 **Why:** the two address different problems. The GADT type system

@@ -370,9 +370,7 @@ Why does `pp_hlist : 'ix tylist -> 'ix hlist -> string list` use
 *the same* type variable `'ix` for both arguments?
 
 - [ ] OCaml requires identical type variables for argument pairs.
-- [x] The shared `'ix` forces the witness list and the hlist to
-  describe the same sequence of element types; a mismatch is a
-  compile error.
+- [x] It makes the witness and value share one type sequence.
 - [ ] It is purely cosmetic.
 - [ ] It makes the function faster.
 

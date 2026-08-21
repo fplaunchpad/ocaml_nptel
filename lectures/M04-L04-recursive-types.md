@@ -956,12 +956,13 @@ Which of these are **valid** values of type `expr`?
 - [x] `Num 0`
 - [x] `Add (Num 1, Num 2)`
 - [x] `Mul (Add (Num 1, Num 2), Num 3)`
-- [ ] `Add (1, 2)`
+- [ ] `Add (Num 1, Mul (Num 2, Num 3), Num 4)`
 
 **Why:** `Num` takes an `int` payload; `Add` and `Mul` take
 payloads that are themselves `expr`s. So `Add` accepts two
 `expr`s, not two `int`s directly. `Add (Num 1, Num 2)` is
-well-typed; `Add (1, 2)` is not. The recursive nesting (`Mul` of
+well-typed; the fourth option incorrectly gives `Add` three
+arguments. The recursive nesting (`Mul` of
 `Add` of `Num`s) is exactly what makes this a *recursive* variant.
 :::
 

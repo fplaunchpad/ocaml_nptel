@@ -623,9 +623,7 @@ let parsed : Config.t = Marshal.from_string raw_bytes 0
 What is the most accurate critique?
 
 - [ ] The type annotation `Config.t` is unnecessary.
-- [x] If the on-disk format ever diverges from the current `Config.t`
-  (across versions), the read succeeds but the value may crash the
-  program on any access. Use a tagged format like JSON.
+- [x] Version drift can create an invalid `Config.t`.
 - [ ] `Marshal.from_string` is slow; prefer `Marshal.from_bytes`.
 - [ ] The offset `0` is wrong.
 
@@ -658,8 +656,7 @@ guaranteed about `finally`?
 
 - [ ] It runs only when `work` returns normally.
 - [ ] It runs only when `work` raises.
-- [x] It runs exactly once: on normal return *and* when `work`
-  raises (after which the exception is re-raised).
+- [x] It runs on both return and exception.
 - [ ] It runs zero times if `work` loops forever.
 
 **Why:** "exactly once, on either exit" is the whole point of
@@ -674,10 +671,7 @@ Why are the GC and finalisers *not* the primary defence against
 file-descriptor leaks, even though `In_channel` installs a finaliser?
 
 - [ ] Finalisers are a recent addition most code has not adopted.
-- [x] The GC runs on *memory* pressure, not *resource* pressure: a
-  program leaking descriptors but few bytes hits "too many open
-  files" before the GC fires; finalisers also run in unspecified
-  order and cannot report cleanup errors.
+- [x] GC timing follows memory pressure, not resource pressure.
 - [ ] Finalisers are unsafe and disabled by default.
 - [ ] Finalisers only work on values that escape their function.
 

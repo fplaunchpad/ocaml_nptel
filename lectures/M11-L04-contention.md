@@ -506,9 +506,7 @@ field is immutable. Can you then write `b.arr.(0) <- 7`?
 
 - [ ] Yes: `arr` is an immutable field, so the array came out
       clean.
-- [x] No: everything inside a contended value is itself
-      contended, so the extracted array is contended and the
-      write is rejected.
+- [x] No: the extracted array remains contended, so writing is rejected.
 - [ ] Yes, but only if no other domain currently holds `b`.
 - [ ] No, because reading `b.arr` was already rejected.
 

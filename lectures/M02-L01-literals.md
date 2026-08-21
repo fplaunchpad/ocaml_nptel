@@ -790,7 +790,7 @@ let _ = 1 + 2.0
 
 - [ ] `float = 3.0` (with an implicit cast)
 - [ ] `int = 3` (the `2.0` is truncated)
-- [x] Type error: `+` expects `int` on both sides; `2.0` is a `float`.
+- [x] Type error: `+` rejects the `float` operand.
 - [ ] Type error: `1` should have been `1.0`.
 
 **Why:** OCaml never inserts implicit conversions between `int`
