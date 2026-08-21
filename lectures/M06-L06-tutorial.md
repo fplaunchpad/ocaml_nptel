@@ -143,7 +143,9 @@ let _ = concat [[1; 2]; [3; 4; 5]; [6]]  (* = [1; 2; 3; 4; 5; 6] *)
 
 - `@` is list-append.
 - Fold over the outer list; append each inner list to the accumulator.
-- `O(n)` in total length, but builds up garbage from intermediate appends.
+- `fold_right` is `O(n)` in total length: each inner list is copied once.
+- `fold_left (fun acc xs -> acc @ xs)` preserves order but is
+  quadratic in the worst case because it repeatedly copies `acc`.
 - For very long inputs, `List.concat` from the standard library is
   more efficient.
 
@@ -151,12 +153,12 @@ let _ = concat [[1; 2]; [3; 4; 5]; [6]]  (* = [1; 2; 3; 4; 5; 6] *)
 
 The operator `@` is list-append. Each inner list is appended to the
 accumulator; the rightmost inner list ends up at the back, the
-leftmost at the front. Note the use of `fold_right` rather than
-`fold_left`: with `fold_left`, the accumulator would build up
-backwards because we would append the *first* inner list last.
-(Try it on paper if it is not obvious why.) `fold_right` walks
-right-to-left, so the leftmost inner list is the last one prepended,
-and ends up at the front of the result.
+leftmost at the front. A left fold can produce the same order:
+`List.fold_left (fun acc xs -> acc @ xs) [] xss`. However, that
+version is quadratic in the worst case: every step copies the entire
+accumulated prefix before appending the next inner list. The
+`fold_right` version is linear in the total number of elements because
+each inner list is copied only once.
 
 The standard library's `List.concat` is similar but optimised for
 the common case.
