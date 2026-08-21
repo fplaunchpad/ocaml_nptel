@@ -177,3 +177,7 @@ the privacy page for the rationale.
 
 Course material distributed under **CC-BY-NC-SA** per the NPTEL
 faculty guidelines.
+
+---
+
+[Index of all lectures](INDEX.md)
