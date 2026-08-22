@@ -327,17 +327,6 @@ let _ = Queue.dequeue q   (* = Some (1, <abstr>) *)
 The [two reasons we hid internals](M07-L07-signatures.html#why-hide-internals),
 applied here.
 
-:::slide
-
-## Why hide the representation?
-
-Two reasons we've seen before:
-
-- **Invariants.** Our queue assumes `front` is the "front in
-  normal order". If callers could touch the record directly, they
-  could violate that. Hiding the representation enforces it.
-- **Change.** If we later switch to a different implementation (a
-  Dynarray, a linked structure), no caller breaks.
 
 :::
 
@@ -356,6 +345,19 @@ ring buffer. As long as the new implementation provides `empty`,
 `is_empty`, `enqueue`, `dequeue` with the same types, no caller
 needs to change. The signature is the contract; we are free to
 change anything below it.
+
+:::slide
+
+## Why hide the representation?
+
+Two reasons we've seen before:
+
+- **Invariants.** Our queue assumes `front` is the "front in
+  normal order". If callers could touch the record directly, they
+  could violate that. Hiding the representation enforces it.
+- **Change.** If we later switch to a different implementation (a
+  Dynarray, a linked structure), no caller breaks.
+
 
 ## Turning it into a functor
 
