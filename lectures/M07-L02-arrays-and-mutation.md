@@ -674,9 +674,10 @@ code, mutate it as you scan the string.
 ```ocaml
 let count_chars s =
   let counts = Array.make 256 0 in
-  String.iter
-    (fun c -> counts.(Char.code c) <- counts.(Char.code c) + 1)
-    s;
+  for i = 0 to String.length s - 1 do
+    let c = String.get s i in
+    counts.(Char.code c) <- counts.(Char.code c) + 1
+  done;
   counts
 
 let _ =
@@ -696,9 +697,10 @@ fixed-size table, incrementing the counter.
 ```ocaml
 let count_chars s =
   let counts = Array.make 256 0 in
-  String.iter
-    (fun c -> counts.(Char.code c) <- counts.(Char.code c) + 1)
-    s;
+  for i = 0 to String.length s - 1 do
+    let c = String.get s i in
+    counts.(Char.code c) <- counts.(Char.code c) + 1
+  done;
   counts
 
 let c = count_chars "hello"
