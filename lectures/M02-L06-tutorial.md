@@ -216,7 +216,7 @@ Result for `2.5`: `string = "standard"` (weight `2.5` falls in the
 is "standard"). The pattern `let cost =
 shipping_cost weight in if cost < ... else ...` is idiomatic:
 when you need to inspect the same value at several thresholds,
-name it once and compare repeatedly. Without the `let`, you would
+name it once and compare repeatedly. Without the `let ... in`, you would
 compute `shipping_cost weight` three times in the if-chain (once
 for each threshold), which is wasteful and clutters the code.
 

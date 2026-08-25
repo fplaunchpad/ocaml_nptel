@@ -129,7 +129,7 @@ OCaml sits at the **mostly static** end.
 **Mostly dynamic** (JavaScript, Python, Ruby). Almost everything is
 checked at runtime. You can write `x + "1"` in Python and find out
 *at execution time* whether it makes sense (it does not, in
-Python 3). Programs work in test until an untested code path runs;
+Python 3, if `x` is anything other than `string`). Programs work in test until an untested code path runs;
 a typo in a method name is a runtime error, not a compile error.
 
 **Some static, mostly dynamic** (C). Types are declared, but the

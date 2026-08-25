@@ -381,7 +381,7 @@ $$
 \end{aligned}
 $$
 
-Each `→` is one application of the `let` evaluation rule (the
+Each $\to$ is one application of the `let` evaluation rule (the
 $e_1 \to v_1$ premise resolves the bound expression; substitution
 delivers the next state).
 
@@ -398,7 +398,7 @@ $$
 \end{aligned}
 $$
 
-Each `→` applies the `let` evaluation rule once: evaluate the
+Each $\to$ applies the `let` evaluation rule once: evaluate the
 bound expression, substitute its value for the name in the body,
 evaluate the result.
 
