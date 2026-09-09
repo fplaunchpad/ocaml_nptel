@@ -408,13 +408,13 @@ Reading the clauses:
   binds the two integers and rebuilds a `VInt`. Anything else
   (a `None`, a `VBool`) collapses to `None`.
 - `If` evaluates the condition, requires it to be `VBool`, and
-  picks the branch. The runtime annotation `ty option` is
-  ignored: it would matter to a *type checker*, not to the
-  interpreter.
+  picks the branch.
 - `Var` delegates to `lookup`.
 - `Let_in` evaluates the bound expression, extends the
   environment, and evaluates the body. The type annotation is
-  again ignored at runtime.
+  again ignored at runtime. The runtime annotation `ty option` is
+  ignored: it would matter to a *type checker*, not to the
+  interpreter.
 
 `eval [] example` returns `Some (VInt 15)`.
 
