@@ -614,19 +614,19 @@ module Queue : QUEUE = struct
     | [], [] -> None
     | x :: rest, _ -> Some (x, { q with front = rest })
     | [], back -> dequeue { front = List.rev back; back = [] }
+  let length q : int = failwith "not implemented"
 end
 
-let queue_length _q : int = failwith "not implemented"
 ```
 
 ```ocaml skip
 let check b m = if not b then failwith m
 let () =
   let q = Queue.empty |> Queue.enqueue 1 |> Queue.enqueue 2 |> Queue.enqueue 3 in
-  check (queue_length q = 3) "three elements";
-  check (queue_length Queue.empty = 0) "empty";
+  check (Queue.length q = 3) "three elements";
+  check (Queue.length Queue.empty = 0) "empty";
   (match Queue.dequeue q with
-   | Some (_, q') -> check (queue_length q' = 2) "after dequeue"
+   | Some (_, q') -> check (Queue.length q' = 2) "after dequeue"
    | None -> failwith "expected non-empty");
   print_endline "all tests passed"
 ```
