@@ -461,10 +461,13 @@ let _ = List.length triples   (* = 11 *)
 A code quiz on the list monad:
 
 :::quiz code id=M08-L02-q1
-Use the list monad to write `divisors_of_each : int list -> int
-list` that returns every pair of integers whose product is in the
-input list, reported as `a * b` to confirm. (For input `[6]`, valid
-pairs include `(1, 6)`, `(2, 3)`, `(3, 2)`, `(6, 1)`.)
+Use the list monad to write
+`divisors_of_each : int list -> (int * int) list`. Assume every
+input integer is positive. For each occurrence of `n` in the input,
+return every ordered pair of positive integers `(a, b)` such that
+`a * b = n`, once each. For example, `[6]` gives
+`[(1, 6); (2, 3); (3, 2); (6, 1)]`. Any output order is accepted;
+repeated inputs should repeat their factor pairs.
 
 ```ocaml
 let ( let* ) xs f = List.concat_map f xs
@@ -475,10 +478,21 @@ let divisors_of_each xs =
 
 ```ocaml skip
 let check b m = if not b then failwith m
+let check_pairs xs expected message =
+  let actual = divisors_of_each xs in
+  check (List.sort compare actual = List.sort compare expected) message
 let () =
-  let r = divisors_of_each [6] in
-  check (List.length r >= 4) "at least four factor pairs of 6";
-  check (List.for_all (fun n -> n = 6) r) "every entry should equal 6";
+  check_pairs [] [] "empty input should give no pairs";
+  check_pairs [1] [(1, 1)] "1 has one positive factor pair";
+  check_pairs [6] [(1, 6); (2, 3); (3, 2); (6, 1)]
+    "return exactly the four ordered factor pairs of 6";
+  check_pairs [7] [(1, 7); (7, 1)] "prime input";
+  check_pairs [4] [(1, 4); (2, 2); (4, 1)]
+    "include the square-root pair exactly once";
+  check_pairs [2; 3] [(1, 2); (2, 1); (1, 3); (3, 1)]
+    "include pairs for every input";
+  check_pairs [2; 2] [(1, 2); (2, 1); (1, 2); (2, 1)]
+    "preserve repeated inputs";
   print_endline "all tests passed"
 ```
 :::
@@ -494,13 +508,14 @@ let divisors_of_each xs =
   let* n = xs in
   let* a = List.init n (fun i -> i + 1) in
   let* b = List.init n (fun i -> i + 1) in
-  if a * b = n then [a * b] else []
+  if a * b = n then [(a, b)] else []
 ```
 
 Three `let*`s, one per dimension of the search: pick an `n` from
 the input, pick `a` and `b` from `1..n`, keep only the pairs whose
-product equals `n`. The list monad makes the nested search read
-like ordinary sequential code.
+product equals `n`, and return each pair as `[(a, b)]`. Returning
+`[a * b]` would lose the factors and merely repeat `n`. The list
+monad makes the nested search read like ordinary sequential code.
 
 :::
 
