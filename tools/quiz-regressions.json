@@ -296,6 +296,17 @@
       {
         "name": "wrong result",
         "code": "let brightness (c @ local) = 0"
+      },
+      {
+        "name": "constant matching original example",
+        "code": "let brightness (c @ local) : int = 2"
+      },
+      {
+        "name": "inclusive brightness threshold",
+        "replace": [
+          " > 0.5",
+          " >= 0.5"
+        ]
       }
     ]
   },
@@ -308,6 +319,17 @@
       {
         "name": "wrong result",
         "code": "let total (xs : int list @ local) = 0"
+      },
+      {
+        "name": "constant matching original example",
+        "code": "let total (xs : int list @ local) : int = 60"
+      },
+      {
+        "name": "sums absolute values",
+        "replace": [
+          "x + total rest",
+          "abs x + total rest"
+        ]
       }
     ]
   },
@@ -322,6 +344,14 @@
       {
         "name": "wrong result",
         "code": "let channel_range (c @ local) : (float * float) @ local = exclave_ (0., 0.)"
+      },
+      {
+        "name": "constant matching original example",
+        "code": "let channel_range (c @ local) : (float * float) @ local = exclave_ (0.25, 0.75)"
+      },
+      {
+        "name": "fixed red and green endpoints",
+        "code": "let channel_range (c @ local) : (float * float) @ local = exclave_ (c.r, c.g)"
       }
     ]
   },

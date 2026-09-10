@@ -67,12 +67,19 @@ let brightness (c @ local) : int =
 ```
 
 ```ocaml skip
-let test () =
-  let c = stack_ { r = 0.9; g = 0.1; b = 0.8 } in
-  let n = brightness c in
-  n
+let test r g b expected =
+  let c = stack_ { r; g; b } in
+  if brightness c <> expected then failwith "incorrect bright count"
 let () =
-  if not (test () = 2) then failwith "expected two bright channels";
+  test 0.0 0.1 0.2 0;
+  test 0.5 0.5 0.5 0;
+  test 0.9 0.5 0.1 1;
+  test 0.1 0.9 0.5 1;
+  test 0.5 0.1 0.9 1;
+  test 0.9 0.1 0.8 2;
+  test 0.9 0.8 0.1 2;
+  test 0.1 0.9 0.8 2;
+  test 0.6 0.7 0.8 3;
   print_endline "all tests passed"
 ```
 :::
@@ -116,12 +123,21 @@ let rec total (xs : int list @ local) : int =
 ```
 
 ```ocaml skip
+let check (xs : int list @ local) expected =
+  if total xs <> expected then failwith "incorrect total"
 let test () =
-  let xs = stack_ [ 10; 20; 30 ] in
-  let s = total xs in
-  s
+  check [] 0;
+  let singleton = stack_ [ 7 ] in
+  check singleton 7;
+  let positive = stack_ [ 10; 20; 30 ] in
+  check positive 60;
+  let mixed = stack_ [ -8; 3; 0; 2 ] in
+  check mixed (-3);
+  let cancelling = stack_ [ 4; -4 ] in
+  check cancelling 0;
+  ()
 let () =
-  if not (test () = 60) then failwith "expected a total of 60";
+  test ();
   print_endline "all tests passed"
 ```
 :::
@@ -170,12 +186,22 @@ let channel_range (c @ local) : (float * float) @ local =
 ```
 
 ```ocaml skip
-let test () =
-  let c = stack_ { r = 0.25; g = 0.75; b = 0.5 } in
+let test r g b expected_lo expected_hi =
+  let c = stack_ { r; g; b } in
   let lo, hi = channel_range c in
-  lo = 0.25 && hi = 0.75
+  if lo <> expected_lo || hi <> expected_hi then
+    failwith "incorrect channel range"
 let () =
-  if not (test ()) then failwith "incorrect channel range";
+  test 0.25 0.75 0.5 0.25 0.75;
+  test 0.25 0.5 0.75 0.25 0.75;
+  test 0.5 0.25 0.75 0.25 0.75;
+  test 0.5 0.75 0.25 0.25 0.75;
+  test 0.75 0.25 0.5 0.25 0.75;
+  test 0.75 0.5 0.25 0.25 0.75;
+  test 0.1 0.9 0.4 0.1 0.9;
+  test 0.5 0.5 0.5 0.5 0.5;
+  test 0.1 0.1 0.9 0.1 0.9;
+  test 1.0 0.0 0.0 0.0 1.0;
   print_endline "all tests passed"
 ```
 :::
