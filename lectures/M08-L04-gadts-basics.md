@@ -374,19 +374,19 @@ its unit.
 
 That Mars Climate Orbiter loss is the motivating example: types can
 make a units mix-up impossible. We tag a `float` with its unit by
-declaring three *uninhabited* types, `kelvin`, `celsius`, and
-`fahrenheit`, that have no values of their own and exist only to sit
-in a type index. Then a GADT `temp` whose constructor picks the
-unit:
+declaring three distinct marker variants, `kelvin`, `celsius`, and
+`fahrenheit`. Their constructors are unused labels: temperatures
+store a `float`, not a marker value. The GADT `temp` picks the unit
+in its type index:
 
 :::slide
 
 ## Units of measure: a typed temperature
 
 ```ocaml
-type kelvin
-type celsius
-type fahrenheit
+type kelvin = Kelvin_unit
+type celsius = Celsius_unit
+type fahrenheit = Fahrenheit_unit
 
 type _ temp =
   | Kelvin     : float -> kelvin temp
@@ -394,8 +394,8 @@ type _ temp =
   | Fahrenheit : float -> fahrenheit temp
 ```
 
-- `kelvin` / `celsius` / `fahrenheit` are empty types used only as
-  *labels* (the index `'a` in `'a temp` is phantom).
+- The three concrete marker types are distinct *labels*.
+  Their constructors are not stored in temperature values.
 - `Kelvin 300. : kelvin temp`, `Celsius 25. : celsius temp`:
   distinct types, though each just holds a `float`.
 
@@ -432,10 +432,11 @@ let _ = add_temp (Kelvin 20.) (Celsius 12.)
 
 :::
 
-This is a *phantom type* encoded with a GADT: the unit lives only in
-the type index, never in the runtime value, yet it is enough for the
-compiler to keep the units apart. Real OCaml code uses exactly this
-pattern for units, currencies, and tagged identifiers.
+The marker constructors are never stored inside a temperature.
+Its `Kelvin`, `Celsius`, or `Fahrenheit` constructor still records
+the unit at runtime; the type index lets the compiler enforce
+matching units before execution. This use of indexed types also
+applies to currencies and tagged identifiers.
 
 ## When to reach for GADTs
 

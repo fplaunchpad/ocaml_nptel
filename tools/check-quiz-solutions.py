@@ -73,7 +73,7 @@ def extract(case):
     return prerequisites, starter, '\n;;\n'.join(references), tests
 
 
-def run_answer(parts, answer):
+def run_answer(parts, answer, oxcaml=False):
     setup, starter, _, tests = parts
     with tempfile.TemporaryDirectory(prefix='quiz-check-') as dirname:
         folder = Path(dirname)
@@ -89,6 +89,8 @@ def run_answer(parts, answer):
 open OUnit2;;
 '''
         commands += '#use ' + json.dumps(str(ROOT / 'lectures/mdx_prelude.ml')) + ';;\n'
+        if oxcaml:
+            commands = ''
         commands += '''#use "setup.ml";;
 print_endline "QUIZ_STARTER_BEGIN";;
 #use "starter.ml";;
@@ -113,11 +115,16 @@ print_endline "QUIZ_ANSWER_END";;
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('ids', nargs='*', help='optional quiz IDs to check')
+    parser.add_argument('--oxcaml', action='store_true',
+                        help='run OxCaml cases under the current OxCaml switch')
     parser.add_argument('--export-browser-fixtures', action='store_true',
                         help='emit source-derived answers for the browser check')
     args = parser.parse_args()
     cases = json.loads((ROOT / 'tools/quiz-regressions.json').read_text())
-    selected = [c for c in cases if not args.ids or c['id'] in args.ids]
+    selected = [c for c in cases
+                if (not args.ids or c['id'] in args.ids)
+                and (args.export_browser_fixtures
+                     or (c.get('runtime') == 'oxcaml') == args.oxcaml)]
     if not selected or set(args.ids) - {c['id'] for c in selected}:
         parser.error('unknown quiz ID')
     failures = []
@@ -141,7 +148,7 @@ def main():
                 for name, answer, expected in answers]))
             continue
         for name, answer, expected in answers:
-            passed, output = run_answer(parts, answer)
+            passed, output = run_answer(parts, answer, oxcaml=args.oxcaml)
             count += 1
             if passed != expected:
                 failures.append(f"{case['id']} / {name}: unexpected verdict\n{output}")

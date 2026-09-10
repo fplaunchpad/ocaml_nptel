@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject a course-wide "longest MCQ option is correct" giveaway.
+"""Require single-choice answers and reject an MCQ answer-length giveaway.
 
 The audit treats an option as longest after removing lightweight
 Markdown punctuation and collapsing whitespace. A question is biased
@@ -58,8 +58,13 @@ def audit(path: Path) -> list[tuple[str, list[int], float]]:
         if current:
             options.append((bool(current[0]), str(current[1])))
 
+        correct_count = sum(is_correct for is_correct, _ in options)
+        if correct_count != 1:
+            raise ValueError(
+                f"{quiz_id}: expected exactly one [x] option, found {correct_count}"
+            )
         if len(options) < 2:
-            continue
+            raise ValueError(f"{quiz_id}: expected at least two options")
         lengths = [option_length(text) for _, text in options]
         correct = [index for index, (is_correct, _) in enumerate(options) if is_correct]
         distractors = [lengths[index] for index in range(len(options)) if index not in correct]
@@ -76,11 +81,25 @@ def audit(path: Path) -> list[tuple[str, list[int], float]]:
 
 def main() -> int:
     question_count = 0
+    invalid: list[str] = []
     findings: list[tuple[Path, str, list[int], float]] = []
     for path in sorted(LECTURES_DIR.glob("M*-L*.md")):
         text = path.read_text()
         question_count += sum(1 for line in text.splitlines() if QUIZ_RE.match(line))
-        findings.extend((path, quiz_id, lengths, ratio) for quiz_id, lengths, ratio in audit(path))
+        try:
+            findings.extend(
+                (path, quiz_id, lengths, ratio)
+                for quiz_id, lengths, ratio in audit(path)
+            )
+        except ValueError as error:
+            invalid.append(f"{path.name}: {error}")
+
+    if invalid:
+        print("Invalid single-choice MCQs:")
+        for error in invalid:
+            print(f"  {error}")
+        return 1
+    print(f"mcq-choices: all {question_count} questions have one correct option")
 
     biased_count = len(findings)
     biased_rate = biased_count / question_count if question_count else 0.0

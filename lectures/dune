@@ -1,6 +1,6 @@
-; Validate the OCaml code in every lecture by running it under
-; ocaml-mdx. Each `ocaml` fenced block in a .md file is compiled
-; and (where applicable) evaluated.
+; Validate labelled, non-skip OCaml code blocks in the files listed
+; below with ocaml-mdx. Plain fences and `ocaml skip` are excluded.
+; M12-L01/L02 have no mdx stanza; M11 uses a separate compiler.
 
 ; Cap the bytecode stack for the mdx runs (the limit is in words).
 ; The browser worker overflows at ~3-10k frames, so lecture demos
@@ -23,7 +23,7 @@
 ; the ox switch, and stanza 1's libraries are not required there.
 ;
 ; Run both with: `dune runtest` (default switch) and
-; `dune build @lectures/runtest` under `opam exec --switch 5.2.0+ox`.
+; `dune build @lectures/runtest` under `opam exec --switch nptel-ox`.
 ;
 ; Stanza 1 (default switch). The libraries are needed by the M09
 ; cells only (the browser pages load them via m09-extras.js);
@@ -112,7 +112,7 @@
 ; Modes, the stdlib Atomic, Domain.Safe). Cells that would need a
 ; library not installed on the ox switch (Portable.Atomic, float#,
 ; Iarray) stay `ocaml skip` and are validated in the browser instead.
-; Run with: opam exec --switch 5.2.0+ox -- dune build @lectures/runtest
+; Run with: opam exec --switch nptel-ox -- dune build @lectures/runtest
 (mdx
  (enabled_if
   (= %{ocaml_version} 5.2.0+ox))

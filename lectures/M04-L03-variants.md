@@ -411,12 +411,19 @@ type shape =
   | Rectangle of float * float
 ```
 
-Which of these are **valid** constructor applications?
+Consider these constructor applications:
 
-- [x] `Circle 3.0`
-- [ ] `Square "5"` (wrong payload type)
-- [x] `Rectangle (4.0, 6.0)`
-- [ ] `Triangle 5.0` (not a constructor of `shape`)
+1. `Circle 3.0`
+2. `Square "5"`
+3. `Rectangle (4.0, 6.0)`
+4. `Triangle 5.0`
+
+Which set contains **all and only** the valid applications?
+
+- [ ] 1 and 2
+- [x] 1 and 3
+- [ ] 2 and 4
+- [ ] 3 and 4
 
 **Why:** each constructor is applied to a payload that matches its
 declared type. `Circle 3.0` and `Rectangle (4.0, 6.0)` are

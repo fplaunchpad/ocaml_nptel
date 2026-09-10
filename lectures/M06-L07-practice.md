@@ -349,8 +349,12 @@ The inner `insert` walks the current buckets and either appends `x`
 to the first bucket whose representative `y` is equivalent to `x`,
 or (if no bucket matches) appends a new singleton bucket at the
 end. The outer `List.fold_left` runs `insert` for each input
-element in turn. This is `O(n*k)` where `k` is the number of
-distinct buckets, which is fine for the problem's intended sizes.
+element in turn. Assuming `p` takes constant time, the worst-case
+cost is `O(n²)`. Even with a single bucket, each `b @ [x]` copies
+all of `b`, for a total of `0 + 1 + ... + (n - 1)` copied cells.
+Searching for a bucket also takes up to `O(k)` per element, where
+`k` is the final number of buckets. This simple implementation is
+fine for the problem's intended sizes.
 
 :::
 

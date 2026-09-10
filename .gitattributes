@@ -1,0 +1,2 @@
+# Unified patch context preserves upstream blank lines and indentation.
+tools/oxcaml-opam/**/files/*.patch -whitespace

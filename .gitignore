@@ -82,3 +82,6 @@ _reviews/
 # Local-only working handoff notes
 HANDOFF-*.md
 _references/m12-slide-images/
+
+# Python audit/test bytecode caches.
+__pycache__/

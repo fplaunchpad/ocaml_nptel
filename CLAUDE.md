@@ -92,13 +92,15 @@ with your question (or surface in chat).
   present in the rebuilt bundle so a regression is caught
   loudly. The OxCaml bundle is rebuilt separately from the
   upstream `build_portable_js_extend.sh` on the OxCaml branch.
-- mdx validation: `dune runtest` covers M01-M09 (see
-  `lectures/dune`: M09 links qcheck/ounit2 and needs
-  `lectures/mdx_prelude.ml`, which de-fangs OUnit2's
-  `run_test_tt_main` argv-parse/exit, plus a capped bytecode
-  stack so Stack_overflow demos trip fast as in the browser).
-  M12 is not covered yet; M11 needs the OxCaml toolchain (the
-  5.2.0+ox switch has an `ocaml-mdx`, untried beyond a probe).
+- mdx validation: `dune runtest` covers labelled, non-skip cells
+  listed in `lectures/dune`: M01-M10 and M12-L03/L04 on the default
+  switch. Plain fences and `ocaml skip` cells are excluded.
+  M09 links qcheck/ounit2 and uses `lectures/mdx_prelude.ml` to
+  control OUnit2 argv parsing and exit. The bytecode stack is
+  capped so Stack_overflow demonstrations terminate promptly.
+  M11 has a separate stanza: run `opam exec --switch nptel-ox --
+  dune build @lectures/runtest`. `run-tests.sh` runs it when the
+  switch is installed and warns when it is missing.
 
 ## Where things live
 

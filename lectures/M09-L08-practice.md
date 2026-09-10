@@ -227,9 +227,16 @@ let prop_insert insert (x, xs) =
 
 Sorting `xs` inside the property turns any random list into a valid
 input, which is cheaper than generating sorted lists directly. The
-conjunction states two independent facts: order is preserved, and no
-element was lost or duplicated. The length check is what catches a
-buggy `insert` that drops `x` on some path.
+conjunction checks sortedness and length. These are necessary but
+incomplete properties: the length check catches an `insert` that
+drops `x`, but it does not establish element preservation. For
+example, `List.init (List.length xs + 1) (fun _ -> x)` satisfies both
+checks while replacing every element with `x`. On `x = 2` and
+`xs = [1; 3]`, it returns `[2; 2; 2]`.
+
+To check preservation too, compare `List.sort compare result` with
+`List.sort compare (x :: sorted)`. The next problem uses this kind
+of stronger oracle for `merge`.
 
 :::
 
@@ -519,10 +526,14 @@ let gen_signed : int QCheck.Gen.t =
 
 ```ocaml skip
 let () =
-  let samples = QCheck.Gen.generate ~n:300 gen_signed in
-  assert (List.exists (fun x -> x < 0) samples);
-  assert (List.exists (fun x -> x = 0) samples);
-  assert (List.exists (fun x -> x > 0) samples);
+  let samples = QCheck.Gen.generate
+    ~rand:(Random.State.make [|42|]) ~n:300 gen_signed in
+  if not (List.exists (fun x -> x < 0) samples) then
+    failwith "generator must produce negative values";
+  if not (List.exists (fun x -> x = 0) samples) then
+    failwith "generator must produce zero";
+  if not (List.exists (fun x -> x > 0) samples) then
+    failwith "generator must produce positive values";
   print_endline "all tests passed"
 ```
 :::
@@ -633,9 +644,13 @@ let prop_counter ops cmds =
 The model is the simplest thing that could possibly track the
 counter's value: a bare `int ref`. `step` applies each command to
 both the real counter and the model, and at the end the two must
-agree. Because QCheck generates *sequences* of commands and shrinks
-failing ones, this single property exercises far more interleavings
-than you would write by hand, and reports the shortest command list
-that breaks the implementation.
+agree. QCheck generates operation sequences, so this property can
+exercise many more combinations than a few hand-written examples.
+These are sequential operations, not concurrent interleavings.
+
+Here `gen_cmds` uses `QCheck.make` with only a generator: it has no
+counterexample printer or shrinker. Adding `~print` and `~shrink`
+would let QCheck display command sequences and seek a smaller
+failing example, without guaranteeing a globally shortest one.
 
 :::

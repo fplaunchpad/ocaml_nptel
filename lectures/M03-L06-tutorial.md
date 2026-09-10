@@ -384,16 +384,16 @@ let _ = count_digits (-12345)  (* = 1, wrong! *)
 ```ocaml
 let count_digits n =
   let rec go n =
-    if n < 10 then 1
+    if -10 < n && n < 10 then 1
     else 1 + go (n / 10)
   in
-  go (abs n)
+  go n
 
 let _ = count_digits (-12345)  (* = 5 *)
 ```
 
-- Outer wrapper strips the sign with `abs`.
-- Local `go` only ever sees `n >= 0`; the base case behaves.
+- Local `go` accepts both signs, including `min_int`.
+- Division by ten moves toward zero without negating the input.
 
 :::
 
@@ -401,27 +401,32 @@ The recursion strips one digit per step. The base case
 is "a single-digit number" (`n < 10`), which catches both `0`
 through `9` and recursive calls when the remaining `n` is below 10.
 
-A subtle bug: negative inputs do not terminate cleanly. OCaml's `/`
-truncates toward zero, so `(-12345) / 10` is `-1234` (not `-1235`).
-The base test `n < 10` is true for all negatives, so the recursion
-returns immediately with `1`, which is wrong. Even worse, with a
-different base test like `n = 0`, you would get an infinite
-recursion. The defensive version uses `abs`:
+A subtle bug: the base test `n < 10` is true for all negatives, so
+`count_digits (-12345)` returns immediately with `1`. OCaml's `/`
+truncates toward zero: repeated division gives `-12345`, `-1234`,
+`-123`, `-12`, `-1`, then `0`. A base test of `n = 0` would therefore
+terminate too, but would need care to count zero as one digit.
+
+Using `abs` at entry is not a complete fix: `abs min_int = min_int`
+because the positive counterpart does not fit in an `int`. Instead,
+recognise single-digit values of either sign without negation:
 
 ```ocaml
 let count_digits n =
   let rec go n =
-    if n < 10 then 1
+    if -10 < n && n < 10 then 1
     else 1 + go (n / 10)
   in
-  go (abs n)
+  go n
 ```
 
-This strips the sign at the outermost call; the helper `go` only
-ever sees non-negative inputs. The pattern (a defensive outer
-function plus a local helper that handles only the well-behaved
-case) is one we will see again. The helper is local because nobody
-outside `count_digits` needs it; the outer function is the API.
+The helper `go` handles both signs, including `min_int`, because it
+only divides the input. The wrapper keeps the recursive helper
+local; `count_digits` is the public name. Here the wrapper is
+optional: the same base case works in a direct recursive function.
+
+For example, `count_digits (-10)` is `2`, and `count_digits min_int`
+is `19` on a 64-bit OCaml runtime (`10` on a 32-bit runtime).
 
 Note that `count_digits 0` returns `1`, which matches the convention
 that the integer `0` has one digit (the digit `0`). If you wanted a

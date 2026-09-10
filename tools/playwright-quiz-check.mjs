@@ -4,7 +4,7 @@
 import { chromium } from 'playwright';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { withQuizTimeoutRetry } from './quiz-verdict.mjs';
+import { checkQuizVerdict } from './quiz-verdict.mjs';
 
 const checker = fileURLToPath(new URL('./check-quiz-solutions.py', import.meta.url));
 const fixtures = JSON.parse(execFileSync('python3', [checker, '--export-browser-fixtures', ...process.argv.slice(3)], {
@@ -29,24 +29,25 @@ try {
       await quiz.locator('x-ocaml:not([data-quiz-test])').evaluate((cell, source) => {
         cell.textContent = source;
       }, answer.source);
-      const verdict = await withQuizTimeoutRetry(async () => {
-        await quiz.locator('.quiz-check').click();
-        await page.waitForFunction(id => {
-          const status = document.querySelector(`[data-quiz-id="${id}"] .quiz-status`);
-          return status && !status.classList.contains('running');
-        }, id, { timeout: 30_000 });
-        const status = quiz.locator('.quiz-status');
-        return {
-          classes: await status.getAttribute('class'),
-          text: await status.textContent(),
-        };
-      }, () => console.log(`retrying ${fixture.id} / ${answer.name}: timed out`));
       const expected = answer.passed ? 'pass' : 'fail';
-      if (!verdict.classes.split(/\s+/).includes(expected)) {
+      try {
+        await checkQuizVerdict(async () => {
+          await quiz.locator('.quiz-check').click();
+          await page.waitForFunction(id => {
+            const status = document.querySelector(`[data-quiz-id="${id}"] .quiz-status`);
+            return status && !status.classList.contains('running');
+          }, id, { timeout: 30_000 });
+          const status = quiz.locator('.quiz-status');
+          return {
+            classes: await status.getAttribute('class'),
+            text: await status.textContent(),
+          };
+        }, expected, () => console.log(`retrying ${fixture.id} / ${answer.name}: timed out`));
+      } catch (error) {
         const output = await quiz.locator('[data-quiz-test]').evaluate(cell =>
           [...cell.shadowRoot.querySelectorAll('.caml_meta, .caml_stdout, .caml_stderr')]
             .map(node => node.textContent).join('\n'));
-        throw new Error(`${fixture.id} / ${answer.name}: expected ${expected}, got ${verdict.text}\n${output}`);
+        throw new Error(`${fixture.id} / ${answer.name}: ${error.message}\n${output}`);
       }
     }
     for (const answer of fixture.answers) {

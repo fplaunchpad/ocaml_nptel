@@ -951,17 +951,24 @@ type expr =
   | Mul of expr * expr
 ```
 
-Which of these are **valid** values of type `expr`?
+Consider these expressions:
 
-- [x] `Num 0`
-- [x] `Add (Num 1, Num 2)`
-- [x] `Mul (Add (Num 1, Num 2), Num 3)`
-- [ ] `Add (Num 1, Mul (Num 2, Num 3), Num 4)`
+1. `Num 0`
+2. `Add (Num 1, Num 2)`
+3. `Mul (Add (Num 1, Num 2), Num 3)`
+4. `Add (Num 1, Mul (Num 2, Num 3), Num 4)`
+
+Which set contains **all and only** the valid values of type `expr`?
+
+- [ ] 1, 2, and 4
+- [ ] 1, 3, and 4
+- [x] 1, 2, and 3
+- [ ] 2, 3, and 4
 
 **Why:** `Num` takes an `int` payload; `Add` and `Mul` take
 payloads that are themselves `expr`s. So `Add` accepts two
 `expr`s, not two `int`s directly. `Add (Num 1, Num 2)` is
-well-typed; the fourth option incorrectly gives `Add` three
+well-typed; expression 4 incorrectly gives `Add` three
 arguments. The recursive nesting (`Mul` of
 `Add` of `Num`s) is exactly what makes this a *recursive* variant.
 :::

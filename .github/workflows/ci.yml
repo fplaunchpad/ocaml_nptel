@@ -51,8 +51,14 @@ jobs:
           ocaml-compiler: 5.4.0
           dune-cache: true
 
+      - name: Check MCQ authoring
+        run: |
+          python3 tools/course-inventory.py
+          python3 tools/audit-mcq-length.py
+          python3 -m unittest discover -s tools -p 'test_audit_mcq.py'
+
       - name: Install OCaml deps
-        run: opam install -y cmarkit fpath alcotest mdx ounit2 qcheck
+        run: opam install . --deps-only --with-test -y
 
       - name: Build
         run: opam exec -- dune build tools/nptel-build/bin/main.exe

@@ -3,7 +3,7 @@ opam-version: "2.0"
 synopsis:
   "Functional Programming with OCaml: NPTEL lecture sources and toolchain"
 description:
-  "Lecture sources, the static-site toolchain, and the in-browser OCaml/OxCaml notebooks for the NPTEL course 'Functional Programming with OCaml'. This package declares only the leaf dependencies needed to validate the lecture code blocks under ocaml-mdx."
+  "Lecture sources, the static-site toolchain, and the in-browser OCaml/OxCaml notebooks for the NPTEL course 'Functional Programming with OCaml'. This package declares the site-builder dependencies and the test dependencies needed to validate lecture code and the toolchain."
 maintainer: ["KC Sivaramakrishnan <kc@kcsrk.info>"]
 authors: ["KC Sivaramakrishnan"]
 license: "ISC"
@@ -12,10 +12,13 @@ bug-reports: "https://github.com/fplaunchpad/ocaml_nptel/issues"
 depends: [
   "dune" {>= "3.17"}
   "ocaml" {>= "5.4.0"}
-  "mdx" {>= "2.4"}
-  "qcheck"
-  "qcheck-core"
-  "ounit2"
+  "cmarkit"
+  "fpath"
+  "alcotest" {with-test}
+  "mdx" {with-test & >= "2.4"}
+  "qcheck" {with-test & >= "0.90"}
+  "qcheck-core" {with-test & >= "0.90"}
+  "ounit2" {with-test}
   "odoc" {with-doc}
 ]
 build: [

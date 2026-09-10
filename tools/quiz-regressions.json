@@ -265,5 +265,78 @@
         "code": "let safe_sub b pos len = if pos < 0 || len < 0 || pos + len > Bytes.length b then None else Some (Bytes.sub b pos len)"
       }
     ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q7",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "constant -1",
+        "code": "let gen_signed = QCheck.Gen.return (-1)"
+      },
+      {
+        "name": "constant 0",
+        "code": "let gen_signed = QCheck.Gen.return (0)"
+      },
+      {
+        "name": "constant 1",
+        "code": "let gen_signed = QCheck.Gen.return (1)"
+      }
+    ]
+  },
+  {
+    "file": "M11-L07-practice.md",
+    "id": "M11-L07-q1",
+    "runtime": "oxcaml",
+    "setup": [
+      "type rgb ="
+    ],
+    "mutants": [
+      {
+        "name": "wrong result",
+        "code": "let brightness (c @ local) = 0"
+      }
+    ]
+  },
+  {
+    "file": "M11-L07-practice.md",
+    "id": "M11-L07-q2",
+    "runtime": "oxcaml",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "wrong result",
+        "code": "let total (xs : int list @ local) = 0"
+      }
+    ]
+  },
+  {
+    "file": "M11-L07-practice.md",
+    "id": "M11-L07-q3",
+    "runtime": "oxcaml",
+    "setup": [
+      "type rgb ="
+    ],
+    "mutants": [
+      {
+        "name": "wrong result",
+        "code": "let channel_range (c @ local) : (float * float) @ local = exclave_ (0., 0.)"
+      }
+    ]
+  },
+  {
+    "file": "M11-L07-practice.md",
+    "id": "M11-L07-q7",
+    "runtime": "oxcaml",
+    "setup": [
+      "module Handle : sig"
+    ],
+    "mutants": [
+      {
+        "name": "wrong result",
+        "code": "let echo () = \"\""
+      }
+    ]
   }
 ]

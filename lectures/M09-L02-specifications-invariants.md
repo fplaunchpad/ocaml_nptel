@@ -646,8 +646,9 @@ expect.
 The alternative is to *strengthen* the RI to demand a canonical
 form: the fraction is always in lowest terms, and the
 denominator is always positive. Two helpers do the work. `norm`
-maps any pair with a nonzero denominator to its canonical
-representative; `canon_ok` is this representation's `rep_ok`,
+maps a pair with a nonzero denominator to its canonical
+representative, provided the intermediate integer calculations fit;
+`canon_ok` is this representation's `rep_ok`,
 written outside the module so it fits beside `norm` on one
 slide:
 
@@ -675,6 +676,14 @@ let _ = norm (1, -2)  (* = (-1, 2) *)
 - `canon_ok` is `rep_ok` for the new, stronger invariant.
 
 :::
+
+These teaching implementations use machine `int`s. Their arithmetic
+specifications assume all inputs and intermediate calculations fit,
+including the absolute values and sign changes in `norm`. For
+example, `norm (1, min_int)` overflows when negating the denominator;
+it remains negative, and `canon_ok` rejects it. Normalisation cannot
+repair overflow. Unrestricted rational arithmetic would require
+arbitrary-precision integers.
 
 The module itself then pipes every producer through
 `canon_ok (norm ...)`:
@@ -709,6 +718,22 @@ let c = Rational_canon.make 2 4
 let _ = Rational_canon.to_string c  (* = "1/2" *)
 let _ = Rational_canon.equal (Rational_canon.make 1 2) c  (* = true *)
 ```
+
+:::slide
+
+## A valid representation can still hold the wrong answer
+
+- `max_int/1 + 1/1` wraps to `min_int/1` in this implementation.
+- `canon_ok` accepts it: the denominator is positive and coprime.
+- The RI checks representation validity, not arithmetic correctness.
+- The specification assumes intermediate calculations fit in `int`.
+
+:::
+
+For example, adding `Rational_canon.make max_int 1` and
+`Rational_canon.make 1 1` produces `min_int/1`. It satisfies the RI,
+but is mathematically wrong. This call violates our no-overflow
+assumption; the invariant check alone cannot detect that violation.
 
 Look at what moved. The work migrated into `norm`, which every
 producer now calls; in exchange, `equal` collapsed to the

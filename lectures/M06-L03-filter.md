@@ -470,19 +470,27 @@ specialised type `int list -> int list`. Note the predicate is
 :::
 
 :::quiz mcq id=M06-L03-q2
-Which of these are equivalent to `List.filter p xs`?
+Consider these expressions:
 
-- [x] `List.filter_map (fun x -> if p x then Some x else None) xs`
-- [ ] `List.map (fun x -> if p x then x else failwith "filtered") xs`
-- [x] `fst (List.partition p xs)`
-- [ ] `List.find p xs`
+1. `List.filter_map (fun x -> if p x then Some x else None) xs`
+2. `List.map (fun x -> if p x then x else failwith "filtered") xs`
+3. `fst (List.partition p xs)`
+4. `List.find p xs`
 
-**Why:** the first option turns the predicate into a "return Some
+Which set contains **all and only** the expressions equivalent to
+`List.filter p xs`?
+
+- [x] 1 and 3
+- [ ] 1 and 2
+- [ ] 2 and 4
+- [ ] 3 and 4
+
+**Why:** expression 1 turns the predicate into a "return Some
 x if it passes, None otherwise" function and uses `filter_map`, so
-yes. The third option uses `partition` and takes the "passed" half,
-also equivalent. The second option maps every element and raises
+yes. Expression 3 uses `partition` and takes the "passed" half,
+also equivalent. Expression 2 maps every element and raises
 on the first rejected one; it does not return the filtered list.
-The fourth option (`List.find`)
+Expression 4 (`List.find`)
 returns the *first* matching element (or raises), not the whole
 sublist.
 :::

@@ -71,7 +71,9 @@ let test () =
   let c = stack_ { r = 0.9; g = 0.1; b = 0.8 } in
   let n = brightness c in
   n
-let () = assert (test () = 2); print_endline "all tests passed"
+let () =
+  if not (test () = 2) then failwith "expected two bright channels";
+  print_endline "all tests passed"
 ```
 :::
 
@@ -118,7 +120,9 @@ let test () =
   let xs = stack_ [ 10; 20; 30 ] in
   let s = total xs in
   s
-let () = assert (test () = 60); print_endline "all tests passed"
+let () =
+  if not (test () = 60) then failwith "expected a total of 60";
+  print_endline "all tests passed"
 ```
 :::
 
@@ -170,7 +174,9 @@ let test () =
   let c = stack_ { r = 0.25; g = 0.75; b = 0.5 } in
   let lo, hi = channel_range c in
   lo = 0.25 && hi = 0.75
-let () = assert (test ()); print_endline "all tests passed"
+let () =
+  if not (test ()) then failwith "incorrect channel range";
+  print_endline "all tests passed"
 ```
 :::
 
@@ -326,7 +332,9 @@ let echo () : string =
 ```
 
 ```ocaml skip
-let () = assert (echo () = "hello"); print_endline "all tests passed"
+let () =
+  if not (echo () = "hello") then failwith "expected hello";
+  print_endline "all tests passed"
 ```
 :::
 

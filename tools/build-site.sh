@@ -30,6 +30,9 @@ if [ -z "${NPTEL_COMMIT_SHA:-}" ]; then
 fi
 export NPTEL_COMMIT_SHA
 
+# The radio-button UI requires exactly one correct answer per MCQ.
+python3 "$SCRIPT_DIR/audit-mcq-length.py"
+
 (cd "$REPO_ROOT" && opam exec -- dune build tools/nptel-build/bin/main.exe >/dev/null)
 
 if [ $# -eq 0 ]; then

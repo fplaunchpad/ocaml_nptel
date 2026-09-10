@@ -5,7 +5,7 @@
 #                                    mode: chapter walks function
 #                                    through, activity asks
 #                                    student to recreate it)
-#   2. tools/audit-mcq-length.py   -- prevent longest-answer MCQ bias
+#   2. tools/audit-mcq-length.py   -- single-choice validity + answer-length bias
 #   3. KC-comment sweep            -- any unresolved silent-fix
 #                                    or blocker comments KC drops
 #                                    in lecture markdown. KC! and
@@ -14,11 +14,12 @@
 #                                    anchors, asset refs
 #   5. dune runtest                -- mdx code blocks compile
 #                                    (default switch for M01-M10/M12,
-#                                    plus a 5.2.0+ox pass for M11)
+#                                    plus a separate OxCaml pass for M11)
 #      check-quiz-solutions.py      -- references + regression answers
 #   6. tools/build-site.sh         -- rebuild + smoke pages
 #   7. tools/playwright-check.mjs  -- end-to-end browser test
 #      test-quiz-verdict.mjs       -- bounded timeout retry checks
+#      playwright-mcq-check.mjs    -- repaired single-choice questions
 #      playwright-quiz-check.mjs   -- quiz verdicts + edit recovery
 #   8. playwright VM boot          -- M01-L01 embed: boot + run hello
 #   9. dashboard smoke             -- dashboard renders against the
@@ -41,9 +42,11 @@ bold()  { printf '\033[1m%s\033[0m\n' "$*"; }
 
 bold '[1/10] activity-fresh-code audit'
 python3 tools/audit-activities.py
+python3 tools/course-inventory.py
 
-bold '[2/10] MCQ answer-length audit'
+bold '[2/10] MCQ answer cardinality and length audit'
 python3 tools/audit-mcq-length.py
+python3 -m unittest discover -s tools -p 'test_audit_mcq.py'
 
 bold '[3/10] KC-comment sweep'
 # `KC:` (silent fix) is allowed to linger; `KC?:` and `KC!:` are
@@ -76,9 +79,16 @@ opam exec -- python3 tools/check-quiz-solutions.py
 # The non-M11 stanza is gated off there, so this checks just the M11
 # cells (and does not rebuild nptel-build on the ox switch). Skipped
 # with a warning if the switch is not installed.
-OX_SWITCH=5.2.0+ox
+if [ -z "${OX_SWITCH:-}" ]; then
+  OX_SWITCH=nptel-ox
+  if ! opam switch list -s 2>/dev/null | grep -Fxq "$OX_SWITCH" &&
+     opam switch list -s 2>/dev/null | grep -Fxq '5.2.0+ox'; then
+    OX_SWITCH=5.2.0+ox
+  fi
+fi
 if opam switch list -s 2>/dev/null | grep -qx "$OX_SWITCH"; then
   opam exec --switch "$OX_SWITCH" -- dune build @lectures/runtest
+  opam exec --switch "$OX_SWITCH" -- python3 tools/check-quiz-solutions.py --oxcaml
 else
   red "  ($OX_SWITCH switch not found; skipping M11 mdx validation)"
 fi
@@ -125,6 +135,7 @@ fi
 SMOKE_URL="http://localhost:$PORT/_site/test/smoke.html"
 
 node "$SCRIPT_DIR/playwright-check.mjs" "$SMOKE_URL"
+node "$SCRIPT_DIR/playwright-mcq-check.mjs" "http://localhost:$PORT/_site"
 node --test "$SCRIPT_DIR/test-quiz-verdict.mjs"
 node "$SCRIPT_DIR/playwright-quiz-check.mjs" "http://localhost:$PORT/_site"
 
