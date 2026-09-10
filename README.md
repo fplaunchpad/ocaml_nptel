@@ -122,6 +122,20 @@ Playwright end-to-end check that loads the smoke fixture in a real
 browser, exercises slide navigation, run-all / clear-all / reset,
 quiz interactivity, and verifies no console errors.
 
+The quiz regression check runs the references, unfinished starters, and
+known incorrect answers for the quizzes listed in
+`tools/quiz-regressions.json`, using the actual lecture assertion cells.
+Each answer gets a fresh OCaml toplevel. CI and deployment run it with
+`opam exec -- python3 tools/check-quiz-solutions.py`; this supplements
+MDX, which skips the quiz assertion cells. It does not yet cover every
+quiz in the course. Add prerequisite fence anchors and counterexamples
+to the manifest when extending coverage.
+
+`tools/run-tests.sh` also checks those answers through the browser's
+**Check** button. A reported timeout is retried once in the same
+browser context. To run just that check against a local build:
+`node tools/playwright-quiz-check.mjs http://localhost:8765/_site`.
+
 ## Hosting
 
 `.github/workflows/pages.yml` deploys `_site/` to GitHub Pages on

@@ -59,3 +59,6 @@ jobs:
 
       - name: Run unit + integration tests
         run: opam exec -- dune runtest
+
+      - name: Check quiz references and regression answers
+        run: opam exec -- python3 tools/check-quiz-solutions.py

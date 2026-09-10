@@ -15,8 +15,11 @@
 #   5. dune runtest                -- mdx code blocks compile
 #                                    (default switch for M01-M10/M12,
 #                                    plus a 5.2.0+ox pass for M11)
+#      check-quiz-solutions.py      -- references + regression answers
 #   6. tools/build-site.sh         -- rebuild + smoke pages
 #   7. tools/playwright-check.mjs  -- end-to-end browser test
+#      test-quiz-verdict.mjs       -- bounded timeout retry checks
+#      playwright-quiz-check.mjs   -- quiz verdicts + edit recovery
 #   8. playwright VM boot          -- M01-L01 embed: boot + run hello
 #   9. dashboard smoke             -- dashboard renders against the
 #                                    live worker (skipped offline)
@@ -64,10 +67,11 @@ fi
 bold '[4/10] link + anchor check'
 python3 tools/check-links.py
 
-bold '[5/10] dune runtest (mdx + OCaml tests)'
+bold '[5/10] mdx, OCaml tests, and quiz regression answers'
 # Pass 1 (default switch): validates M01-M10 and M12. The M11 stanza
 # in lectures/dune is gated off here (it needs the OxCaml compiler).
 opam exec -- dune runtest
+opam exec -- python3 tools/check-quiz-solutions.py
 # Pass 2 (OxCaml switch): M11 mode syntax compiles only on 5.2.0+ox.
 # The non-M11 stanza is gated off there, so this checks just the M11
 # cells (and does not rebuild nptel-build on the ox switch). Skipped
@@ -121,6 +125,8 @@ fi
 SMOKE_URL="http://localhost:$PORT/_site/test/smoke.html"
 
 node "$SCRIPT_DIR/playwright-check.mjs" "$SMOKE_URL"
+node --test "$SCRIPT_DIR/test-quiz-verdict.mjs"
+node "$SCRIPT_DIR/playwright-quiz-check.mjs" "http://localhost:$PORT/_site"
 
 bold '[8/10] playwright VM boot (M01-L01 embed)'
 # Boot the dune VM embedded in M01-L01 (:::vm-terminal dir=/root/hello)

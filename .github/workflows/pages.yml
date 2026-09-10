@@ -47,6 +47,9 @@ jobs:
       - name: Run unit + integration tests (sanity)
         run: opam exec -- dune runtest
 
+      - name: Check quiz references and regression answers
+        run: opam exec -- python3 tools/check-quiz-solutions.py
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

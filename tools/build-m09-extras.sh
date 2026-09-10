@@ -68,11 +68,14 @@ ocamlfind ocamlc -g \
 # 2. List the units that should remain visible to the toplevel after
 #    cross-cma DCE. Pass the cmis directly because the patched
 #    jsoo_listunits doesn't resolve findlib package names in this switch.
+#    OUnitTest exposes the suite traversal/counting used by quiz graders;
+#    exporting it also makes its interface available to the browser toplevel.
 $JSOO_LISTUNITS -o "$workdir/units.txt" \
   "$QC/qCheck.cmi" "$QC/qCheck2.cmi" \
   "$QCR/qCheck_base_runner.cmi" \
   "$QCFULL/qCheck_runner.cmi" \
-  "$OU/oUnit.cmi"  "$OU/oUnit2.cmi"
+  "$OU/oUnit.cmi"  "$OU/oUnit2.cmi" \
+  "$OU/advanced/oUnitTest.cmi"
 
 # 3. Build the extension bundle.
 #

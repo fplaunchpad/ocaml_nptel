@@ -1,0 +1,269 @@
+[
+  {
+    "file": "M04-L03-variants.md",
+    "id": "M04-L03-q1",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "integers instead of constructors",
+        "code": "type http_response = int\nlet example_success=0\nlet example_redirect=1\nlet example_error=2"
+      }
+    ]
+  },
+  {
+    "file": "M05-L07-practice.md",
+    "id": "M05-L07-q6",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "first pair only",
+        "code": "let is_sorted = function x :: y :: _ -> x <= y | _ -> true"
+      }
+    ]
+  },
+  {
+    "file": "M07-L07-signatures.md",
+    "id": "M07-L07-q1",
+    "setup": [],
+    "mutants": []
+  },
+  {
+    "file": "M07-L09-tutorial.md",
+    "id": "M07-L09-q1",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "external helper only",
+        "code": "let rec queue_length q = match Queue.dequeue q with None -> 0 | Some (_,q') -> 1+queue_length q'"
+      },
+      {
+        "name": "counts only front",
+        "replace": [
+          "List.length q.front + List.length q.back",
+          "List.length q.front"
+        ]
+      }
+    ]
+  },
+  {
+    "file": "M07-L10-practice.md",
+    "id": "M07-L10-q8",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "constant float",
+        "replace": [
+          "let string_of_t = string_of_float",
+          "let string_of_t (_ : float) = \"0.\""
+        ]
+      }
+    ]
+  },
+  {
+    "file": "M08-L02-laws-list-result.md",
+    "id": "M08-L02-q1",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "products instead of pairs",
+        "replace": [
+          "[(a, b)]",
+          "[a * b]"
+        ]
+      },
+      {
+        "name": "missing reverse pairs",
+        "replace": [
+          "if a * b = n",
+          "if a <= b && a * b = n"
+        ]
+      },
+      {
+        "name": "extra pairs",
+        "replace": [
+          "[(a, b)]",
+          "[(a, b); (a, b)]"
+        ]
+      }
+    ]
+  },
+  {
+    "file": "M08-L08-practice.md",
+    "id": "M08-L08-q1",
+    "setup": [
+      "module type FHEAP = sig",
+      "module type MONAD = sig"
+    ],
+    "mutants": [
+      {
+        "name": "all allocations alias",
+        "replace": [
+          "(c + 1, FHeap.set h c v, c)",
+          "(c, FHeap.set h 0 v, 0)"
+        ]
+      }
+    ]
+  },
+  {
+    "file": "M09-L04-unit-testing.md",
+    "id": "M09-L04-q2",
+    "setup": [
+      "module Stack = struct"
+    ],
+    "mutants": [
+      {
+        "name": "empty suite",
+        "code": "let suite _ = OUnit2.(\"stack\" >::: [])"
+      },
+      {
+        "name": "no assertion",
+        "code": "let suite pop = OUnit2.(\"stack\" >::: [\"no assertion\" >:: (fun _ -> let s=Stack.create () in Stack.push 7 s; ignore (pop s))])"
+      }
+    ]
+  },
+  {
+    "file": "M09-L05-property-based-testing.md",
+    "id": "M09-L05-q3",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "constant true",
+        "code": "let test_concat_empty_right _ = QCheck.Test.make QCheck.(list int) (fun _ -> true)"
+      },
+      {
+        "name": "always raises",
+        "code": "let test_concat_empty_right _ = QCheck.Test.make QCheck.(list int) (fun _ -> failwith \"broken\")"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q1",
+    "setup": [
+      "let clamp lo hi x ="
+    ],
+    "mutants": [
+      {
+        "name": "constant true",
+        "code": "let prop_clamp _ _ = true"
+      },
+      {
+        "name": "constant false",
+        "code": "let prop_clamp _ _ = false"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q2",
+    "setup": [
+      "let rec gcd a b ="
+    ],
+    "mutants": [
+      {
+        "name": "constant true",
+        "code": "let prop_gcd_divides _ _ = true"
+      },
+      {
+        "name": "constant false",
+        "code": "let prop_gcd_divides _ _ = false"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q3",
+    "setup": [
+      "let rec insert x l ="
+    ],
+    "mutants": [
+      {
+        "name": "constant true",
+        "code": "let prop_insert _ _ = true"
+      },
+      {
+        "name": "constant false",
+        "code": "let prop_insert _ _ = false"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q4",
+    "setup": [
+      "let rec merge xs ys ="
+    ],
+    "mutants": [
+      {
+        "name": "constant true",
+        "code": "let prop_merge _ _ = true"
+      },
+      {
+        "name": "constant false",
+        "code": "let prop_merge _ _ = false"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q8",
+    "setup": [
+      "module Counter = struct"
+    ],
+    "mutants": [
+      {
+        "name": "constant true",
+        "code": "let prop_counter _ _ = true"
+      },
+      {
+        "name": "constant false",
+        "code": "let prop_counter _ _ = false"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q5",
+    "setup": [
+      "let to_binary n ="
+    ],
+    "mutants": [
+      {
+        "name": "empty suite",
+        "code": "let suite_binary _ = OUnit2.(\"empty\" >::: [])"
+      },
+      {
+        "name": "no assertions",
+        "code": "let suite_binary _ = OUnit2.(\"empty\" >::: List.init 5 (fun _ -> \"noop\" >:: (fun _ -> ())))"
+      }
+    ]
+  },
+  {
+    "file": "M09-L08-practice.md",
+    "id": "M09-L08-q6",
+    "setup": [
+      "let clamp lo hi x ="
+    ],
+    "mutants": [
+      {
+        "name": "empty suite",
+        "code": "let suite_clamp _ = OUnit2.(\"empty\" >::: [])"
+      },
+      {
+        "name": "no assertions",
+        "code": "let suite_clamp _ = OUnit2.(\"empty\" >::: List.init 5 (fun _ -> \"noop\" >:: (fun _ -> ())))"
+      }
+    ]
+  },
+  {
+    "file": "M10-L05-tutorial.md",
+    "id": "M10-L05-q3",
+    "setup": [],
+    "mutants": [
+      {
+        "name": "overflowing bounds check",
+        "code": "let safe_sub b pos len = if pos < 0 || len < 0 || pos + len > Bytes.length b then None else Some (Bytes.sub b pos len)"
+      }
+    ]
+  }
+]

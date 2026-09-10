@@ -1083,6 +1083,8 @@ let runtime_script ~asset_root =
                 });
               }
             } else {
+              // tools/quiz-verdict.mjs recognizes this exact timeout text.
+              // Update its retry check and tests if this wording changes.
               status.textContent = 'Timed out';
               status.className = 'quiz-status fail';
             }
