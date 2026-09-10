@@ -501,7 +501,7 @@ let () =
 
 Reference solution:
 
-```
+```ocaml
 let ( let* ) xs f = List.concat_map f xs
 
 let divisors_of_each xs =
@@ -509,6 +509,8 @@ let divisors_of_each xs =
   let* a = List.init n (fun i -> i + 1) in
   let* b = List.init n (fun i -> i + 1) in
   if a * b = n then [(a, b)] else []
+
+let example = divisors_of_each [6]
 ```
 
 Three `let*`s, one per dimension of the search: pick an `n` from

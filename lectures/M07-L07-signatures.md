@@ -768,10 +768,8 @@ module Logbook : LOGBOOK = struct
   let last () = match !entries with [] -> None | x :: _ -> Some x
 end
 
-let () = Logbook.log "boot"
-let () = Logbook.log "ready"
-let _ = Logbook.count ()   (* = 2 *)
-let _ = Logbook.last ()    (* = Some "ready" *)
+(* Try Logbook.log "boot" and Logbook.log "ready" after checking
+   your answer; count then returns 2 and last returns Some "ready". *)
 ```
 
 - Most recent message is at the head: `log` prepends.

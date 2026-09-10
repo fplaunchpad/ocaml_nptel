@@ -179,6 +179,21 @@ let () =
   if a <> 10 || b <> 100 then failwith "wrong";
   let prog2 = let* i = mk_ref 10 in let* () = i := 42 in !i in
   if run_state prog2 <> 42 then failwith "update";
+  let independent =
+    let* i = mk_ref 10 in
+    let* j = mk_ref 100 in
+    let* iv = !i in
+    let* jv = !j in
+    let* () = i := 11 in
+    let* jv2 = !j in
+    let* () = j := 101 in
+    let* iv2 = !i in
+    return (iv, jv, jv2, iv2)
+  in
+  if run_state independent <> (10, 100, 100, 11) then
+    failwith "allocated references must be independent";
+  if run_state independent <> (10, 100, 100, 11) then
+    failwith "each run starts with fresh state";
   print_endline "all tests passed"
 ```
 :::

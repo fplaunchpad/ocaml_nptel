@@ -24,16 +24,20 @@ browser.
 Testing is the one place where the worksheet runs backwards: the
 *function under test* is given to you in a cell, already correct,
 and your job is to write the **tests**. Each problem has an editable
-cell seeded with a stub and a checker cell below it. For the
-property and generator problems the checker prints `all tests
-passed`; for the OUnit2 problems it prints the usual OUnit report
-(`OK`). A reference solution sits below each problem behind a
-collapsed *Reference solution* panel.
+cell seeded with a stub and a checker cell below it. Each checker
+prints `all tests passed` on success. The OUnit2 checkers also print
+a test report. A reference solution sits below each problem behind
+a collapsed *Reference solution* panel.
 
 All of this uses only the testing tools from the module: `QCheck`
 for properties and generators, and `OUnit2` for example-based unit
 tests. Run each problem's first cell (the function under test)
 before you run its checker.
+
+The property and suite builders take the implementation to test as
+an argument. Use that argument in your answer. The checker supplies
+both correct and faulty implementations: a useful test must accept
+the correct one and reject representative bugs.
 
 The worksheet comes in three parts:
 
@@ -60,16 +64,19 @@ let clamp lo hi x =
   else x
 ```
 
-Write a property `prop_clamp (lo, hi, x)` that captures the central
-guarantee: whatever `x` is, the result lies within `[lo, hi]`. The
-checker feeds it triples in which `lo <= hi` is already arranged, so
-you do not need a precondition.
+Write a property `prop_clamp clamp (lo, hi, x)` that captures the
+central guarantee: whatever `x` is, the result lies within `[lo, hi]`.
+The checker feeds it triples in which `lo <= hi` is already arranged,
+so you do not need a precondition.
 
 :::quiz code id=M09-L08-q1
-Implement `prop_clamp : int * int * int -> bool`.
+Implement
+`prop_clamp : (int -> int -> int -> int) -> int * int * int -> bool`.
+Use the supplied `clamp` function; the checker also supplies faulty
+implementations that your property should reject.
 
 ```ocaml
-let prop_clamp (lo, hi, x) =
+let prop_clamp clamp (lo, hi, x) =
   failwith "not implemented"
 ```
 
@@ -78,10 +85,11 @@ let gen_clamp =
   QCheck.make
     QCheck.Gen.(map (fun (a, b, x) -> (min a b, max a b, x))
                   (triple int int int))
-let test_clamp =
-  QCheck.Test.make ~name:"clamp stays in range" ~count:1000 gen_clamp prop_clamp
 let () =
-  assert (QCheck_runner.run_tests ~colors:false [test_clamp] = 0);
+  let test = QCheck.Test.make ~count:1000 gen_clamp (prop_clamp clamp) in
+  QCheck.Test.check_exn ~rand:(Random.State.make [|42|]) test;
+  if prop_clamp (fun _ _ x -> x) (0, 10, -1) then failwith "must detect a result below the range";
+  if prop_clamp (fun _ _ x -> x) (0, 10, 11) then failwith "must detect a result above the range";
   print_endline "all tests passed"
 ```
 :::
@@ -90,8 +98,8 @@ let () =
 
 Reference solution:
 
-```
-let prop_clamp (lo, hi, x) =
+```ocaml
+let prop_clamp clamp (lo, hi, x) =
   let r = clamp lo hi x in
   lo <= r && r <= hi
 ```
@@ -114,25 +122,28 @@ let rec gcd a b =
   if b = 0 then a else gcd b (a mod b)
 ```
 
-Write `prop_gcd_divides (a, b)` stating that `gcd a b` divides both
-`a` and `b` exactly. The checker uses strictly positive inputs, so
-you need not worry about zero or negatives.
+Write `prop_gcd_divides gcd (a, b)` stating that `gcd a b` divides
+both `a` and `b` exactly. The checker uses strictly positive inputs,
+so you need not worry about zero or negatives.
 
 :::quiz code id=M09-L08-q2
-Implement `prop_gcd_divides : int * int -> bool`.
+Implement
+`prop_gcd_divides : (int -> int -> int) -> int * int -> bool`.
+Use the supplied `gcd` function; the checker also supplies faulty
+implementations that your property should reject.
 
 ```ocaml
-let prop_gcd_divides (a, b) =
+let prop_gcd_divides gcd (a, b) =
   failwith "not implemented"
 ```
 
 ```ocaml skip
 let gen_pos_pair =
   QCheck.make QCheck.Gen.(pair (int_range 1 1000) (int_range 1 1000))
-let test_gcd =
-  QCheck.Test.make ~name:"gcd divides both" ~count:1000 gen_pos_pair prop_gcd_divides
 let () =
-  assert (QCheck_runner.run_tests ~colors:false [test_gcd] = 0);
+  let test = QCheck.Test.make ~count:1000 gen_pos_pair (prop_gcd_divides gcd) in
+  QCheck.Test.check_exn ~rand:(Random.State.make [|42|]) test;
+  if prop_gcd_divides (fun _ _ -> 7) (6, 10) then failwith "must detect a non-divisor";
   print_endline "all tests passed"
 ```
 :::
@@ -141,8 +152,8 @@ let () =
 
 Reference solution:
 
-```
-let prop_gcd_divides (a, b) =
+```ocaml
+let prop_gcd_divides gcd (a, b) =
   let g = gcd a b in
   a mod g = 0 && b mod g = 0
 ```
@@ -173,26 +184,32 @@ let rec is_sorted = function
   | a :: (b :: _ as rest) -> a <= b && is_sorted rest
 ```
 
-Write `prop_insert (x, xs)` that sorts `xs` first (so the
+Write `prop_insert insert (x, xs)` that sorts `xs` first (so the
 precondition holds for any random `xs`), inserts `x`, and then
 checks **two** things: the result is sorted, and it is exactly one
 element longer than the input.
 
 :::quiz code id=M09-L08-q3
-Implement `prop_insert : int * int list -> bool`.
+Implement
+`prop_insert : (int -> int list -> int list) -> int * int list ->
+bool`.
+Use the supplied `insert` function; the checker also supplies faulty
+implementations that your property should reject.
 
 ```ocaml
-let prop_insert (x, xs) =
+let prop_insert insert (x, xs) =
   failwith "not implemented"
 ```
 
 ```ocaml skip
-let gen_insert = QCheck.make QCheck.Gen.(pair int (list int))
-let test_insert =
-  QCheck.Test.make ~name:"insert keeps sorted, grows by one"
-    ~count:1000 gen_insert prop_insert
+(* Keep recursive student code within the browser's stack budget. *)
+let gen_insert =
+  QCheck.make QCheck.Gen.(pair int (list_size (int_range 0 30) int))
 let () =
-  assert (QCheck_runner.run_tests ~colors:false [test_insert] = 0);
+  let test = QCheck.Test.make ~count:1000 gen_insert (prop_insert insert) in
+  QCheck.Test.check_exn ~rand:(Random.State.make [|42|]) test;
+  if prop_insert (fun _ xs -> xs) (2, [1; 3]) then failwith "must detect a missing element";
+  if prop_insert (fun x xs -> x :: xs) (2, [1; 3]) then failwith "must detect an unsorted result";
   print_endline "all tests passed"
 ```
 :::
@@ -201,8 +218,8 @@ let () =
 
 Reference solution:
 
-```
-let prop_insert (x, xs) =
+```ocaml
+let prop_insert insert (x, xs) =
   let sorted = List.sort compare xs in
   let result = insert x sorted in
   is_sorted result && List.length result = List.length sorted + 1
@@ -232,24 +249,32 @@ let rec merge xs ys =
 Instead of restating sortedness and the multiset property
 separately, use a **reference oracle**: for sorted inputs,
 `merge xs ys` should equal `List.sort compare (xs @ ys)`. Write
-`prop_merge (xs, ys)` that sorts both inputs, then compares `merge`
+`prop_merge merge (xs, ys)` that sorts both inputs, then compares
+`merge`
 against that oracle.
 
 :::quiz code id=M09-L08-q4
-Implement `prop_merge : int list * int list -> bool`.
+Implement
+`prop_merge : (int list -> int list -> int list) -> int list * int
+list -> bool`.
+Use the supplied `merge` function; the checker also supplies faulty
+implementations that your property should reject.
 
 ```ocaml
-let prop_merge (xs, ys) =
+let prop_merge merge (xs, ys) =
   failwith "not implemented"
 ```
 
 ```ocaml skip
-let gen_two = QCheck.make QCheck.Gen.(pair (list int) (list int))
-let test_merge =
-  QCheck.Test.make ~name:"merge equals sort of concatenation"
-    ~count:1000 gen_two prop_merge
+let gen_two =
+  let open QCheck.Gen in
+  let short_list = list_size (int_range 0 30) int in
+  QCheck.make (pair short_list short_list)
 let () =
-  assert (QCheck_runner.run_tests ~colors:false [test_merge] = 0);
+  let test = QCheck.Test.make ~count:1000 gen_two (prop_merge merge) in
+  QCheck.Test.check_exn ~rand:(Random.State.make [|42|]) test;
+  if prop_merge (fun xs _ -> xs) ([1; 3], [2]) then failwith "must detect dropped elements";
+  if prop_merge ( @ ) ([1; 3], [2; 4]) then failwith "must detect incorrect ordering";
   print_endline "all tests passed"
 ```
 :::
@@ -258,8 +283,8 @@ let () =
 
 Reference solution:
 
-```
-let prop_merge (xs, ys) =
+```ocaml
+let prop_merge merge (xs, ys) =
   let xs = List.sort compare xs and ys = List.sort compare ys in
   merge xs ys = List.sort compare (xs @ ys)
 ```
@@ -297,19 +322,54 @@ Fill in the OUnit2 suite below with example cases (use
 suite.
 
 :::quiz code id=M09-L08-q5
-Add test cases to `suite_binary`.
+Add test cases to `suite_binary to_binary`. Use the supplied function.
+Include zero, one, a positive number with several binary digits,
+and a negative-input exception case.
 
 ```ocaml
 open OUnit2
-let suite_binary =
+let suite_binary to_binary =
   "to_binary" >::: [
-    (* add cases here, e.g.
-       "six" >:: (fun _ -> assert_equal ~printer:(fun s -> s) "110" (to_binary 6)); *)
+    (* Add the requested cases, calling the supplied to_binary. *)
   ]
 ```
 
 ```ocaml skip
-let () = run_test_tt_main suite_binary
+(* Run submitted cases in the grading runner's real OUnit context.
+   Expected assertion failures from faulty implementations stay local. *)
+let rec quiz_run_cases ctxt = function
+  | OUnitTest.TestCase (_, f) ->
+      (try f ctxt with
+       | OUnitTest.Skip _ | OUnitTest.Todo _ ->
+           failwith "complete every test; do not skip cases")
+  | OUnitTest.TestLabel (_, t) -> quiz_run_cases ctxt t
+  | OUnitTest.TestList ts -> List.iter (quiz_run_cases ctxt) ts
+
+let quiz_rejects ctxt tests =
+  try quiz_run_cases ctxt tests; false with
+  | OUnitTest.OUnit_failure _ | Assert_failure _ -> true
+
+let () =
+  let submitted = suite_binary to_binary in
+  if OUnitTest.test_case_count submitted < 4 then
+    failwith "add the required test cases";
+  let grading = OUnit2.("quiz" >::: [
+    "correct implementation" >:: (fun ctxt -> quiz_run_cases ctxt submitted);
+    "detect faulty implementations" >:: (fun ctxt ->
+      if not (quiz_rejects ctxt (suite_binary (fun n -> if n = 0 then "" else to_binary n))) then
+        failwith "include an assertion for zero";
+      if not (quiz_rejects ctxt (suite_binary (fun n -> if n = 1 then "0" else to_binary n))) then
+        failwith "include an assertion for one";
+      if not (quiz_rejects ctxt (suite_binary (fun n -> if n > 1 then "0" else to_binary n))) then
+        failwith "include an assertion for a larger positive input";
+      if not (quiz_rejects ctxt (suite_binary (fun n -> if n < 0 then "0" else to_binary n))) then
+        failwith "check that negative input raises";
+      ());
+  ]) in
+  let failed = ref false in
+  OUnit2.run_test_tt_main ~exit:(fun _ -> failed := true) grading;
+  if !failed then failwith "submitted tests did not pass the checks";
+  print_endline "all tests passed"
 ```
 :::
 
@@ -317,9 +377,9 @@ let () = run_test_tt_main suite_binary
 
 Reference solution:
 
-```
+```ocaml
 open OUnit2
-let suite_binary =
+let suite_binary to_binary =
   "to_binary" >::: [
     "zero" >:: (fun _ ->
       assert_equal ~printer:(fun s -> s) "0" (to_binary 0));
@@ -360,18 +420,56 @@ one case for each path through `clamp`: `x` below the range, above
 it, strictly inside, exactly at `lo`, and exactly at `hi`.
 
 :::quiz code id=M09-L08-q6
-Add the five boundary cases to `suite_clamp`.
+Add the five boundary cases to `suite_clamp clamp`: below, above,
+inside, at the lower bound, and at the upper bound. Use the supplied
+function and an interval with distinct bounds.
 
 ```ocaml
 open OUnit2
-let suite_clamp =
+let suite_clamp clamp =
   "clamp" >::: [
-    (* one case per path: below, above, inside, at lo, at hi *)
+    (* Add the requested cases, calling the supplied clamp. *)
   ]
 ```
 
 ```ocaml skip
-let () = run_test_tt_main suite_clamp
+(* Run submitted cases in the grading runner's real OUnit context.
+   Expected assertion failures from faulty implementations stay local. *)
+let rec quiz_run_cases ctxt = function
+  | OUnitTest.TestCase (_, f) ->
+      (try f ctxt with
+       | OUnitTest.Skip _ | OUnitTest.Todo _ ->
+           failwith "complete every test; do not skip cases")
+  | OUnitTest.TestLabel (_, t) -> quiz_run_cases ctxt t
+  | OUnitTest.TestList ts -> List.iter (quiz_run_cases ctxt) ts
+
+let quiz_rejects ctxt tests =
+  try quiz_run_cases ctxt tests; false with
+  | OUnitTest.OUnit_failure _ | Assert_failure _ -> true
+
+let () =
+  let submitted = suite_clamp clamp in
+  if OUnitTest.test_case_count submitted < 5 then
+    failwith "add the required test cases";
+  let grading = OUnit2.("quiz" >::: [
+    "correct implementation" >:: (fun ctxt -> quiz_run_cases ctxt submitted);
+    "detect faulty implementations" >:: (fun ctxt ->
+      if not (quiz_rejects ctxt (suite_clamp (fun lo hi x -> if x < lo then x else clamp lo hi x))) then
+        failwith "check the below case";
+      if not (quiz_rejects ctxt (suite_clamp (fun lo hi x -> if x > hi then x else clamp lo hi x))) then
+        failwith "check the above case";
+      if not (quiz_rejects ctxt (suite_clamp (fun lo hi x -> if lo < x && x < hi then lo else clamp lo hi x))) then
+        failwith "check the interior case";
+      if not (quiz_rejects ctxt (suite_clamp (fun lo hi x -> if lo < hi && x = lo then hi else clamp lo hi x))) then
+        failwith "check the lower boundary case";
+      if not (quiz_rejects ctxt (suite_clamp (fun lo hi x -> if lo < hi && x = hi then lo else clamp lo hi x))) then
+        failwith "check the upper boundary case";
+      ());
+  ]) in
+  let failed = ref false in
+  OUnit2.run_test_tt_main ~exit:(fun _ -> failed := true) grading;
+  if !failed then failwith "submitted tests did not pass the checks";
+  print_endline "all tests passed"
 ```
 :::
 
@@ -379,9 +477,9 @@ let () = run_test_tt_main suite_clamp
 
 Reference solution:
 
-```
+```ocaml
 open OUnit2
-let suite_clamp =
+let suite_clamp clamp =
   "clamp" >::: [
     "below"  >:: (fun _ -> assert_equal ~printer:string_of_int 0  (clamp 0 10 (-5)));
     "above"  >:: (fun _ -> assert_equal ~printer:string_of_int 10 (clamp 0 10 99));
@@ -466,18 +564,34 @@ module Counter = struct
 end
 
 type cmd = Incr | Add of int
+
+type 'a counter_ops = {
+  create : unit -> 'a;
+  incr : 'a -> unit;
+  add : 'a -> int -> unit;
+  get : 'a -> int;
+}
+
+let counter_ops = {
+  create = Counter.create; incr = Counter.incr;
+  add = Counter.add; get = Counter.get;
+}
 ```
 
-Write a model-based property `prop_counter : cmd list -> bool`. Run
-the command list against a real `Counter` and, in parallel, against
-a *reference model* (a plain `int ref` you maintain yourself), then
-check that `Counter.get` agrees with the model at the end.
+Write a model-based property
+`prop_counter : 'a counter_ops -> cmd list -> bool`. Run the command
+list against a real `Counter` and, in parallel, against a
+*reference model* (a plain `int ref` you maintain yourself), then
+check that the supplied `ops.get` agrees with the model at the end.
 
 :::quiz code id=M09-L08-q8
-Implement `prop_counter`.
+Implement `prop_counter ops cmds`. Use `ops.create`, `ops.incr`,
+`ops.add`, and `ops.get` to exercise the supplied counter, comparing
+its final value with your model. The checker also supplies faulty
+counter operations.
 
 ```ocaml
-let prop_counter cmds =
+let prop_counter ops cmds =
   failwith "not implemented"
 ```
 
@@ -486,10 +600,15 @@ let gen_cmds =
   QCheck.make
     QCheck.Gen.(list_size (int_range 0 20)
                   (oneof [ return Incr; map (fun n -> Add n) (int_range 1 5) ]))
-let test_counter =
-  QCheck.Test.make ~name:"counter matches model" ~count:1000 gen_cmds prop_counter
 let () =
-  assert (QCheck_runner.run_tests ~colors:false [test_counter] = 0);
+  let test = QCheck.Test.make ~count:1000 gen_cmds (prop_counter counter_ops) in
+  QCheck.Test.check_exn ~rand:(Random.State.make [|42|]) test;
+  if prop_counter { counter_ops with incr = (fun _ -> ()) } [Incr] then
+    failwith "must detect an ignored increment";
+  if prop_counter { counter_ops with add = (fun _ _ -> ()) } [Add 3] then
+    failwith "must detect an ignored addition";
+  if prop_counter { counter_ops with create = (fun () -> ref 1) } [] then
+    failwith "must check the initial counter value";
   print_endline "all tests passed"
 ```
 :::
@@ -498,17 +617,17 @@ let () =
 
 Reference solution:
 
-```
-let prop_counter cmds =
-  let c = Counter.create () in
+```ocaml
+let prop_counter ops cmds =
+  let c = ops.create () in
   let model = ref 0 in
   let step cmd =
     match cmd with
-    | Incr  -> Counter.incr c;   model := !model + 1
-    | Add n -> Counter.add c n;  model := !model + n
+    | Incr  -> ops.incr c;  model := !model + 1
+    | Add n -> ops.add c n; model := !model + n
   in
   List.iter step cmds;
-  Counter.get c = !model
+  ops.get c = !model
 ```
 
 The model is the simplest thing that could possibly track the

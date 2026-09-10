@@ -316,6 +316,8 @@ let check b m = if not b then failwith m
 let () =
   check (is_sorted [1; 2; 2; 3] = true) "non-decreasing";
   check (is_sorted [3; 1] = false) "out of order";
+  check (is_sorted [1; 3; 2] = false) "later inversion";
+  check (is_sorted [1; 1; 2; 2; 3; 3] = true) "longer with duplicates";
   check (is_sorted ([] : int list) = true) "empty";
   check (is_sorted [5] = true) "single";
   print_endline "all tests passed"

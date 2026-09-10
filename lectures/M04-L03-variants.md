@@ -432,7 +432,8 @@ shapes:
 
 - A `Success` carrying the response `body : string`.
 - A `Redirect` carrying the target `url : string`.
-- An `Error` carrying a `code : int` and a `message : string`.
+- An `Error` carrying an inline record
+  `{ code : int; message : string }`.
 
 Then construct one example value of each constructor.
 
@@ -447,17 +448,20 @@ let example_error    = ()
 ```
 
 ```ocaml skip
-(* Each example must type-check against http_response, and the
-   three examples must use three different constructors.
-   Decomposing them comes in M05. *)
+(* The checker uses patterns to inspect the constructors.
+   You will learn to write these patterns in M05. *)
 let check b m = if not b then failwith m
 let () =
-  ignore (example_success  : http_response);
-  ignore (example_redirect : http_response);
-  ignore (example_error    : http_response);
-  check (example_success <> example_redirect) "success vs redirect";
-  check (example_success <> example_error) "success vs error";
-  check (example_redirect <> example_error) "redirect vs error";
+  check (match (example_success : http_response) with
+         | Success (_ : string) -> true | _ -> false)
+    "example_success must use Success with a string";
+  check (match (example_redirect : http_response) with
+         | Redirect (_ : string) -> true | _ -> false)
+    "example_redirect must use Redirect with a string";
+  check (match (example_error : http_response) with
+         | Error { code = (_ : int); message = (_ : string) } -> true
+         | _ -> false)
+    "example_error must use Error with code and message";
   print_endline "all tests passed"
 ```
 :::

@@ -148,7 +148,7 @@ Four moving parts, and they are the whole framework:
   first, so the failure message "expected E, got A" reads
   correctly).
 - `"name" >:: case` makes one named case; `"name" >::: [ ... ]`
-  collects cases into a named suite (one colon, one case; three
+  collects cases into a named suite (two colons, one case; three
   colons, a list).
 - `run_test_tt_main` runs the suite and prints a report: a dot
   per pass, an `F` per failure, a count at the end.
@@ -501,28 +501,54 @@ reason is independence.
 :::
 
 :::quiz code id=M09-L04-q2
-Write an OUnit2 test case for
-`"push then pop on a fresh stack returns the pushed value"`, then
-put it in a suite named `"stack"`. Use
-the value-oriented `Stack` from this lecture. The case should
-create a fresh stack, push `7`, pop, and assert the result is
-`7` (with a printer).
+Write an OUnit2 test for "push then pop on a fresh stack returns
+the pushed value", in a suite named `"stack"`. Create a fresh
+`Stack`, push `7`, call the supplied `pop` function, and assert
+that the result is `7`, with a printer.
+
+`suite pop` builds the suite for that implementation of pop. The
+checker runs it with `Stack.pop` and with a faulty pop, so the test
+must actually check the returned value.
 
 ```ocaml
-let test_push_pop_seven _ =
+let test_push_pop_seven pop _ =
   failwith "not implemented"
 
-let suite =
+let suite pop =
   "stack" >::: [
-    "push and pop" >:: test_push_pop_seven;
+    "push and pop" >:: test_push_pop_seven pop;
   ]
 ```
 
 ```ocaml skip
+(* Run submitted cases in the grading runner's real OUnit context.
+   Expected assertion failures from faulty implementations stay local. *)
+let rec quiz_run_cases ctxt = function
+  | OUnitTest.TestCase (_, f) ->
+      (try f ctxt with
+       | OUnitTest.Skip _ | OUnitTest.Todo _ ->
+           failwith "complete every test; do not skip cases")
+  | OUnitTest.TestLabel (_, t) -> quiz_run_cases ctxt t
+  | OUnitTest.TestList ts -> List.iter (quiz_run_cases ctxt) ts
+
+let quiz_rejects ctxt tests =
+  try quiz_run_cases ctxt tests; false with
+  | OUnitTest.OUnit_failure _ | Assert_failure _ -> true
+
 let () =
-  let s = Stack.create () in
-  Stack.push 7 s;
-  assert (Stack.pop s = 7);
+  let submitted = suite Stack.pop in
+  if OUnitTest.test_case_count submitted < 1 then
+    failwith "add the required test cases";
+  let grading = OUnit2.("quiz" >::: [
+    "correct implementation" >:: (fun ctxt -> quiz_run_cases ctxt submitted);
+    "detect faulty implementations" >:: (fun ctxt ->
+      if not (quiz_rejects ctxt (suite (fun s -> ignore (Stack.pop s); 0))) then
+        failwith "test must reject a pop that returns the wrong value";
+      ());
+  ]) in
+  let failed = ref false in
+  OUnit2.run_test_tt_main ~exit:(fun _ -> failed := true) grading;
+  if !failed then failwith "submitted tests did not pass the checks";
   print_endline "all tests passed"
 ```
 :::
@@ -532,14 +558,14 @@ let () =
 Reference solution:
 
 ```ocaml
-let test_push_pop_seven _ =
+let test_push_pop_seven pop _ =
   let s = Stack.create () in
   Stack.push 7 s;
-  assert_equal ~printer:string_of_int 7 (Stack.pop s)
+  assert_equal ~printer:string_of_int 7 (pop s)
 
-let suite =
+let suite pop =
   "stack" >::: [
-    "push and pop" >:: test_push_pop_seven;
+    "push and pop" >:: test_push_pop_seven pop;
   ]
 ```
 

@@ -1181,15 +1181,16 @@ witness is usually the bug in its purest form.
 
 :::quiz code id=M09-L05-q3
 Write a QCheck property that captures: *concatenating the empty
-list to any list yields the original list.* Use the generator
-`QCheck.(list int)`. Name the property `"empty is right identity
-for @"`.
+list to any list yields the original list.* Use `QCheck.(list int)`
+and the name `"empty is right identity for @"`.
 
-The body of the test should be a function `xs -> bool` returning
-`true` when the law holds.
+`test_concat_empty_right append` builds the test for a supplied
+concatenation function. In the property, compare `append xs []`
+with `xs`. The checker supplies both `( @ )` and faulty versions;
+your test must accept the former and reject the latter.
 
 ```ocaml
-let test_concat_empty_right =
+let test_concat_empty_right append =
   QCheck.Test.make
     ~name:"empty is right identity for @"
     QCheck.(list int)
@@ -1198,12 +1199,18 @@ let test_concat_empty_right =
 
 ```ocaml skip
 let () =
-  (* The student's test must, when applied to any list, hold. *)
-  let prop xs = xs @ [] = xs in
-  assert (prop []);
-  assert (prop [1]);
-  assert (prop [1; 2; 3]);
-  assert (prop [-7; 0; 42]);
+  let run append =
+    QCheck.Test.check_exn ~rand:(Random.State.make [|42|])
+      (test_concat_empty_right append)
+  in
+  run ( @ );
+  let rejects append =
+    try run append; false with QCheck.Test.Test_fail _ -> true
+  in
+  if not (rejects (fun _ _ -> [])) then
+    failwith "property must reject dropping the input";
+  if not (rejects (fun xs ys -> List.rev xs @ ys)) then
+    failwith "property must reject reversing the input";
   print_endline "all tests passed"
 ```
 :::
@@ -1213,14 +1220,14 @@ let () =
 Reference solution:
 
 ```ocaml
-let test_concat_empty_right =
+let test_concat_empty_right append =
   QCheck.Test.make
     ~name:"empty is right identity for @"
     QCheck.(list int)
-    (fun xs -> xs @ [] = xs)
+    (fun xs -> append xs [] = xs)
 ```
 
-Four lines. The property `xs @ [] = xs` is a one-line statement
+With `( @ )` supplied, the property `xs @ [] = xs` is a statement
 of a list-monoid law; it is exactly the kind of equational
 property functional code makes easy to state.
 

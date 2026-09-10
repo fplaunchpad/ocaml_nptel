@@ -537,8 +537,9 @@ access goes through this same discipline.
 Write `safe_sub : bytes -> int -> int -> bytes option` that returns
 `Some (Bytes.sub b pos len)` when `[pos, pos + len)` lies entirely
 inside `b`, and `None` otherwise. It must never raise, even for
-negative or past-the-end arguments. Hint: check `pos >= 0`,
-`len >= 0`, and `pos + len <= Bytes.length b` first.
+negative or past-the-end arguments. Let `n = Bytes.length b`.
+Check `pos >= 0`, `len >= 0`, and `pos <= n`, then compare
+`len <= n - pos`. Avoid adding `pos + len`: that sum can overflow.
 
 ```ocaml
 let safe_sub b pos len =
@@ -556,17 +557,22 @@ let () =
   assert (safe_sub (mk "hello") (-1) 1 = None);
   assert (safe_sub (mk "hello") 0 (-1) = None);
   assert (safe_sub Bytes.empty 0 0 = Some Bytes.empty);
+  assert (safe_sub (mk "hello") max_int 1 = None);
+  assert (safe_sub (mk "hello") 1 max_int = None);
+  assert (safe_sub (mk "hello") max_int max_int = None);
+  assert (safe_sub Bytes.empty max_int 1 = None);
   print_endline "all tests passed"
 ```
 :::
 
 :::solution
 
-A reference solution checks the three preconditions, then slices:
+A reference solution checks the bounds without adding the indices:
 
 ```ocaml
 let safe_sub b pos len =
-  if pos < 0 || len < 0 || pos + len > Bytes.length b
+  let n = Bytes.length b in
+  if pos < 0 || len < 0 || pos > n || len > n - pos
   then None
   else Some (Bytes.sub b pos len)
 ```

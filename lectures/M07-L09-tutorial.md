@@ -592,8 +592,9 @@ What does the compiler require?
 
 :::quiz code id=M07-L09-q1
 Add a `length` operation to the queue. Both the signature and the
-struct need updating. The starter has the unsealed version; your
-job is to add `length` everywhere.
+struct need updating. The starter seals `Queue` with `QUEUE`;
+add `val length : 'a t -> int` to the signature and implement
+`length` in the module. The tests call `Queue.length` directly.
 
 ```ocaml
 module type QUEUE = sig
@@ -615,18 +616,21 @@ module Queue : QUEUE = struct
     | x :: rest, _ -> Some (x, { q with front = rest })
     | [], back -> dequeue { front = List.rev back; back = [] }
 end
-
-let queue_length _q : int = failwith "not implemented"
 ```
 
 ```ocaml skip
+(* Re-sealing also checks that QUEUE itself exposes length. *)
+module Checked_queue : QUEUE = Queue
 let check b m = if not b then failwith m
 let () =
+  check (Checked_queue.length Checked_queue.empty = 0) "signature exposes length";
   let q = Queue.empty |> Queue.enqueue 1 |> Queue.enqueue 2 |> Queue.enqueue 3 in
-  check (queue_length q = 3) "three elements";
-  check (queue_length Queue.empty = 0) "empty";
+  check (Queue.length q = 3) "three elements";
+  check (Queue.length Queue.empty = 0) "empty";
   (match Queue.dequeue q with
-   | Some (_, q') -> check (queue_length q' = 2) "after dequeue"
+   | Some (_, q') ->
+       check (Queue.length q' = 2) "after dequeue";
+       check (Queue.length (Queue.enqueue 4 q') = 3) "front and back both populated"
    | None -> failwith "expected non-empty");
   print_endline "all tests passed"
 ```
@@ -675,14 +679,12 @@ module Queue : QUEUE = struct
     | [], back -> dequeue { front = List.rev back; back = [] }
 end
 
-let queue_length q = Queue.length q
-
 let q = Queue.empty |> Queue.enqueue 1 |> Queue.enqueue 2 |> Queue.enqueue 3
-let _ = queue_length q   (* = 3 *)
+let _ = Queue.length q   (* = 3 *)
 ```
 
-- The starter's `queue_length` stub forwards to the new
-  `Queue.length`; the tests call `queue_length`.
+- The tests call `Queue.length`, so the operation must appear in
+  both the signature and the implementation.
 
 :::
 

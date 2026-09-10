@@ -22,6 +22,6 @@ let () =
 module OUnit2 = struct
   include OUnit2
 
-  let run_test_tt_main ?exit:_ test =
-    OUnit2.run_test_tt_main ~exit:(fun _ -> ()) test
+  let run_test_tt_main ?(exit = fun _ -> ()) test =
+    OUnit2.run_test_tt_main ~exit test
 end

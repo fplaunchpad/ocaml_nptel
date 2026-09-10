@@ -584,6 +584,8 @@ let () =
   check (IntShowable.string_of_t 10 = "10") "int 10";
   check (IntShowable.string_of_t (-3) = "-3") "int -3";
   check (FloatShowable.string_of_t 0.0 = "0.") "float 0.0";
+  check (FloatShowable.string_of_t 1.25 = "1.25") "positive float";
+  check (FloatShowable.string_of_t (-2.5) = "-2.5") "negative float";
   print_endline "all tests passed"
 ```
 :::
