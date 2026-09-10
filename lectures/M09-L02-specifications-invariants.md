@@ -719,18 +719,8 @@ let _ = Rational_canon.to_string c  (* = "1/2" *)
 let _ = Rational_canon.equal (Rational_canon.make 1 2) c  (* = true *)
 ```
 
-:::slide
-
-## A valid representation can still hold the wrong answer
-
-- `max_int/1 + 1/1` wraps to `min_int/1` in this implementation.
-- `canon_ok` accepts it: the denominator is positive and coprime.
-- The RI checks representation validity, not arithmetic correctness.
-- The specification assumes intermediate calculations fit in `int`.
-
-:::
-
-For example, adding `Rational_canon.make max_int 1` and
+A valid representation can still hold the wrong answer. For
+example, adding `Rational_canon.make max_int 1` and
 `Rational_canon.make 1 1` produces `min_int/1`. It satisfies the RI,
 but is mathematically wrong. This call violates our no-overflow
 assumption; the invariant check alone cannot detect that violation.

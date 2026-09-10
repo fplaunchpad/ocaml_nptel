@@ -421,9 +421,14 @@ let count_digits n =
 ```
 
 The helper `go` handles both signs, including `min_int`, because it
-only divides the input. The wrapper keeps the recursive helper
-local; `count_digits` is the public name. Here the wrapper is
-optional: the same base case works in a direct recursive function.
+only divides the input. Keep the wrapper-plus-local-helper pattern
+from the previous lecture: callers use `count_digits`, while `go`
+is an implementation detail that cannot be called from outside.
+The wrapper owns the initial call; the helper owns the recursion.
+If we later give `go` a digit-count accumulator, the wrapper can
+supply its initial value without changing how callers use
+`count_digits`. Local scope lets us change the worker independently
+of the public interface.
 
 For example, `count_digits (-10)` is `2`, and `count_digits min_int`
 is `19` on a 64-bit OCaml runtime (`10` on a 32-bit runtime).
@@ -439,7 +444,7 @@ In `is_power_of_two`, why must the `n = 1` test come *before*
 the `n mod 2 = 1` test?
 
 - [ ] It makes the function tail-recursive.
-- [x] Otherwise it would classify `1` as even.
+- [x] Otherwise it would reject `1` because it is odd.
 - [ ] `n = 1` is cheaper to evaluate than `n mod 2 = 1`.
 - [ ] No reason; the two tests can be swapped freely.
 
