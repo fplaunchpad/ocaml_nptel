@@ -304,3 +304,7 @@ withdraw consent on the privacy page.
 
 Course material distributed under **CC-BY-NC-SA** per the NPTEL
 faculty guidelines.
+
+---
+
+[Index of all lectures](INDEX.md)
