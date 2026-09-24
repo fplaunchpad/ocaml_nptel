@@ -120,6 +120,66 @@ python3 -m http.server 8765
 # or http://localhost:8765/_site/ for the landing page
 ```
 
+## Distribute an offline book
+
+From a checkout with the usual build dependencies and Python 3.8+:
+
+```sh
+python3 tools/build-offline.py
+# produces dist/ocaml-nptel-offline.tar.gz
+```
+
+The archive includes all 80 lectures, static assets, OCaml/OxCaml
+runtimes, and the Linux terminal's VM snapshot and filesystem. It
+builds in a temporary directory without changing the local `_site/`
+preview. The default VM source is `_vm-prototype/images-v6/`;
+provide another complete, compatible course image with:
+
+```sh
+python3 tools/build-offline.py --vm-dir /path/to/current \
+  --output /path/to/ocaml-nptel-offline.tar.gz
+```
+
+The image directory must contain `ocaml-state.bin.zst`,
+`ocaml-fs.json`, and `ocaml-rootfs-flat/`. Every chunk referenced
+by the manifest is checked before building. Missing VM data is a
+build error; see `tools/vm-image/README.md` for image preparation.
+The script uses the prebuilt browser bundles in `assets/`.
+Building requires Bash 4+ (on macOS, put Homebrew Bash on `PATH`).
+
+Readers extract the archive and double-click **`index.html`**.
+Only a modern browser is required. There is no local server,
+launcher, installation, or special browser flag.
+
+The packager keeps the existing x-ocaml and v86 runtimes. It
+bundles x-ocaml's worker code into local scripts that create Blob
+workers, converts slide initialization to a classic script, and
+embeds the search index. VM binaries are encoded as scripts and
+loaded on demand through a local-file adapter. The online assets
+and deployment are unchanged. Adapter substitutions are checked
+at build time so an upstream runtime change fails explicitly.
+
+Saved answers and edits use browser storage. Persistence for
+`file://` pages varies by browser, and moving the extracted folder
+may make earlier saved work unavailable.
+
+External links, videos, and the analytics dashboard require internet.
+Quiz analytics keeps its existing consent behaviour and silently
+ignores failed submissions. The course itself, including the VM,
+uses bundled resources.
+
+To verify an extracted archive with development dependencies:
+
+```sh
+node tools/playwright-offline-check.mjs /path/to/ocaml-nptel-offline/index.html
+```
+
+This blocks remote requests and checks search, slides, all three
+browser runtime configurations, and a build inside the Linux VM.
+Set `BROWSER=firefox` or `BROWSER=webkit` to check those engines
+(default: Chromium); install them with
+`npx playwright install firefox webkit`.
+
 ## Tests
 
 ```sh

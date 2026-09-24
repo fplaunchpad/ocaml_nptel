@@ -4,6 +4,7 @@
 #   With no args, walks lectures/ recursively.
 #
 # Env vars:
+#   SITE_DIR    output directory (default: <repo>/_site).
 #   ASSET_ROOT   prefix used in front of /assets/ paths. Empty (default)
 #                serves assets at the site root. For GitHub Pages on a
 #                project repo, set to "/<repo>".
@@ -17,6 +18,10 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 BIN="$REPO_ROOT/_build/default/tools/nptel-build/bin/main.exe"
 ASSET_ROOT="${ASSET_ROOT:-}"
 COPY_ASSETS="${COPY_ASSETS:-0}"
+SITE_DIR="${SITE_DIR:-$REPO_ROOT/_site}"
+mkdir -p "$SITE_DIR"
+SITE_DIR="$(cd "$SITE_DIR" && pwd)"
+export SITE_DIR
 
 # Stamp every rendered lecture with the source commit so quiz
 # analytics can correlate responses with a specific version of the
@@ -46,7 +51,7 @@ fi
 for src in "${files[@]}"; do
   [ -f "$src" ] || continue
   rel="${src#$REPO_ROOT/}"
-  dst="$REPO_ROOT/_site/${rel%.md}.html"
+  dst="$SITE_DIR/${rel%.md}.html"
   dst="${dst/lectures\//}"
   mkdir -p "$(dirname "$dst")"
   "$BIN" "$src" "$dst" "$ASSET_ROOT"
@@ -55,17 +60,17 @@ done
 
 # Always keep the smoke test fresh.
 if [ -f "$REPO_ROOT/tools/nptel-build/test/smoke.md" ]; then
-  mkdir -p "$REPO_ROOT/_site/test"
+  mkdir -p "$SITE_DIR/test"
   "$BIN" "$REPO_ROOT/tools/nptel-build/test/smoke.md" \
-    "$REPO_ROOT/_site/test/smoke.html" "$ASSET_ROOT"
+    "$SITE_DIR/test/smoke.html" "$ASSET_ROOT"
 fi
 
 # For deploy: vendor the static assets under _site/ so the output is
 # self-contained. For local preview, the http.server already serves
 # /assets/ from the repo root, so we skip this.
 if [ "$COPY_ASSETS" = "1" ]; then
-  rm -rf "$REPO_ROOT/_site/assets"
-  cp -r "$REPO_ROOT/assets" "$REPO_ROOT/_site/assets"
+  rm -rf "$SITE_DIR/assets"
+  cp -r "$REPO_ROOT/assets" "$SITE_DIR/assets"
 fi
 
 # Emit _site/search-index.json for the landing page's search box:
@@ -158,7 +163,7 @@ for name in sorted(os.listdir(lec_dir)):
         'headings': headings,
     })
 
-out = os.path.join(root, '_site', 'search-index.json')
+out = os.path.join(os.environ['SITE_DIR'], 'search-index.json')
 with open(out, 'w', encoding='utf-8') as f:
     json.dump(index, f, ensure_ascii=False)
 print('built _site/search-index.json (%d lectures)' % len(index))
@@ -171,7 +176,7 @@ emit_search_index
 # page rather than a 404. Groups lectures by module, reads titles
 # from each .md file's frontmatter.
 emit_index() {
-  local out="$REPO_ROOT/_site/index.html"
+  local out="$SITE_DIR/index.html"
   {
     cat <<HEAD
 <!doctype html>
@@ -339,7 +344,7 @@ emit_index
 # records, why, who has access, and lets the reader flip the
 # opt-out toggle and delete prior responses via POST /quiz/forget.
 emit_privacy() {
-  local out="$REPO_ROOT/_site/privacy.html"
+  local out="$SITE_DIR/privacy.html"
   cat > "$out" <<'PRIVACY'
 <!doctype html>
 <html lang="en">
@@ -594,7 +599,7 @@ emit_privacy
 # no build step. The page only ever displays counts and option-pick
 # distributions; no individual response rows are shown.
 emit_dashboard() {
-  local out="$REPO_ROOT/_site/dashboard.html"
+  local out="$SITE_DIR/dashboard.html"
   cat > "$out" <<'DASHBOARD'
 <!doctype html>
 <html lang="en">
