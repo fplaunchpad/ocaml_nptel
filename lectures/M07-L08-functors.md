@@ -2,6 +2,7 @@
 title: "Functors"
 lecture_no: 8
 week: 7
+youtube_id: 6O4I_WJlJeA
 duration_target_min: 24
 concepts: [functors, parameterized modules, Map.Make, generic data structures]
 keywords: [OCaml, functor, Map.Make, Set.Make, parameterized modules]

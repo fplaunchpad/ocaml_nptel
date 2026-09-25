@@ -2,6 +2,7 @@
 title: "Tuples"
 lecture_no: 1
 week: 4
+youtube_id: 4MvZxs5tuRs
 duration_target_min: 22
 concepts: [tuples, product types, pair, fst, snd, destructuring, tuple patterns]
 keywords: [OCaml, tuple, pair, product type, destructuring]

@@ -2,6 +2,7 @@
 title: "Currying and partial application"
 lecture_no: 3
 week: 3
+youtube_id: BAD1vtpLCLQ
 duration_target_min: 24
 concepts: [currying, partial application, function returning function, higher-order utilities]
 keywords: [OCaml, currying, partial application, higher-order functions]

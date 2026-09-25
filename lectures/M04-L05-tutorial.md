@@ -2,6 +2,7 @@
 title: "Tutorial: a tiny AST for OCaml"
 lecture_no: 5
 week: 4
+youtube_id: FsEgs-CXkp4
 duration_target_min: 25
 concepts: [worked ADT design, recursive variants, abstract syntax, AST]
 keywords: [OCaml, AST, abstract syntax tree, ADT, recursive variant, tutorial]

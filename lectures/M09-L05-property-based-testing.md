@@ -2,6 +2,7 @@
 title: "Property-based testing with QCheck"
 lecture_no: 5
 week: 9
+youtube_id: vhWtU55UsEY
 duration_target_min: 35
 concepts: [property-based testing, QCheck, generators, shrinking, properties, invariants, equational reasoning, custom arbitraries, input space, balanced trees]
 keywords: [OCaml, QCheck, property-based testing, PBT, QuickCheck, generators, shrinking, counterexample, sorted array, balanced BST, red-black tree, custom arbitrary, input space]

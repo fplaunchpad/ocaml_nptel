@@ -2,6 +2,7 @@
 title: "Static vs dynamic semantics, and type inference"
 lecture_no: 3
 week: 2
+youtube_id: UFE1drbnWzA
 duration_target_min: 26
 concepts: [static typing, dynamic typing, type errors, type inference, type signatures]
 keywords: [OCaml, static typing, dynamic typing, type inference, Hindley-Milner, type errors]

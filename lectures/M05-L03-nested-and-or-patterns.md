@@ -2,6 +2,7 @@
 title: "Nested patterns and or-patterns"
 lecture_no: 3
 week: 5
+youtube_id: OjRKP_NnjHU
 duration_target_min: 22
 concepts: [nested patterns, or-patterns, tuple patterns inside variants, alternation]
 keywords: [OCaml, pattern matching, nested patterns, or-patterns, alternation]

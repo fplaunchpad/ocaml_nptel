@@ -2,6 +2,7 @@
 title: "Specifications and invariants"
 lecture_no: 2
 week: 9
+youtube_id: BAzQSXUPoZw
 duration_target_min: 25
 concepts: [specification, precondition, postcondition, raises clause, examples clause, abstraction function, representation invariant, rep_ok]
 keywords: [OCaml, specification, contract, precondition, postcondition, requires, returns, raises, abstraction function, representation invariant, rep_ok, data abstraction]

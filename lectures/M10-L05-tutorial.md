@@ -2,6 +2,7 @@
 title: "Tutorial: walking Heartbleed end to end"
 lecture_no: 5
 week: 10
+youtube_id: YmwTWVmYtko
 duration_target_min: 23
 concepts: [Heartbleed, CVE-2014-0160, TLS heartbeat, buffer over-read, bounds checking, Bytes.sub, Cstruct, structural impossibility]
 keywords: [OCaml, Heartbleed, CVE-2014-0160, OpenSSL, TLS, heartbeat, buffer over-read, memory safety, bounds check, Cstruct]

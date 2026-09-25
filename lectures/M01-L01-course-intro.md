@@ -2,6 +2,7 @@
 title: "Course introduction: what you'll learn, how it's run"
 lecture_no: 1
 week: 1
+youtube_id: 5f-fi2sl9ec
 duration_target_min: 15
 concepts: [course logistics, syllabus overview, in-browser dev environment, grading]
 keywords: [OCaml, NPTEL, functional programming, course intro, syllabus, FP]

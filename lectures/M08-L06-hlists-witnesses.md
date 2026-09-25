@@ -2,6 +2,7 @@
 title: "GADTs: hlists and witnesses"
 lecture_no: 6
 week: 8
+youtube_id: 0PaTSxZI8YM
 duration_target_min: 22
 concepts: [heterogeneous list, hlist, type witness, generic programming, fold over witnesses]
 keywords: [OCaml, GADT, hlist, witness, Format, printf]

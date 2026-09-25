@@ -2,6 +2,7 @@
 title: "Where OCaml itself has UB"
 lecture_no: 4
 week: 10
+youtube_id: t-7okHoJhDk
 duration_target_min: 24
 concepts: [Obj.magic, Marshal, FFI, unsafe fragment, escape hatch, resource safety, file descriptor, fun_protect, finalisers]
 keywords: [OCaml, Obj.magic, Marshal, FFI, external, Ctypes, unsafe, resource safety, file descriptor, with_open_text, fun_protect, finaliser]

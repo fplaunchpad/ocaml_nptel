@@ -2,6 +2,7 @@
 title: "Memoization"
 lecture_no: 5
 week: 7
+youtube_id: JzIjJ0rTfOQ
 duration_target_min: 22
 concepts: [memoization, caching, hash tables, tying the recursive knot, dynamic programming, purity]
 keywords: [OCaml, memoization, Hashtbl, fib, edit distance, dynamic programming, purity]

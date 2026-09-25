@@ -2,6 +2,7 @@
 title: "`filter`: keep what passes the predicate"
 lecture_no: 3
 week: 6
+youtube_id: bqAj_Wjudwc
 duration_target_min: 20
 concepts: [filter, predicate, list filtering, filter_map, partition]
 keywords: [OCaml, filter, predicate, list, higher-order]

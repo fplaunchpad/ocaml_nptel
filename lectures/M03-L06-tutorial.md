@@ -2,6 +2,7 @@
 title: "Tutorial: Fibonacci, powers of two, fast power, digits"
 lecture_no: 6
 week: 3
+youtube_id: aEaoH68Go9c
 duration_target_min: 28
 concepts: [worked recursive examples, tail vs naive recursion, memoization preview]
 keywords: [OCaml, tutorial, fibonacci, power of two, power, digits, recursion, tail recursion]

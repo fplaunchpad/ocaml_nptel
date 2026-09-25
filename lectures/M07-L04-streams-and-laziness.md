@@ -2,6 +2,7 @@
 title: "Streams and laziness"
 lecture_no: 4
 week: 7
+youtube_id: owYwnt9NLSY
 duration_target_min: 22
 concepts: [recursive values, infinite data, thunks, streams, lazy values, lazy streams, sieve of Eratosthenes, lazy Fibonacci]
 keywords: [OCaml, stream, thunk, lazy, Lazy.force, lazy_t, sieve, Fibonacci]

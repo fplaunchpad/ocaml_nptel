@@ -2,6 +2,7 @@
 title: "Guards: when-clauses on patterns"
 lecture_no: 4
 week: 5
+youtube_id: A7uryzWmLlA
 duration_target_min: 20
 concepts: [when-guards, conditional pattern matching, exhaustiveness with guards]
 keywords: [OCaml, pattern matching, when, guard, conditional pattern]

@@ -2,6 +2,7 @@
 title: "Pattern matching on lists and trees"
 lecture_no: 2
 week: 5
+youtube_id: WCQwhM1QvvQ
 duration_target_min: 22
 concepts: [pattern matching, list, tree, structural recursion, recursive variant, option]
 keywords: [OCaml, pattern matching, list, tree, recursion, cons, nil, Leaf, Node]

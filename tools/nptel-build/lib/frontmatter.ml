@@ -26,6 +26,7 @@ type reading = { title : string; url : string }
 
 type t = {
   title : string;
+  youtube_id : string option;
   lecture_no : int option;
   week : int option;
   duration_target_min : int option;
@@ -39,6 +40,7 @@ type t = {
 let empty =
   {
     title = "";
+    youtube_id = None;
     lecture_no = None;
     week = None;
     duration_target_min = None;
@@ -132,6 +134,12 @@ let parse_value t key value rest_lines =
   let v_trimmed = trim_str value in
   match key with
   | "title" -> ({ t with title = strip_quotes v_trimmed }, rest_lines)
+  | "youtube_id" ->
+      let id = strip_quotes v_trimmed in
+      if String.length id <> 11 || not (String.for_all
+          (function 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '-' -> true | _ -> false) id)
+      then failwith "frontmatter: youtube_id must be an 11-character YouTube video ID";
+      ({ t with youtube_id = Some id }, rest_lines)
   | "lecture_no" -> ({ t with lecture_no = int_of_string_opt v_trimmed }, rest_lines)
   | "week" -> ({ t with week = int_of_string_opt v_trimmed }, rest_lines)
   | "duration_target_min" ->
@@ -161,7 +169,7 @@ let parse_value t key value rest_lines =
          instead of silently dropping the field. *)
       failwith
         (Printf.sprintf
-           "frontmatter: unknown key %S (known: title, lecture_no, week, \
+           "frontmatter: unknown key %S (known: title, youtube_id, lecture_no, week, \
             duration_target_min, concepts, keywords, activity_question, \
             think_about_this, reading)"
            key)

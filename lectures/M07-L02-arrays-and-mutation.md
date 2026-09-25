@@ -2,6 +2,7 @@
 title: "Mutable records and arrays"
 lecture_no: 2
 week: 7
+youtube_id: YVZuGlJQSRw
 duration_target_min: 22
 concepts: [mutable record fields, arrays, in-place update, when to use mutation]
 keywords: [OCaml, mutable, array, record, in-place, mutation]

@@ -2,6 +2,7 @@
 title: "Operators, precedence, and common pitfalls"
 lecture_no: 4
 week: 2
+youtube_id: OMa7qUm4zdg
 duration_target_min: 22
 concepts: [operator precedence, arithmetic operators, comparison, logical operators, common type errors]
 keywords: [OCaml, operators, precedence, comparison, equality, logical operators]

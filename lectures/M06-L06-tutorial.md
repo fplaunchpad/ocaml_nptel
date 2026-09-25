@@ -2,6 +2,7 @@
 title: "Tutorial: fold across data structures"
 lecture_no: 6
 week: 6
+youtube_id: KZcl5qDMc3Q
 duration_target_min: 28
 concepts: [worked higher-order, reimplement standard library, fold-everywhere, composition]
 keywords: [OCaml, List, tutorial, higher-order, rebuild]

@@ -2,6 +2,7 @@
 title: "Data races are undefined behaviour"
 lecture_no: 3
 week: 10
+youtube_id: WwLq_w4LmKo
 duration_target_min: 24
 concepts: [data race, undefined behaviour, domains, parallelism, memory model, happens-before, DRF-SC, local DRF, Atomic, Mutex, memory safety]
 keywords: [OCaml, data race, undefined behaviour, Domain, parallelism, memory model, happens-before, DRF-SC, local DRF, bounded in space and time, Atomic, Mutex, multicore, C, C++]

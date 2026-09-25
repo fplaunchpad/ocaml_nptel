@@ -2,6 +2,7 @@
 title: "Records"
 lecture_no: 2
 week: 4
+youtube_id: uWMVE0C2bxk
 duration_target_min: 22
 concepts: [records, named fields, record types, functional update, dot access]
 keywords: [OCaml, record, named fields, record type, functional update]

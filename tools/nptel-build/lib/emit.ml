@@ -162,7 +162,11 @@ let head ~asset_root ~(fm : Frontmatter.t) ~vm_terminal =
     asset_root asset_root asset_root chapter_css_v asset_root slides_css_v
     asset_root katex_css_v asset_root katex_js_v asset_root katex_auto_v
     asset_root bundle_dir main_v asset_root bundle_dir worker_v
-    src_load_attr vm_script
+    src_load_attr (vm_script ^ (match fm.youtube_id with
+      | None -> ""
+      | Some _ -> Printf.sprintf
+          "\n  <script defer src=\"%s/assets/lecture-video.js?v=%s\"></script>"
+          asset_root (bundle_hash "assets/lecture-video.js")))
 
 let header_bar ~(fm : Frontmatter.t) ~has_slides =
   let lecture_id =
@@ -1488,6 +1492,24 @@ let body_has_vm_terminal html_body =
   in
   scan 0
 
+(* The runtime mounts a paused player online, retaining a link offline. *)
+let with_lecture_video ~(fm : Frontmatter.t) html =
+  match fm.youtube_id with
+  | None -> html
+  | Some id ->
+      let card = Printf.sprintf
+        {|
+<section class="lecture-video chapter-only" aria-label="Lecture recording" data-youtube-id="%s">
+  <a class="lecture-video-link" href="https://www.youtube.com/watch?v=%s" target="_blank" rel="noopener noreferrer">Watch online &#8599;</a>
+  <div class="lecture-video-player" hidden></div>
+</section>
+|} id id in
+      (* Place the recording immediately below the chapter title. *)
+      try
+        let at = Str.search_forward (Str.regexp_string "</h1>") html 0 + 5 in
+        String.sub html 0 at ^ card ^ String.sub html at (String.length html - at)
+      with Not_found -> card ^ html
+
 let render_body ~html_body ~(fm : Frontmatter.t) ~manifest =
   let has_slides = body_has_slides html_body in
   let buf = Buffer.create (String.length html_body + 2048) in
@@ -1499,7 +1521,7 @@ let render_body ~html_body ~(fm : Frontmatter.t) ~manifest =
      a Reveal.js wrapper sibling becomes visible; the runtime script
      reparents the section[data-slide] elements into it on activation. *)
   Buffer.add_string buf "<article class=\"chapter\">\n";
-  Buffer.add_string buf html_body;
+  Buffer.add_string buf (with_lecture_video ~fm html_body);
   Buffer.add_string buf "\n</article>\n";
   Buffer.add_string buf (render_prev_next ~manifest);
   Buffer.add_string buf

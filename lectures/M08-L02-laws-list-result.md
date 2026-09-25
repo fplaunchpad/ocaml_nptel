@@ -2,6 +2,7 @@
 title: "Monad laws, the list monad, and the result monad"
 lecture_no: 2
 week: 8
+youtube_id: PGisX4nv9Jg
 duration_target_min: 26
 concepts: [monad laws, list monad, non-determinism, result monad, Result.bind, error propagation]
 keywords: [OCaml, monad laws, list monad, concat_map, result, Result.bind, let*]

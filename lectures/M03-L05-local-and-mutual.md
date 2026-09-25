@@ -2,6 +2,7 @@
 title: "Local functions and mutual recursion"
 lecture_no: 5
 week: 3
+youtube_id: lY5095Q9E9Y
 duration_target_min: 22
 concepts: [local let-bindings of functions, helper functions, mutual recursion, `and` keyword]
 keywords: [OCaml, local functions, mutual recursion, and, helper, let rec ... and]

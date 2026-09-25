@@ -2,6 +2,7 @@
 title: "Model-based testing of stateful data structures"
 lecture_no: 6
 week: 9
+youtube_id: z36mYErPlO8
 duration_target_min: 25
 concepts: [model-based testing, stateful testing, reference implementation, command sequences, observable equivalence, queue, PBT for state]
 keywords: [OCaml, QCheck, model-based testing, reference implementation, command, stateful, queue, hash table, association list, observable equivalence]

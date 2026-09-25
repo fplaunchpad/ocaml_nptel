@@ -2,6 +2,7 @@
 title: "Exhaustiveness checking"
 lecture_no: 5
 week: 5
+youtube_id: hs70Y6CAaTk
 duration_target_min: 22
 concepts: [exhaustiveness, partial match, redundant clauses, refactor with the compiler]
 keywords: [OCaml, exhaustiveness, pattern matching, warning 8, warning 11]

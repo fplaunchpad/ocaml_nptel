@@ -2,6 +2,7 @@
 title: "GADTs: variants with type-level information"
 lecture_no: 4
 week: 8
+youtube_id: SM21Gpg83ko
 duration_target_min: 24
 concepts: [GADT, generalized algebraic data types, type-level information, pattern matching on GADTs, polymorphic recursion, units of measure, phantom types]
 keywords: [OCaml, GADT, type refinement, type-safe AST, polymorphic recursion, units of measure, phantom type]

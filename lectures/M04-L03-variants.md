@@ -2,6 +2,7 @@
 title: "Variants (sum types)"
 lecture_no: 3
 week: 4
+youtube_id: a10Lc5Tva7o
 duration_target_min: 24
 concepts: [variants, sum types, constructors, payloads, parameterised variants]
 keywords: [OCaml, variant, sum type, constructor, ADT, algebraic data type]

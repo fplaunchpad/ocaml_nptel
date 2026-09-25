@@ -2,6 +2,7 @@
 title: "What memory safety is, and why it is a security story"
 lecture_no: 1
 week: 10
+youtube_id: lfw2kZAVyaM
 duration_target_min: 26
 concepts: [undefined behaviour, memory safety, use-after-free, buffer overflow, double-free, uninitialised read, exploit, memory-safe roadmap]
 keywords: [OCaml, undefined behaviour, UB, memory safety, CVE, security, C, Heartbleed, ASLR, ROP, White House, CISA]

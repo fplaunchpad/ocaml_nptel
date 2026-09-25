@@ -2,6 +2,7 @@
 title: "Why test a type-safe program?"
 lecture_no: 1
 week: 9
+youtube_id: ILjevo5bdgs
 duration_target_min: 25
 concepts: [testing, type safety, behaviour, validation, complementary roles of types and tests, faults and failures]
 keywords: [OCaml, testing, type safety, behaviour, unit testing, property-based testing, validation, faults, failures, debugging]

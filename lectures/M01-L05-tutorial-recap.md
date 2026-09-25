@@ -2,6 +2,7 @@
 title: "Tutorial: temperature conversions and small expressions"
 lecture_no: 5
 week: 1
+youtube_id: yWcAE4GBdBA
 duration_target_min: 25
 concepts: [walkthrough, problem solving, debugging type errors, build-and-run loop]
 keywords: [OCaml, tutorial, temperature, conversion, type error, beginner OCaml]

@@ -2,6 +2,7 @@
 title: "Module signatures"
 lecture_no: 7
 week: 7
+youtube_id: F3kdMuqbbT0
 duration_target_min: 22
 concepts: [signatures, sig...end, .mli files, abstraction, abstract types]
 keywords: [OCaml, signature, sig, mli, abstract type, encapsulation]

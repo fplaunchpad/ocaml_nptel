@@ -2,6 +2,7 @@
 title: "Recursive types: lists, trees, expressions"
 lecture_no: 4
 week: 4
+youtube_id: IQm5ChxAqe4
 duration_target_min: 25
 concepts: [recursive types, list, tree, ADT, expression trees, structural induction]
 keywords: [OCaml, recursive types, list, tree, ADT, expression]

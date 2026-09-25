@@ -2,6 +2,7 @@
 title: "Tutorial: a tiny file system"
 lecture_no: 6
 week: 4
+youtube_id: YIOY80Q4QBs
 duration_target_min: 22
 concepts: [worked ADT design, recursive variants, records, inline records, file system]
 keywords: [OCaml, file system, ADT, recursive variant, record, tutorial]

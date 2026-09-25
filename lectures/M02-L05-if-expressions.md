@@ -2,6 +2,7 @@
 title: "`if`/`then`/`else` as an expression"
 lecture_no: 5
 week: 2
+youtube_id: M37Yvwguewg
 duration_target_min: 25
 concepts: [if as expression, expression-oriented language, branches must agree, type rule for if]
 keywords: [OCaml, if expression, conditional, branches, expression-oriented]

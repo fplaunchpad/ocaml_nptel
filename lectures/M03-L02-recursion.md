@@ -2,6 +2,7 @@
 title: "Recursion"
 lecture_no: 2
 week: 3
+youtube_id: n2hC3scjECs
 duration_target_min: 25
 concepts: [recursion, base case, recursive case, structural recursion, termination]
 keywords: [OCaml, recursion, recursive functions, base case, factorial, list length]

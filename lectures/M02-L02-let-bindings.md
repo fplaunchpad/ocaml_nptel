@@ -2,6 +2,7 @@
 title: "`let` bindings and shadowing"
 lecture_no: 2
 week: 2
+youtube_id: J8z9Kp6H3WE
 duration_target_min: 22
 concepts: [let bindings, let-in expressions, scope, shadowing, immutability, inference rules]
 keywords: [OCaml, let, let-in, scope, shadowing, immutability, bindings, semantics]

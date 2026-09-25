@@ -2,6 +2,7 @@
 title: "Tutorial: small expressions, end to end"
 lecture_no: 6
 week: 2
+youtube_id: OYJYPlxDmxY
 duration_target_min: 28
 concepts: [expression composition, reading type errors, writing small programs]
 keywords: [OCaml, tutorial, expressions, type errors, beginner exercises]

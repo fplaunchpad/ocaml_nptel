@@ -2,6 +2,7 @@
 title: "Designing test cases: black-box and glass-box"
 lecture_no: 3
 week: 9
+youtube_id: dPQGGLS0470
 duration_target_min: 25
 concepts: [test-case design, input-space partitioning, boundary cases, black-box testing, glass-box testing, paths, code coverage, bisect_ppx]
 keywords: [OCaml, testing, black-box, glass-box, boundary case, partition, path coverage, code coverage, bisect_ppx]

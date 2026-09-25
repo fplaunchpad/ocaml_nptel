@@ -304,3 +304,18 @@ withdraw consent on the privacy page.
 
 Course material distributed under **CC-BY-NC-SA** per the NPTEL
 faculty guidelines.
+
+### Lecture recordings
+
+Add `youtube_id: 5f-fi2sl9ec` to a lecture's frontmatter when its
+recording is published. Use the matching lecture ID from the
+[NPTEL course](https://nptel.ac.in/courses/106106002). Recordings currently cover
+Modules 1–10 (63 lectures). Omit the field for lectures without a recording,
+including the additional practice chapters and Modules 11–12.
+The NPTEL listing still calls the Module 3 tutorial “Fibonacci, GCD, power,
+digits”; it is linked to the corresponding M03-L06 tutorial in the book.
+
+The chapter shows an embedded player beneath its title, paused until
+the reader clicks Play. The player supplies its own YouTube link.
+Recordings are hidden in slide mode; switching to slides stops playback.
+The offline book shows only a “Watch online” link.

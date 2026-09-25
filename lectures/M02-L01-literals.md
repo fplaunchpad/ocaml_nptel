@@ -2,6 +2,7 @@
 title: "Literals: integers, floats, booleans, strings"
 lecture_no: 1
 week: 2
+youtube_id: hZNnZrQu-xg
 duration_target_min: 22
 concepts: [primitive types, literal syntax, OCaml number representation, string syntax]
 keywords: [OCaml, int, float, bool, string, literals, primitive types]

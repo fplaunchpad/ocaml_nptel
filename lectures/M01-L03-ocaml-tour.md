@@ -2,6 +2,7 @@
 title: "A tour of OCaml: values, types, and the toplevel"
 lecture_no: 3
 week: 1
+youtube_id: WLUlLj1kMwc
 duration_target_min: 25
 concepts: [literals, types, type inference, let bindings, the toplevel, integer vs float arithmetic]
 keywords: [OCaml, toplevel, let, types, type inference, int, float, bool, string]

@@ -2,6 +2,7 @@
 title: "Unit testing"
 lecture_no: 4
 week: 9
+youtube_id: PWn15oOtqIQ
 duration_target_min: 18
 concepts: [unit testing, test suite, test runner, fixtures, test independence, positive and negative cases, dune integration, CI gate]
 keywords: [OCaml, OUnit2, unit test, test suite, runner, fixture, assert_raises, dune, runtest, continuous integration]

@@ -2,6 +2,7 @@
 title: "Tutorial: a tiny well-typed evaluator"
 lecture_no: 7
 week: 8
+youtube_id: nu4XqOY0cqA
 duration_target_min: 28
 concepts: [GADT-driven AST, type-safe evaluator, optional + result monad in evaluation]
 keywords: [OCaml, GADT, evaluator, AST, tutorial, capstone]

@@ -2,6 +2,7 @@
 title: "Exceptions"
 lecture_no: 3
 week: 7
+youtube_id: bac4z2cj2RY
 duration_target_min: 22
 concepts: [raise, try-with, exception declarations, when to throw vs return option]
 keywords: [OCaml, exception, raise, try, with, Failure, Not_found]

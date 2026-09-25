@@ -2,6 +2,7 @@
 title: "Basic patterns: literals, variables, wildcards"
 lecture_no: 1
 week: 5
+youtube_id: PRYk80edUjc
 duration_target_min: 22
 concepts: [pattern matching, match expression, literal patterns, variable patterns, wildcard]
 keywords: [OCaml, pattern matching, match, wildcard, _, literal pattern]

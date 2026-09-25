@@ -2,6 +2,7 @@
 title: "GADTs: use cases beyond toy interpreters"
 lecture_no: 5
 week: 8
+youtube_id: bwQCddOI4SI
 duration_target_min: 25
 concepts: [type witnesses, typed pretty-printers, type-safe builders, Peano encoding, length-indexed lists]
 keywords: [OCaml, GADT, type witness, query builder, length-indexed list, Peano encoding, vec]

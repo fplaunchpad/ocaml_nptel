@@ -2,6 +2,7 @@
 title: "Your first OCaml program: hello, world (and beyond)"
 lecture_no: 4
 week: 1
+youtube_id: ICC2dq60F9E
 duration_target_min: 20
 concepts: [print_endline, top-level evaluation, let bindings as statements, the unit type]
 keywords: [OCaml, hello world, print_endline, unit, let, beginner OCaml]

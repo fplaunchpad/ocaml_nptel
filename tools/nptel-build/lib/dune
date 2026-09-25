@@ -1,3 +1,3 @@
 (library
  (name nptel_build)
- (libraries cmarkit fpath))
+ (libraries cmarkit fpath str))

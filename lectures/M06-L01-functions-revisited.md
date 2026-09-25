@@ -2,6 +2,7 @@
 title: "Functions as values, revisited"
 lecture_no: 1
 week: 6
+youtube_id: 4TSXL4ZuoJY
 duration_target_min: 20
 concepts: [higher-order functions, functions as arguments, callbacks, function composition (preview)]
 keywords: [OCaml, higher-order functions, callbacks, functions as values]

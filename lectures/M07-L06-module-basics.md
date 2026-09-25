@@ -2,6 +2,7 @@
 title: "Module basics"
 lecture_no: 6
 week: 7
+youtube_id: 5htnMpWb2b4
 duration_target_min: 22
 concepts: [modules, struct, namespacing, opening, naming hygiene]
 keywords: [OCaml, module, struct, open, namespace]

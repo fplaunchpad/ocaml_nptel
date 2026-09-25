@@ -2,6 +2,7 @@
 title: "Memory safety by construction"
 lecture_no: 2
 week: 10
+youtube_id: mALINwNcfSQ
 duration_target_min: 27
 concepts: [garbage collection, bounds checking, initialisation, tagged pointers, block headers, runtime representation]
 keywords: [OCaml, GC, garbage collection, bounds checking, Invalid_argument, tagged pointers, block header, runtime, memory safety]

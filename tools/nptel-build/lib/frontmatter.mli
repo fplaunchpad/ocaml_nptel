@@ -2,6 +2,7 @@ type reading = { title : string; url : string }
 
 type t = {
   title : string;
+  youtube_id : string option;
   lecture_no : int option;
   week : int option;
   duration_target_min : int option;

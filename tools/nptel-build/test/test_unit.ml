@@ -9,6 +9,17 @@ let check_string_list = Alcotest.(check (list string))
 
 (* ---- Frontmatter ---------------------------------------------------- *)
 
+let fm_video () =
+  let fm, _ = Frontmatter.parse "---\nyoutube_id: 5f-fi2sl9ec\n---\n# Lecture" in
+  Alcotest.(check (option string)) "video ID" (Some "5f-fi2sl9ec") fm.youtube_id;
+  Alcotest.(check (option string)) "optional" None Frontmatter.empty.youtube_id;
+  List.iter (fun id ->
+    let rejected = try
+      ignore (Frontmatter.parse ("---\nyoutube_id: " ^ id ^ "\n---\n")); false
+      with Failure _ -> true in
+    check_bool "invalid video ID rejected" true rejected)
+    ["short"; "https://youtube.com/watch?v=5f-fi2sl9ec"; "1234567890<"]
+
 let fm_basic () =
   let src =
     {|---
@@ -423,6 +434,7 @@ let () =
     [
       ( "frontmatter",
         [
+          Alcotest.test_case "lecture video metadata" `Quick fm_video;
           Alcotest.test_case "basic" `Quick fm_basic;
           Alcotest.test_case "missing" `Quick fm_no_frontmatter;
           Alcotest.test_case "quoted strings" `Quick fm_quoted_strings;

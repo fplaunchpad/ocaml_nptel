@@ -2,6 +2,7 @@
 title: "The option monad and `let*`"
 lecture_no: 1
 week: 8
+youtube_id: iSmpMnRndIM
 duration_target_min: 26
 concepts: [pyramid of doom, bind, return, option monad, let-operators, Option.bind, Option.map]
 keywords: [OCaml, monad, sequencing, bind, option, let*]

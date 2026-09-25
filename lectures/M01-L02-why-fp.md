@@ -2,6 +2,7 @@
 title: "Why functional programming?"
 lecture_no: 2
 week: 1
+youtube_id: UE_ieh2wtWs
 duration_target_min: 25
 concepts: [paradigms, pure functions, immutability, referential transparency, equational reasoning]
 keywords: [functional programming, OCaml, pure functions, immutability, referential transparency, side effects, equational reasoning]

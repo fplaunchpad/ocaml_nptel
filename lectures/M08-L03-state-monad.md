@@ -2,6 +2,7 @@
 title: "The state monad and parameterised state"
 lecture_no: 3
 week: 8
+youtube_id: n2yg7IO7fvk
 duration_target_min: 26
 concepts: [monads simulate effects, state monad, STATE_MONAD signature, state functor, threading state, gensym, parameterised monad, parameterised state, type-encoded preconditions, typed stack machine, WebAssembly stack typing]
 keywords: [OCaml, state monad, STATE_MONAD, functor, get, set, gensym, parameterised monad, PSTATE_MONAD, stack machine, WebAssembly, let*]

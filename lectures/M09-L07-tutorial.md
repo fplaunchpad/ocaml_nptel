@@ -2,6 +2,7 @@
 title: "Tutorial: testing the expr evaluator with OUnit2 and QCheck"
 lecture_no: 7
 week: 9
+youtube_id: pJO5PtDBCcI
 duration_target_min: 25
 concepts: [testing tutorial, specifications, test design, OUnit2, QCheck, properties, invariants, expression evaluator, debugging]
 keywords: [OCaml, testing, OUnit2, QCheck, tutorial, expression evaluator, AST, property-based testing, debugging, shrinking]

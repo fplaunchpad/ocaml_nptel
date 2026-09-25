@@ -2,6 +2,7 @@
 title: "Tutorial: a queue functor"
 lecture_no: 9
 week: 7
+youtube_id: TqctSQHY6c0
 duration_target_min: 28
 concepts: [worked module, abstract type, functor, two-stack queue]
 keywords: [OCaml, queue, two-stack, functor, tutorial, module]

@@ -2,6 +2,7 @@
 title: "Mutable references"
 lecture_no: 1
 week: 7
+youtube_id: i6CqQobVyXo
 duration_target_min: 22
 concepts: [mutation, ref, !, :=, side effects, when to use mutation]
 keywords: [OCaml, ref, mutation, side effects, !, :=]

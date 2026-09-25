@@ -2,6 +2,7 @@
 title: "Tutorial: an interpreter for the OCaml AST"
 lecture_no: 6
 week: 5
+youtube_id: LY0xzrYfxSo
 duration_target_min: 28
 concepts: [worked AST walk, structural recursion, interpreter, environment, multi-purpose pattern matching]
 keywords: [OCaml, AST, expression, interpreter, eval, environment, pattern matching tutorial]

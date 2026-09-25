@@ -2,6 +2,7 @@
 title: "Tail recursion and accumulators"
 lecture_no: 4
 week: 3
+youtube_id: ex-AywdugGc
 duration_target_min: 25
 concepts: [tail call, tail-recursive functions, accumulator pattern, stack frames]
 keywords: [OCaml, tail recursion, accumulator, stack overflow, optimization]

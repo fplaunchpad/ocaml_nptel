@@ -2,6 +2,7 @@
 title: "Functions as values, and anonymous functions"
 lecture_no: 1
 week: 3
+youtube_id: DaNWJpjy9AI
 duration_target_min: 24
 concepts: [first-class functions, anonymous functions, fun, lambda, higher-order, function values]
 keywords: [OCaml, functions, first-class, anonymous functions, fun, lambda, higher-order]

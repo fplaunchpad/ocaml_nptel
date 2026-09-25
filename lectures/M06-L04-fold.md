@@ -2,6 +2,7 @@
 title: "`fold`: reduce a list to a single value"
 lecture_no: 4
 week: 6
+youtube_id: RAcYi2gYfAs
 duration_target_min: 25
 concepts: [fold, fold_left, fold_right, reduction, accumulator, generalization]
 keywords: [OCaml, fold, fold_left, fold_right, reduce, accumulator]

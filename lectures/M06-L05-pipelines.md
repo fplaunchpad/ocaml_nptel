@@ -2,6 +2,7 @@
 title: "Function composition and pipelines"
 lecture_no: 5
 week: 6
+youtube_id: olKSNQo9eKU
 duration_target_min: 20
 concepts: [function composition, pipeline operator, point-free style, readability]
 keywords: [OCaml, function composition, pipeline, |>, @@, point-free]
