@@ -621,6 +621,12 @@ emit_dashboard() {
     .dash { max-width: 980px; margin: 2rem auto; padding: 0 1rem 4rem; }
     .dash h1 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.8rem; }
     .dash h2 { margin-top: 2.2rem; font-size: 1.2rem; }
+    .dash section { scroll-margin-top: 2rem; }
+    .dash .section-description { margin: 0.5rem 0 1rem; }
+    /* Reserve room for the same floating contents panel as lectures. */
+    @media screen and (min-width: 1280px) {
+      .dash { margin-right: 290px; max-width: min(980px, calc(100% - 326px)); }
+    }
     .dash .note {
       margin: 0.8rem 0 1.4rem;
       padding: 0.7rem 1rem;
@@ -779,7 +785,8 @@ emit_dashboard() {
     <h1>Quiz analytics</h1>
     <p class="note">This dashboard shows only aggregated data;
       individual responses are not displayed and cannot be
-      reconstructed from this view.</p>
+      reconstructed from this view. Only readers who opt in contribute;
+      counts include repeat submissions, not just first attempts.</p>
 
     <div id="status" class="empty">Loading aggregated stats&hellip;</div>
 
@@ -789,14 +796,23 @@ emit_dashboard() {
 
     <section id="timeline-section" hidden>
       <h2>Responses over time</h2>
-      <p class="legend">Total quiz responses per period. Switch the
-        granularity (day / week / month); drag to pan and scroll to
-        zoom the time window.</p>
+      <p class="section-description">The number of quiz responses submitted
+        each day, week, or month, including retries. This shows when readers
+        are actively practising and whether participation continues over time;
+        it does not measure page views or unique learners.</p>
+      <p class="legend">Switch the granularity (day / week / month);
+        drag to pan and scroll to zoom the time window.</p>
       <div id="timeline-chart"></div>
     </section>
 
     <section id="lectures-section" hidden>
       <h2>Per-lecture summary</h2>
+      <p class="section-description">Quizzes counts questions with recorded
+        responses; attempts counts all submissions. Average accuracy is the
+        percentage of those submissions that were correct, so frequently
+        attempted quizzes carry more weight. Compare lectures to find topics
+        that may need clearer explanations or more practice, keeping the
+        number of attempts in mind.</p>
       <p class="legend">
         Highest aggregate accuracy:
         <span class="lecture-best" id="best-lecture">n/a</span>.
@@ -818,6 +834,11 @@ emit_dashboard() {
 
     <section id="per-quiz-section" hidden>
       <h2>Per-quiz accuracy</h2>
+      <p class="section-description">For each question, accuracy is correct
+        submissions divided by all attempts. For code quizzes, correct means
+        the submitted solution passed the tests. Low accuracy helps pinpoint
+        questions or preceding explanations to review; it is a signal to
+        investigate, not a measure of individual mastery.</p>
       <p class="legend">
         Rows where accuracy is below 30% are highlighted; these are
         TRPL-style &ldquo;difficult questions&rdquo; worth revisiting.
@@ -841,10 +862,14 @@ emit_dashboard() {
 
     <section id="distractor-section" hidden>
       <h2>MCQ top distractors</h2>
-      <p class="legend">For each MCQ, the most popular <em>wrong</em>
-        answer and how many readers picked it. Following Crichton et
-        al., a high-pick distractor on a low-accuracy question is a
-        signal that the wording is confusing.</p>
+      <p class="section-description">The estimated most frequently selected
+        wrong option for each MCQ. Picks counts submissions choosing it;
+        share of wrong is its percentage of the estimated wrong submissions.
+        A common wrong answer can reveal a shared misconception or unclear
+        wording, helping focus a review of the question and its explanation.</p>
+      <p class="legend">Wrong options are currently inferred from aggregate
+        option counts, so ties can make this estimate ambiguous. Check the
+        linked question before drawing conclusions.</p>
       <table id="distractor-table">
         <thead>
           <tr>
@@ -862,6 +887,63 @@ emit_dashboard() {
 
   <script>
     const API = document.querySelector('meta[name="quiz-api"]')?.content || '';
+
+    function buildDashboardToc() {
+      const sections = Array.from(document.querySelectorAll('.dash section'))
+        .filter(section => !section.hidden && section.querySelector('h2'));
+      if (!sections.length) return;
+      const nav = document.createElement('nav');
+      nav.className = 'toc chapter-only';
+      nav.setAttribute('aria-label', 'On this page');
+      nav.innerHTML = '<div class="toc-head"><span class="toc-title">On this page</span>'
+        + '<button type="button" class="toc-collapse" aria-controls="dashboard-toc-links"></button></div>'
+        + '<ul class="toc-body" id="dashboard-toc-links"></ul>';
+      const list = nav.querySelector('ul');
+      const links = sections.map(section => {
+        const li = document.createElement('li');
+        li.className = 'toc-h2';
+        const link = document.createElement('a');
+        link.href = '#' + section.id;
+        link.textContent = section.querySelector('h2').textContent;
+        li.appendChild(link);
+        list.appendChild(li);
+        return link;
+      });
+      document.body.appendChild(nav);
+      const button = nav.querySelector('button');
+      const key = 'nptel-toc-collapsed';
+      function collapse(value) {
+        nav.classList.toggle('collapsed', value);
+        button.setAttribute('aria-expanded', String(!value));
+        button.setAttribute('aria-label', value ? 'Show contents' : 'Collapse contents');
+        button.title = value ? 'Show contents' : 'Collapse contents';
+      }
+      try { collapse(localStorage.getItem(key) === '1'); }
+      catch (_) { collapse(false); }
+      button.addEventListener('click', () => {
+        const value = !nav.classList.contains('collapsed');
+        collapse(value);
+        try { localStorage.setItem(key, value ? '1' : '0'); } catch (_) { /* storage unavailable */ }
+      });
+      function updateActive() {
+        let active = 0;
+        sections.forEach((section, i) => {
+          if (section.getBoundingClientRect().top <= 96) active = i;
+        });
+        links.forEach((link, i) => {
+          link.classList.toggle('active', i === active);
+          if (i === active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      }
+      window.addEventListener('scroll', updateActive, { passive: true });
+      window.addEventListener('resize', updateActive);
+      // Sections are revealed asynchronously, after the browser's initial
+      // fragment navigation. Honour direct links once their targets exist.
+      const target = sections.find(section => '#' + section.id === location.hash);
+      if (target) target.scrollIntoView();
+      updateActive();
+    }
 
     const fmtPct = (x) => (x == null) ? 'n/a' : (Math.round(x * 1000) / 10).toFixed(1) + '%';
     const fmtInt = (x) => (x == null) ? 'n/a' : Number(x).toLocaleString();
@@ -991,6 +1073,7 @@ emit_dashboard() {
       renderLectures(perQuiz);
       renderPerQuiz(perQuiz);
       renderDistractors(perQuiz, mcqOpts);
+      buildDashboardToc();
     }
 
     // Response-timeline chart. The Worker serves daily totals; the
