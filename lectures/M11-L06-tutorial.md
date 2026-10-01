@@ -2,6 +2,7 @@
 title: "Tutorial: a resource-management API"
 lecture_no: 6
 week: 11
+youtube_id: qecFsPvc7dw
 duration_target_min: 21
 concepts: [tutorial, file handle, bracket, with_handle, locality, linearity, uniqueness, resource management, API design]
 keywords: [OCaml, OxCaml, tutorial, file handle, with_handle, bracket, local, once, unique]

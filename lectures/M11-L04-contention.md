@@ -2,6 +2,7 @@
 title: "Contention: synchronisation at compile time"
 lecture_no: 4
 week: 11
+youtube_id: 8fRS8432Txg
 duration_target_min: 23
 concepts: [contention, uncontended, contended, shared, data race, Atomic, mode crossing]
 keywords: [OCaml, OxCaml, contention, uncontended, contended, shared, Atomic, mode crossing, data race]

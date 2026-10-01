@@ -2,6 +2,7 @@
 title: "Portability: data-race freedom across domains"
 lecture_no: 5
 week: 11
+youtube_id: PAtrk9uQFL8
 duration_target_min: 20
 concepts: [portability, portable, nonportable, Domain.Safe.spawn, data race, capture, contended, Portable.Atomic, gensym]
 keywords: [OCaml, OxCaml, portability, portable, nonportable, Domain, Atomic, data race, gensym]

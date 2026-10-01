@@ -2,6 +2,7 @@
 title: "Locality: safe stack allocation"
 lecture_no: 1
 week: 11
+youtube_id: dAzZ9u0Ozd4
 duration_target_min: 33
 concepts: [OxCaml, modes, locality, local mode, stack allocation, exclave, mode crossing, regions]
 keywords: [OCaml, OxCaml, modes, locality, local, stack_, exclave_, regions, mode crossing]

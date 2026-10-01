@@ -2,6 +2,7 @@
 title: "Linearity: use at most once"
 lecture_no: 3
 week: 11
+youtube_id: g_igsCvh-lU
 duration_target_min: 29
 concepts: [linearity, once, many, linear types, closure capture, file handle, resource discipline, linear logic]
 keywords: [OCaml, OxCaml, linearity, once, many, linear types, file handle, Linear Logic, Girard]

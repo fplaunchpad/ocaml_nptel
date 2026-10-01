@@ -2,6 +2,7 @@
 title: "Uniqueness: the only reference"
 lecture_no: 2
 week: 11
+youtube_id: CxlMuGf3-Ac
 duration_target_min: 18
 concepts: [uniqueness, unique, aliased, manual resource management, use-after-free, double-free, in-place update, closure capture]
 keywords: [OCaml, OxCaml, uniqueness, unique mode, aliased, free, Unique_ref, closure capture]
