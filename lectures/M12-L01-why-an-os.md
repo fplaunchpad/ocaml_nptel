@@ -2,6 +2,7 @@
 title: "Why do we need an OS?"
 lecture_no: 1
 week: 12
+youtube_id: jz5c--RmYZI
 duration_target_min: 25
 concepts: [operating system, kernel, drivers, resource management, trusted computing base, monolithic kernel]
 keywords: [OCaml, MirageOS, OS, kernel, Linux, drivers, TCB, unikernel]

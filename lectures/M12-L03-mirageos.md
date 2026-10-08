@@ -2,6 +2,7 @@
 title: "MirageOS Basics"
 lecture_no: 3
 week: 12
+youtube_id: PV9Qiiqe_i0
 duration_target_min: 30
 concepts: [MirageOS, unikernel, mirage configure, Solo5, mirage-skeleton, OCaml libraries for networking, OCaml TLS, Fiat-Crypto, functor graphs, Robur, Unikraft, Bitcoin Pinata, hardware-assisted unikernels, Shakti FIDES, mixed-language memory safety]
 keywords: [OCaml, MirageOS, unikernel, mirage, Solo5, TLS, OCaml-TLS, Fiat-Crypto, KVM, ELF, dune build, Robur, dnsvizor, Unikraft, Firecracker, VPNKit, NetHSM, Shakti FIDES, CHERI, AsiaCCS]

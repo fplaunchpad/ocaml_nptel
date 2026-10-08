@@ -2,6 +2,7 @@
 title: "MirageOS Unikernel Background"
 lecture_no: 2
 week: 12
+youtube_id: VwHkFV-vwc0
 duration_target_min: 25
 concepts: [library operating system, single address space, virtualisation, hypervisor, KVM, Solo5, unikernel, memory safety at the OS layer]
 keywords: [OCaml, library OS, unikernel, virtualisation, hypervisor, KVM, Solo5, memory safety, tender]

@@ -2,6 +2,7 @@
 title: "Suresh the Stationmaster: a worked unikernel example"
 lecture_no: 4
 week: 12
+youtube_id: OBwx9jyrCkw
 duration_target_min: 22
 concepts: [unikernel walkthrough, mirage configure, dune build, solo5-hvt, deployment footprint, HTTP unikernel, end-to-end MirageOS]
 keywords: [OCaml, MirageOS, unikernel, Suresh the Stationmaster, mirage configure, solo5-hvt, HTTP unikernel, dune build, robur]
